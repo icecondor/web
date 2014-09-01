@@ -1,1 +1,3 @@
-{ "dependencies": { "grunt-cli": "*"} }
+{ "dependencies": { "grunt-cli": "*",
+                    "grunt-slim": "*"
+                  } }
