@@ -4,12 +4,10 @@ module.exports = function(grunt) {
     jade: {
       compile: {
         options: {
-          data: {
-            debug: false
-          }
+          pretty: true
         },
         files: {
-          "build/html/index.html": ["views/*.jade"]
+          "build/html/index.html": "views/main.jade"
         }
       }
     },
