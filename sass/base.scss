@@ -1,4 +1,20 @@
+@import "compass";
+@import "compass/css3";
+
 .content {
   font: 100% Helvetica, sans-serif;
   color: blue;
+}
+
+.navbar {
+  background: black;
+  color: white;
+  li {
+    display: inline;
+  }
+}
+
+// Default single box shadow
+#box-shadow-default {
+  @include single-box-shadow;
 }
