@@ -29,12 +29,19 @@ module.exports = function(grunt) {
           'build/js/app.js': ['js/app.js', 'js/icecondor.js']
         }
       }
-    }
+    },
+    watch: {
+      src: {
+        files: ['js/*', 'scss/*', 'views/*'],
+        tasks: ['default'],
+      },
+    },
   });
 
   grunt.loadNpmTasks('grunt-contrib-jade')
   grunt.loadNpmTasks('grunt-contrib-compass')
   grunt.loadNpmTasks('grunt-contrib-uglify')
+  grunt.loadNpmTasks('grunt-contrib-watch')
 
   grunt.registerTask('default', ['compass', 'jade', 'uglify'])
 }
