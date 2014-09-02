@@ -1,7 +1,6 @@
 /.sass-cache
 /node_modules
-/html
-/stylesheets
+/build
 /bin
 /gems
 /Gemfile.lock

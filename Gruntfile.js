@@ -1,23 +1,32 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    slim: {
-      dev: {
-        options: { pretty: '' },
-        files: [{ src:'views/*', dest: 'html/index.html'}]
+    jade: {
+      compile: {
+        options: {
+          data: {
+            debug: false
+          }
+        },
+        files: {
+          "build/html/index.html": ["views/*.jade"]
+        }
       }
     },
+
     compass: {
       dev: {
-        sassDir: "sass",
-        cssDir: "css"
+        options: {
+          sassDir: "sass",
+          cssDir: "build/css"
+        }
       }
     }
   });
 
-  grunt.loadNpmTasks('grunt-slim')
+  grunt.loadNpmTasks('grunt-contrib-jade')
   grunt.loadNpmTasks('grunt-contrib-compass')
 
-  grunt.registerTask('default', ['compass', 'slim'])
+  grunt.registerTask('default', ['compass', 'jade'])
 }
 

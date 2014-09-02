@@ -1,6 +1,6 @@
 {
   "dependencies": { "grunt-cli": "*",
-                    "grunt-slim": "*",
+                    "grunt-contrib-jade": "*",
                     "grunt-contrib-compass": "*"
                   }
 }
