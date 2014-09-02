@@ -26,7 +26,7 @@ module.exports = function(grunt) {
           beautify: true
         },
         files: {
-          'build/js/app.js': ['js/app.js']
+          'build/js/app.js': ['js/app.js', 'js/icecondor.js']
         }
       }
     }
