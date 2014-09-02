@@ -1,6 +1,7 @@
 doctype html
 html
   head
+    script(src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js')
     script(src='js/app.js')
     link(rel='stylesheet', href='css/base.css')
     block head
@@ -8,3 +9,6 @@ html
   body
     .content
       block content
+
+  script.
+    jQuery(setup)
