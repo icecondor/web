@@ -6,9 +6,16 @@ module.exports = function(grunt) {
         options: { pretty: '' },
         files: [{ src:'views/*', dest: 'html/index.html'}]
       }
+    },
+    compass: {
+      sassDir: "sass",
+      cssDir: "css"
     }
   });
-  grunt.loadNpmTasks('grunt-slim');
-  grunt.registerTask('default', ['slim']);
-};
+
+  grunt.loadNpmTasks('grunt-slim')
+  grunt.loadNpmTasks('grunt-contrib-compass')
+
+  grunt.registerTask('default', ['compass', 'slim'])
+}
 

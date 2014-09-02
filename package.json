@@ -1,3 +1,6 @@
-{ "dependencies": { "grunt-cli": "*",
-                    "grunt-slim": "*"
-                  } }
+{
+  "dependencies": { "grunt-cli": "*",
+                    "grunt-slim": "*",
+                    "grunt-contrib-compass": "*"
+                  }
+}
