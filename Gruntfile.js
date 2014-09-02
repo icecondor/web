@@ -7,7 +7,7 @@ module.exports = function(grunt) {
           pretty: true
         },
         files: {
-          "build/html/index.html": "views/main.jade"
+          "build/index.html": "views/main.jade"
         }
       }
     },
@@ -19,12 +19,23 @@ module.exports = function(grunt) {
           cssDir: "build/css"
         }
       }
+    },
+    uglify: {
+      dev: {
+        options: {
+          beautify: true
+        },
+        files: {
+          'build/js/app.js': ['js/app.js']
+        }
+      }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jade')
   grunt.loadNpmTasks('grunt-contrib-compass')
+  grunt.loadNpmTasks('grunt-contrib-uglify')
 
-  grunt.registerTask('default', ['compass', 'jade'])
+  grunt.registerTask('default', ['compass', 'jade', 'uglify'])
 }
 

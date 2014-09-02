@@ -1,5 +1,6 @@
 {
   "dependencies": { "grunt-cli": "*",
+                    "grunt-contrib-uglify": "*",
                     "grunt-contrib-jade": "*",
                     "grunt-contrib-compass": "*"
                   }
