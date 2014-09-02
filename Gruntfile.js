@@ -8,8 +8,10 @@ module.exports = function(grunt) {
       }
     },
     compass: {
-      sassDir: "sass",
-      cssDir: "css"
+      dev: {
+        sassDir: "sass",
+        cssDir: "css"
+      }
     }
   });
 
