@@ -7,7 +7,8 @@ module.exports = function(grunt) {
           pretty: true
         },
         files: {
-          "build/index.html": "views/main.jade"
+          "build/index.html": "views/main.jade",
+          "build/fence.html": "views/fence.jade"
         }
       }
     },
