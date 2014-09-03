@@ -38,9 +38,21 @@ module.exports = function(grunt) {
       },
     },
     watch: {
-      src: {
-        files: ['js/*', 'sass/*', 'views/*'],
-        tasks: ['default'],
+      html: {
+        files: ['views/*'],
+        tasks: ['jade'],
+      },
+      css: {
+        files: ['sass/*'],
+        tasks: ['compass'],
+      },
+      js: {
+        files: ['js/*'],
+        tasks: ['uglify'],
+      },
+      assets: {
+        files: ['assets/*'],
+        tasks: ['copy'],
       },
     },
   });
