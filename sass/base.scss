@@ -10,20 +10,33 @@
   background: $content-background;
 }
 
+.menu {
+  vertical-align: middle;
+  display: inline;
+  li {
+    display: inline;
+  }
+}
+
 .navbar {
   color: $navbar-color;
   background: $navbar-background;
   padding: 0.4em;
-  li {
-    display: inline;
-  }
-  a {
-    color: $navbar-color;
-    text-decoration: none;
-  }
-  a:hover {
-    color: $navbar-color / 2;
-  }
   @include border-radius(4px, 4px);
+
+  img {
+    width: 4%;
+    vertical-align: middle;
+  }
+
+  .menu {
+    a {
+      color: $navbar-color;
+      text-decoration: none;
+    }
+    a:hover {
+      color: $navbar-color / 2;
+    }
+  }
 }
 
