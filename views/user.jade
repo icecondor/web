@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  include navbar
+
+  div
+    | Hello User
+    = ' '
+    span#username
+
+  script.
+    jQuery(function(){
+      $('#username').append(window.location.pathname.split('/')[1])
+      console.log(window.location.pathname)
+      })

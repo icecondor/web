@@ -8,6 +8,7 @@ module.exports = function(grunt) {
         },
         files: {
           "build/index.html": "views/main.jade",
+          "build/user.html": "views/user.jade",
           "build/fence.html": "views/fence.jade"
         }
       }
