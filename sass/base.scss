@@ -1,14 +1,17 @@
 @import "compass";
 @import "compass/css3";
 
+@import "color";
+
 .content {
   font: 100% Helvetica, sans-serif;
-  color: blue;
+  color: $content-color;
+  background: $content-background;
 }
 
 .navbar {
-  background: black;
-  color: white;
+  color: $navbar-color;
+  background: $navbar-background;
   li {
     display: inline;
   }
