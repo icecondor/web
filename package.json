@@ -3,6 +3,7 @@
                     "grunt-contrib-uglify": "*",
                     "grunt-contrib-jade": "*",
                     "grunt-contrib-compass": "*",
-                    "grunt-contrib-watch": "*"
+                    "grunt-contrib-watch": "*",
+                    "grunt-contrib-copy": "*"
                   }
 }

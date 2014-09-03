@@ -31,6 +31,12 @@ module.exports = function(grunt) {
         }
       }
     },
+    copy: {
+      main: {
+        src: 'assets/*',
+        dest: 'build/assets/',
+      },
+    },
     watch: {
       src: {
         files: ['js/*', 'sass/*', 'views/*'],
@@ -43,7 +49,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-compass')
   grunt.loadNpmTasks('grunt-contrib-uglify')
   grunt.loadNpmTasks('grunt-contrib-watch')
+  grunt.loadNpmTasks('grunt-contrib-copy')
 
-  grunt.registerTask('default', ['compass', 'jade', 'uglify'])
+  grunt.registerTask('default', ['compass', 'jade', 'uglify', 'copy'])
 }
 
