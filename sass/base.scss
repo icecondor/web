@@ -1,4 +1,5 @@
 @import "compass";
+@import "compass/reset";
 @import "compass/css3";
 
 @import "color";
@@ -12,12 +13,17 @@
 .navbar {
   color: $navbar-color;
   background: $navbar-background;
+  padding: 0.4em;
   li {
     display: inline;
   }
+  a {
+    color: $navbar-color;
+    text-decoration: none;
+  }
+  a:hover {
+    color: $navbar-color / 2;
+  }
+  @include border-radius(4px, 4px);
 }
 
-// Default single box shadow
-#box-shadow-default {
-  @include single-box-shadow;
-}
