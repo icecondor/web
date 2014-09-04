@@ -4,12 +4,25 @@ block content
   include navbar
 
   div
-    | Hello User
+    | Map for
     = ' '
-    span#username
+    span.username
+
+  div#status
+
+  ul#points
 
   script.
     jQuery(function(){
-      $('#username').append(window.location.pathname.split('/')[1])
-      console.log(window.location.pathname)
+      var username = window.location.pathname.split('/')[1]
+      $('.username').html(username)
+      iceCondor.setup("key").then(function(){
+        iceCondor.on('hello', function(point){
+          $('#status').html('connected')
+        })
+        iceCondor.on('gps_point', function(point){
+          $('#points').append('<li>'+JSON.stringify(point)+'</li>')
+        })
+        iceCondor.follow(username)
       })
+    })

@@ -1,7 +1,6 @@
 function setup() {
   console.log("existing apikey is "+getKey())
   apiKeyCheck()
-  iceCondor.setup(getKey())
 }
 
 function apiKeyCheck() {
