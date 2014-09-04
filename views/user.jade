@@ -1,5 +1,8 @@
 extends layout
 
+block head
+  script(src='//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js')
+
 block content
   include navbar
 
@@ -9,6 +12,8 @@ block content
     span.username
 
   div#status
+
+  div#map
 
   ul#points
 
