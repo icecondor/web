@@ -2,6 +2,7 @@ extends layout
 
 block head
   script(src='//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js')
+  script(src='//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.js')
 
 block content
   include navbar
@@ -13,7 +14,7 @@ block content
 
   div#status
 
-  div#map
+  div#map(style='height: 400px')
 
   ul#points
 
@@ -30,4 +31,5 @@ block content
         })
         iceCondor.follow(username)
       })
+      map_leaflet.setup({coordinates:[-122,45]}, 2)
     })
