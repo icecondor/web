@@ -8,16 +8,17 @@ block head
 block content
   include navbar
 
-  div
-    | Map for
-    = ' '
-    span.username
+  div.page-user
+    div
+      | Map for
+      = ' '
+      span.username
 
-  div#status
+    div#status
 
-  div#map(style='height: 400px')
+    div#map
 
-  ul#points
+    ul#points
 
   script.
     jQuery(function(){
