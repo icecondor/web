@@ -14,13 +14,27 @@ block content
       = ' '
       span.username
 
-    div.mapdecor
-      div#status
-        | Last Point
-      div#map
+    div.maprow
+      ul.friends.sidesquare
+        lh Friends
+        li bob
+        li sally
+        li mary sue
+        li hank
+        li earl
+      div.mapdecor.sidesquare
+        div#status
+          | Last Point
+        div#map
+      ul.fences.sidesquare
+        lh Fences
+        li Home
+        li Work
+        li Bars
+        li Pools
 
-    ul#points
-      li points
+      ul#points
+        li points
 
   script.
     jQuery(function(){

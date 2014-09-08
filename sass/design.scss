@@ -5,8 +5,24 @@
     #status {
       background-color: #966C5B;
     }
+
   }
+
+  .friends {
+    font-size: 150%;
+    lh { background-color: grey; }
+  }
+  .fences {
+    font-size: 150%;
+    lh { background-color: grey; }
+  }
+
   #map {
     height: 400px;
+  }
+
+  .sidesquare {
+    display: inline-block;
+    vertical-align: top;
   }
 }
