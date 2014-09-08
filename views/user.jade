@@ -14,11 +14,13 @@ block content
       = ' '
       span.username
 
-    div#status
-
-    div#map
+    div.mapdecor
+      div#status
+        | Last Point
+      div#map
 
     ul#points
+      li points
 
   script.
     jQuery(function(){
@@ -26,7 +28,7 @@ block content
       $('.username').html(username)
       iceCondor.setup("key").then(function(){
         iceCondor.on('hello', function(point){
-          $('#status').html('connected')
+          $('.logo').css('background-color','grey')
         })
         iceCondor.on('gps_point', function(point){
           $('#points').append('<li>'+JSON.stringify(point)+'</li>')
