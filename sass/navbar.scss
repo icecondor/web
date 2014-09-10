@@ -1,0 +1,23 @@
+.navbar {
+  color: $navbar-color;
+  background: $navbar-background;
+  padding: 0.4em;
+  @include border-radius(4px, 4px);
+
+  font-size: 150%;
+
+  img {
+    width: 4%;
+    vertical-align: middle;
+  }
+
+  .menu {
+    a {
+      color: $navbar-color;
+      text-decoration: none;
+    }
+    a:hover {
+      color: $navbar-color / 2;
+    }
+  }
+}
