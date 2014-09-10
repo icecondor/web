@@ -45,7 +45,8 @@ block content
           $('.logo').css('background-color','grey')
         })
         iceCondor.on('gps_point', function(point){
-          $('#points').append('<li>'+JSON.stringify(point)+'</li>')
+          $('#points').append('<li>Point '+point.params.date+'</li>')
+          L.marker([point.params.latitude, point.params.longitude]).addTo(map_leaflet.map)
         })
         iceCondor.follow(username)
       })
