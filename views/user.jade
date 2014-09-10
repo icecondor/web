@@ -46,7 +46,8 @@ block content
           $('.logo').css('background-color','grey')
         })
         iceCondor.on('gps_point', function(point){
-          $('#points').append('<li>Point '+point.params.date+'</li>')
+          $('#points').append('<li>Point <time datetime="'+point.params.date+'"/></li>')
+          time_fixups()
           var pt = [point.params.latitude, point.params.longitude]
           L.marker(pt).addTo(map_leaflet.map)
           map_leaflet.map.panTo(pt)
