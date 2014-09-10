@@ -25,6 +25,7 @@ block content
       div.mapdecor.sidesquare
         div#status
           | Last Point
+          span#last_point
         div#map
       ul.fences.sidesquare
         lh Fences
@@ -46,7 +47,10 @@ block content
         })
         iceCondor.on('gps_point', function(point){
           $('#points').append('<li>Point '+point.params.date+'</li>')
-          L.marker([point.params.latitude, point.params.longitude]).addTo(map_leaflet.map)
+          var pt = [point.params.latitude, point.params.longitude]
+          L.marker(pt).addTo(map_leaflet.map)
+          map_leaflet.map.panTo(pt)
+          map_leaflet.map.setZoom(17)
         })
         iceCondor.follow(username)
       })
