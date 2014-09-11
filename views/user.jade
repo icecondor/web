@@ -44,9 +44,9 @@ block content
         $('.logo').css('background-color','grey')
       })
       iceCondor.on('gps_point', function(point){
-        $('#points').append('<li>Point <time datetime="'+point.params.date+'" data-format="yyyy-MMM-d hh:mmtt"/></li>')
+        $('#points').append('<li>Point <time datetime="'+point.date+'" data-format="yyyy-MMM-d hh:mmtt"/></li>')
         time_fixups()
-        var pt = [point.params.latitude, point.params.longitude]
+        var pt = [point.latitude, point.longitude]
         L.marker(pt).addTo(map_leaflet.map)
         map_leaflet.map.panTo(pt)
         map_leaflet.map.setZoom(17)
