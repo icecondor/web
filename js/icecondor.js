@@ -9,7 +9,7 @@ var iceCondor = function() {
     console.log(json)
     var msg = JSON.parse(json)
     if(msg.method) {
-      dispatch(msg.method, msg)
+      dispatch(msg)
     }
   }
 
@@ -17,12 +17,12 @@ var iceCondor = function() {
     console.log(err)
   }
 
-  function dispatch(method, msg) {
-    var callback = callbacks[method]
+  function dispatch(msg) {
+    var callback = callbacks[msg.method]
     if (callback) {
-      callback(msg)
+      callback(msg.params)
     } else {
-      console.log('warning: no callback defined for '+method)
+      console.log('warning: no callback defined for '+msg.method)
     }
   }
 
@@ -33,6 +33,7 @@ var iceCondor = function() {
     sock.onopen = function() {
       console.log('open');
     }; */
+    /*
     // websocket
     return new Promise(function(resolve, reject){
       sock = new WebSocket("wss://staging.api.icecondor.com/v2");
@@ -40,6 +41,7 @@ var iceCondor = function() {
       sock.onerror = error
       sock.onopen = resolve
     })
+    */
   }
 
   IceCondor.on = function(type, cb) {
