@@ -1,0 +1,10 @@
+extends layout
+
+block content
+
+  div.
+    Auth
+
+  script.
+    var token = window.location.pathname.split('/')[2]
+    console.log('auth token '+token)
