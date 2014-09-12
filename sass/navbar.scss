@@ -22,7 +22,11 @@
   }
 
   .login_box {
-    width: 100%;
-    display: inline-block;
+    float: right;
+    padding-top: 0.4em;
+    padding-right: 0.1em;
+    input, button {
+      font-size: 90%;
+    }
   }
 }

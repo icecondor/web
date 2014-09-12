@@ -11,6 +11,12 @@ function apiKeyCheck() {
   }
 }
 
+function doTokenRequest(form){
+  iceCondor.setup('key').then(function(){
+    iceCondor.api('session.email', {email: form.elements.email.value, device_id: "browser"})
+  })
+}
+
 function getQueryParameterByName(name) {
     var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));

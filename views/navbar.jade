@@ -8,4 +8,14 @@ div.navbar
       a(href="/fence") Friends
 
   div.login_box
-    input#login(onclick="doLogin")
+    form.token_email
+      input#login(type="email" placeholder="email address" name="email")
+      button(type="submit") Sign in
+
+script.
+  $(function(){
+    $('.token_email').submit(function(evt){
+      doTokenRequest(evt.target)
+      evt.preventDefault()
+    })
+  })
