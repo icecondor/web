@@ -7,4 +7,5 @@ block content
 
   script.
     var token = window.location.pathname.split('/')[2]
-    console.log('auth token '+token)
+    setKey(token)
+    window.location = "/"

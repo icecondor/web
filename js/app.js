@@ -12,7 +12,7 @@ function apiKeyCheck() {
 }
 
 function doTokenRequest(form){
-  iceCondor.setup('key').then(function(){
+  iceCondor.setup(getKey()).then(function(){
     iceCondor.api('auth.email', {email: form.elements.email.value, device_id: "browser"})
   })
 }

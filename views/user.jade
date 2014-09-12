@@ -51,7 +51,7 @@ block content
         map_leaflet.map.panTo(pt)
         map_leaflet.map.setZoom(17)
       })
-      iceCondor.setup("key").then(function(){
+      iceCondor.setup(getKey()).then(function(){
         iceCondor.follow(username)
       })
       $("#map").height($(window).height()*0.75);
