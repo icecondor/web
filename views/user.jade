@@ -8,43 +8,33 @@ block head
 block content
 
   div.page-user
-    div
-      | Map for
-      = ' '
-      span.username
 
-    div.maprow
-      ul.friends.sidesquare
-        lh Friends
-        li bob
-        li sally
-        li mary sue
-        li hank
-        li earl
-      div.mapdecor.sidesquare
-        div#status
-          | Last Point
-          span#last_point
-        div#map
-      ul.fences.sidesquare
-        lh Fences
-        li Home
-        li Work
-        li Bars
-        li Pools
+    div.mapdecor.sidesquare
+      div#status
+        span.username
+        = ' '
+        span#last_point
+      div#map
 
-      ul#points
-        li points
+    ul#points
+      li points
 
   script.
     jQuery(function(){
+      var last_point
       var username = window.location.pathname.split('/')[1]
       $('.username').html(username)
       iceCondor.on('hello', function(point){
-        $('.logo').css('background-color','grey')
+        $('.logo img').css('background-color','#ddd')
       })
       iceCondor.on('gps_point', function(point){
-        $('#points').append('<li>Point <time datetime="'+point.date+'" data-format="yyyy-MMM-d hh:mmtt"/></li>')
+        var point_date_html = '<time datetime="'+point.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
+        if( typeof last_point == 'undefined' || last_point.date < point.date) {
+          console.log('setting '+point.date)
+          last_point = point
+          $('#last_point').html(point_date_html)
+        }
+        $('#points').append('<li>'+point_date_html+'</li>')
         time_fixups()
         var pt = [point.latitude, point.longitude]
         L.marker(pt).addTo(map_leaflet.map)
@@ -54,6 +44,6 @@ block content
       iceCondor.setup(getKey()).then(function(){
         iceCondor.follow(username)
       })
-      $("#map").height($(window).height()*0.75);
+      $("#map").height($(window).height()*0.65);
       map_leaflet.setup({coordinates:[-98.5,39.8]}, 3)
     })
