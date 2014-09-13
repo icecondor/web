@@ -9,7 +9,7 @@ block content
 
   div.page-user
 
-    div.mapdecor.sidesquare
+    div.mapdecor
       div#status
         span.username
         = ' '
@@ -39,7 +39,7 @@ block content
         var pt = [point.latitude, point.longitude]
         L.marker(pt).addTo(map_leaflet.map)
         map_leaflet.map.panTo(pt)
-        map_leaflet.map.setZoom(17)
+        map_leaflet.map.setZoom(16)
       })
       iceCondor.setup(getKey()).then(function(){
         iceCondor.follow(username)
