@@ -27,7 +27,11 @@ block content
       iceCondor.on('hello', function(point){
         $('.logo img').css('background-color','#ddd')
       })
-      iceCondor.on('gps_point', function(point){
+      iceCondor.on('heartbeat', function(beat){
+        var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
+        $('#points').append('<li>'+point_date_html+'</li>')
+      })
+      iceCondor.on('location', function(point){
         var point_date_html = '<time datetime="'+point.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
         if( typeof last_point == 'undefined' || last_point.date < point.date) {
           console.log('setting '+point.date)
