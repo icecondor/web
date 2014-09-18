@@ -21,12 +21,29 @@
     }
   }
 
-  .login_box {
+  .farright {
     float: right;
+  }
+
+  .login_box {
     padding-top: 0.4em;
     padding-right: 0.1em;
     input, button {
       font-size: 90%;
     }
   }
+
+  .hamburger {
+    display: none;
+  }
+
+  @media screen and (max-width: 600px) {
+    .login_box {
+      display: none;
+    }
+    .hamburger {
+      display: inline-block;
+    }
+  }
+
 }

@@ -7,10 +7,17 @@ div.navbar
     li
       a(href="/fence") Friends
 
-  div.login_box
-    form.token_email
-      input#login(type="email" placeholder="email address" name="email")
-      button(type="submit") Sign in
+  div.farright
+    div.hamburger
+      svg(width="30" height="30" id="icoOpen")
+        path(d="M0,5 30,5" stroke="#fff" stroke-width="5")
+        path(d="M0,14 30,14" stroke="#fff" stroke-width="5")
+        path(d="M0,23 30,23" stroke="#fff" stroke-width="5")
+
+    div.login_box
+      form.token_email
+        input#login(type="email" placeholder="email address" name="email")
+        button(type="submit") Sign in
 
 script.
   $(function(){
