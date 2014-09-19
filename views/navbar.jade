@@ -1,14 +1,16 @@
-div.navbar
-  a.logo(href="/")
-    img(src="/assets/logo.svg")
-  ul.menu
-    li
-      a(href="/") Map
-    li
-      a(href="/fence") Friends
+div.navbar.flexbox
+  div.flexbox
+    a.logo.inline(href="/")
+      img(src="/assets/logo.svg")
 
-  div.farright
-    div.hamburger
+    ul.inline-menu.inline
+      li
+        a(href="/") Map
+      li
+        a(href="/fence") Friends
+
+  div.inline
+    div.hamburger.hidden
       svg(width="30" height="30" id="icoOpen")
         path(d="M0,5 30,5" stroke="#fff" stroke-width="5")
         path(d="M0,14 30,14" stroke="#fff" stroke-width="5")

@@ -13,12 +13,18 @@
   clear: both;
 }
 
-.menu {
-  vertical-align: middle;
-  display: inline;
+.inline-menu {
   li {
-    display: inline;
+    display: inline-block;
   }
 }
+
+.flexbox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inline { display: inline-block; }
 
 

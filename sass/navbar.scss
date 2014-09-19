@@ -3,42 +3,39 @@
   background: $navbar-background;
   padding: 0.1em;
   @include border-radius(4px, 4px);
-  min-height: 4em;
-
   font-size: 120%;
 
-  img {
-    width: 4%;
-    vertical-align: middle;
-  }
 
-  .menu {
-    a {
-      color: $navbar-color;
-      text-decoration: none;
-    }
-    a:hover {
-      color: $navbar-color / 2;
+  a {
+    color: $navbar-color;
+    text-decoration: none;
+
+    img {
+      height: 2em;
     }
   }
 
-  .farright {
-    float: right;
+  a:hover {
+    color: $navbar-color / 2;
   }
 
   .login_box {
     padding-top: 0.1em;
     padding-right: 0.1em;
+    input { width: 15em; }
     input, button {
       font-size: 90%;
     }
   }
 
   .hamburger {
+  }
+
+  .hidden {
     display: none;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 40em) {
     .login_box {
       display: none;
     }
