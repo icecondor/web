@@ -1,5 +1,5 @@
 div.navbar.flexbox
-  div.flexbox
+  div.flexbox.left
     a.logo.inline(href="/")
       img(src="/assets/logo.svg")
 
@@ -9,7 +9,7 @@ div.navbar.flexbox
       li
         a(href="/fence") Friends
 
-  div.inline
+  div.inline.right
     div.hamburger.hidden
       svg(width="30" height="30" id="icoOpen")
         path(d="M0,5 30,5" stroke="#fff" stroke-width="5")
@@ -30,9 +30,14 @@ script.
     $('.hamburger').click(function(evt){
       showLogin()
     })
+    if(getKey()) {
+      $('.right').append('username')
+      $('.login_box').css('display','none')
+    }
   })
+
   function showLogin(){
     $('.hamburger').css('display','none')
     $('.login_box').css('display','inline-block')
   }
-div.clear
+
