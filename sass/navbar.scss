@@ -3,6 +3,7 @@
   background: $navbar-background;
   padding: 0.1em;
   @include border-radius(4px, 4px);
+  min-height: 4em;
 
   font-size: 120%;
 
@@ -26,7 +27,7 @@
   }
 
   .login_box {
-    padding-top: 0.4em;
+    padding-top: 0.1em;
     padding-right: 0.1em;
     input, button {
       font-size: 90%;
