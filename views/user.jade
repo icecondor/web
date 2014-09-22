@@ -49,7 +49,13 @@ block content
         map_leaflet.map.setZoom(16)
       })
       iceCondor.setup().then(function(){
-        iceCondor.follow(username)
+        var follow_tx = iceCondor.follow(username)
+        iceCondor.onResponse(follow_tx, function(msg){
+          console.log('setting up stream listener for '+msg.stream_id)
+          iceCondor.onResponse(msg.stream_id, function(location){
+            console.log('new stream point')
+          })
+        })
       })
       $("#map").height($(window).height()*0.65);
       map_leaflet.setup({coordinates:[-98.5,39.8]}, 3)

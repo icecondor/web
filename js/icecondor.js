@@ -19,7 +19,7 @@ var iceCondor = function() {
       dispatch(msg)
     }
     if(msg.result){
-      if(responses[msg.id]) { responses[msg.id](msg) }
+      if(responses[msg.id]) { responses[msg.id](msg.result) }
     }
   }
 
@@ -82,7 +82,7 @@ var iceCondor = function() {
   }
 
   IceCondor.follow = function(username) {
-    IceCondor.api('stream.follow', {username: username})
+    return IceCondor.api('stream.follow', {username: username})
   }
 
   return IceCondor
