@@ -1,3 +1,4 @@
+// auth helpers
 function setup() {
   console.log("existing apikey is "+getKey())
   apiKeyCheck()
@@ -17,7 +18,7 @@ function emailTokenRequest(form){
   return iceCondor.setup(getKey()).then(function(){
     var email_tx = iceCondor.api('auth.email', {email: email, device_id: "browser"})
     iceCondor.onResponse(email_tx, function(msg){
-      $('.login_box').html('email sent.')
+      $('.login_box').html('token sent.')
       console.log(msg)
     })
   })
