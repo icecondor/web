@@ -12,8 +12,10 @@ function apiKeyCheck() {
 }
 
 function emailTokenRequest(form){
+  var email = form.elements.email.value
+  form.elements.email = ""
   return iceCondor.setup(getKey()).then(function(){
-    var email_tx = iceCondor.api('auth.email', {email: form.elements.email.value, device_id: "browser"})
+    var email_tx = iceCondor.api('auth.email', {email: email, device_id: "browser"})
     iceCondor.onResponse(email_tx, function(msg){
       $('.login_box').html('email sent.')
       console.log(msg)
