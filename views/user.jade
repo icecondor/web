@@ -23,7 +23,6 @@ block content
 
   script.
     jQuery(function(){
-      var last_point
       var username = window.location.pathname.split('/')[1]
       $('.mapdecor .username').html(username)
       iceCondor.on('hello', function(point){
@@ -32,28 +31,14 @@ block content
       })
       iceCondor.on('heartbeat', function(beat){
         var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
-        $('#points').append('<li>'+point_date_html+'</li>')
-      })
-      iceCondor.on('location', function(point){
-        var point_date_html = '<time datetime="'+point.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
-        if( typeof last_point == 'undefined' || last_point.date < point.date) {
-          console.log('setting '+point.date)
-          last_point = point
-          $('#last_point').html(point_date_html)
-        }
-        $('#points').append('<li>'+point_date_html+'</li>')
-        time_fixups()
-        var pt = [point.latitude, point.longitude]
-        L.marker(pt).addTo(map_leaflet.map)
-        map_leaflet.map.panTo(pt)
-        map_leaflet.map.setZoom(16)
+        $('#points').append('<li> heartbeat '+point_date_html+'</li>')
       })
       iceCondor.setup().then(function(){
         var follow_tx = iceCondor.follow(username)
         iceCondor.onResponse(follow_tx, function(msg){
           console.log('setting up stream listener for '+msg.stream_id)
           iceCondor.onResponse(msg.stream_id, function(location){
-            console.log('new stream point')
+            addPointToTrack(msg.stream_id, location)
           })
         })
       })
