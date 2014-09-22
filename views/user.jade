@@ -28,6 +28,7 @@ block content
       $('.mapdecor .username').html(username)
       iceCondor.on('hello', function(point){
         $('.logo img').css('opacity','1.0')
+        iceCondor.auth(getKey())
       })
       iceCondor.on('heartbeat', function(beat){
         var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
@@ -47,7 +48,7 @@ block content
         map_leaflet.map.panTo(pt)
         map_leaflet.map.setZoom(16)
       })
-      iceCondor.setup(getKey()).then(function(){
+      iceCondor.setup().then(function(){
         iceCondor.follow(username)
       })
       $("#map").height($(window).height()*0.65);

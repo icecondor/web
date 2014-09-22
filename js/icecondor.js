@@ -4,6 +4,7 @@ var iceCondor = function() {
   var callbacks = {}
   var sock
   var connected = false
+  var auth_tx
 
   function connect() {
     console.log('connected.')
@@ -52,17 +53,25 @@ var iceCondor = function() {
     })
   }
 
+  IceCondor.auth = function(device_key) {
+    auth_tx = IceCondor.api('auth.token', {device_key: device_key})
+    console.log('auth emitted. waiting on id '+auth_tx)
+  }
+
+
   IceCondor.on = function(type, cb) {
     callbacks[type] = cb
   }
 
   IceCondor.api = function(method, params) {
     /* todo: one-shot callback */
-    var payload = {id: 1, method: method, params: params}
+    var id = Math.random().toString(36).substring(2,7)
+    var payload = {id: id, method: method, params: params}
     var payload_json = JSON.stringify(payload)
     console.log('iceCondor.api '+payload_json)
     sock.send(payload_json)
     //sock.emit('api', payload) // socket.io
+    return id
   }
 
   IceCondor.follow = function(username) {
