@@ -4,7 +4,7 @@ var iceCondor = function() {
   var callbacks = {}
   var sock
   var connected = false
-  var auth_tx
+  var responses = {}
 
   function connect() {
     console.log('connected.')
@@ -17,6 +17,9 @@ var iceCondor = function() {
     var msg = JSON.parse(json)
     if(msg.method) {
       dispatch(msg)
+    }
+    if(msg.result){
+      if(responses[msg.id]) { responses[msg.id](msg) }
     }
   }
 
@@ -61,6 +64,10 @@ var iceCondor = function() {
 
   IceCondor.on = function(type, cb) {
     callbacks[type] = cb
+  }
+
+  IceCondor.onResponse = function(id, cb, errcb) {
+    responses[id] = cb
   }
 
   IceCondor.api = function(method, params) {

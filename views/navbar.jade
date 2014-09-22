@@ -25,7 +25,7 @@ div.navbar.flexbox
 script.
   $(function(){
     $('.token_email').submit(function(evt){
-      doTokenRequest(evt.target)
+      emailTokenRequest(evt.target)
       evt.preventDefault()
     })
     $('.hamburger').click(function(evt){

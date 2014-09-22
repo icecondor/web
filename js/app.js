@@ -11,9 +11,13 @@ function apiKeyCheck() {
   }
 }
 
-function doTokenRequest(form){
-  iceCondor.setup(getKey()).then(function(){
-    iceCondor.api('auth.email', {email: form.elements.email.value, device_id: "browser"})
+function emailTokenRequest(form){
+  return iceCondor.setup(getKey()).then(function(){
+    var email_tx = iceCondor.api('auth.email', {email: form.elements.email.value, device_id: "browser"})
+    iceCondor.onResponse(email_tx, function(msg){
+      $('.login_box').html('email sent.')
+      console.log(msg)
+    })
   })
 }
 
@@ -30,4 +34,8 @@ function getKey() {
 
 function setKey(key) {
   return localStorage.setItem("apikey", key)
+}
+
+function clearKey() {
+  localStorage.removeItem("apikey")
 }
