@@ -25,9 +25,9 @@ block content
     jQuery(function(){
       var last_point
       var username = window.location.pathname.split('/')[1]
-      $('.username').html(username)
+      $('.mapdecor .username').html(username)
       iceCondor.on('hello', function(point){
-        $('.logo img').css('background-color','#ddd')
+        $('.logo img').css('opacity','1.0')
       })
       iceCondor.on('heartbeat', function(beat){
         var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'

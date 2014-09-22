@@ -12,6 +12,7 @@
 
     img {
       height: 2em;
+      opacity: 0.5; /* until connected */
     }
   }
 
@@ -26,6 +27,10 @@
     input, button {
       font-size: 90%;
     }
+  }
+
+  .username {
+    margin-right: 1em;
   }
 
   .hamburger {

@@ -3,20 +3,21 @@ div.navbar.flexbox
     a.logo.inline(href="/")
       img(src="/assets/logo.svg")
 
-    ul.inline-menu.inline
+    ul.inline-menu.inline#navmenu
       li
         a(href="/") Map
       li
         a(href="/fence") Friends
 
-  div.inline.right
+  div.flexbox.right
+    div.username.inline
     div.hamburger.hidden
       svg(width="30" height="30" id="icoOpen")
         path(d="M0,5 30,5" stroke="#fff" stroke-width="5")
         path(d="M0,14 30,14" stroke="#fff" stroke-width="5")
         path(d="M0,23 30,23" stroke="#fff" stroke-width="5")
 
-    div.login_box
+    div.login_box.inline
       form.token_email
         input#login(type="email" placeholder="email address" name="email")
         button(type="submit") Sign in
@@ -31,7 +32,7 @@ script.
       showLogin()
     })
     if(getKey()) {
-      $('.right').append('username')
+      $('.navbar .username').prepend('username')
       $('.login_box').css('display','none')
     }
   })
