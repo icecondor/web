@@ -37,11 +37,12 @@ block content
         var follow_tx = iceCondor.follow(username)
         iceCondor.onResponse(follow_tx, function(msg){
           console.log('setting up stream listener for '+msg.stream_id)
+          map.addTrack(msg.stream_id, username)
           iceCondor.onResponse(msg.stream_id, function(location){
-            addPointToTrack(msg.stream_id, location)
+            map.addPointToTrack(msg.stream_id, location)
           })
         })
       })
       $("#map").height($(window).height()*0.65);
-      map_leaflet.setup({coordinates:[-98.5,39.8]}, 3)
+      map.setup({coordinates:[-98.5,39.8]}, 3)
     })
