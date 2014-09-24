@@ -26,6 +26,7 @@ var map = function(){
       $('#last_point').html(point_date_html)
       var pt = [point.latitude, point.longitude]
       tracks[track_id].marker.setLatLng(pt)
+      tracks[track_id].marker.update()
       map_leaflet.map.panTo(pt)
       map_leaflet.map.setZoom(16)
     }
@@ -36,19 +37,14 @@ var map = function(){
   api.add_point = function(track_id, point) {
     var line = tracks[track_id].line
     var points = tracks[track_id].points
-    console.log('pre everything')
-    console.log(points)
     // keep points in date sorted order
     var insert_idx = 0
     points.forEach(function(pt, idx){
-      console.log('foreach idx '+idx)
       if(points[0].date < pt.date) {
+        console.log('winner idx '+idx+' '+points[0].date+' is newer than '+pt.date)
         insert_idx = idx
       }
     })
-    console.log('adding point at insert_idx '+insert_idx+' of len '+points.length)
-    console.log('pre splice')
-    console.log(points)
     points.splice(insert_idx, 0, point) // need full point
     line.spliceLatLngs(insert_idx, 0, [point.latitude,point.longitude])
     return insert_idx

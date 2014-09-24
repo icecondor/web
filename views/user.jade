@@ -23,7 +23,9 @@ block content
 
   script.
     jQuery(function(){
-      var username = window.location.pathname.split('/')[1]
+      var params = window.location.pathname.split('/')
+      var username = params[1]
+      var day = params[2]
       $('.mapdecor .username').html(username)
       iceCondor.on('hello', function(point){
         $('.logo img').css('opacity','1.0')
@@ -34,7 +36,11 @@ block content
         $('#points').append('<li> heartbeat '+point_date_html+'</li>')
       })
       iceCondor.setup().then(function(){
-        var follow_tx = iceCondor.follow(username)
+        var today = new XDate().addDays(-1)
+        if(day) { today = new XDate(day) }
+        var follow_tx = iceCondor.api('stream.follow', {username: username,
+                                                        start:today.toISOString(),
+                                                        count: 200})
         iceCondor.onResponse(follow_tx, function(msg){
           console.log('setting up stream listener for '+msg.stream_id)
           map.addTrack(msg.stream_id, username)
