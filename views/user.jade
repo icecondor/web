@@ -18,9 +18,6 @@ block content
         span#last_point
       div#map
 
-    ul#points
-      li points
-
   script.
     jQuery(function(){
       var params = window.location.pathname.split('/')
@@ -40,7 +37,7 @@ block content
         if(day) { today = new XDate(day) }
         var follow_tx = iceCondor.api('stream.follow', {username: username,
                                                         start:today.toISOString(),
-                                                        count: 200})
+                                                        count: 300})
         iceCondor.onResponse(follow_tx, function(msg){
           console.log('setting up stream listener for '+msg.stream_id)
           map.addTrack(msg.stream_id, username)
