@@ -54,7 +54,11 @@ block content
           console.log('setting up stream listener for '+msg.stream_id)
           map.addTrack(msg.stream_id, username)
           iceCondor.onResponse(msg.stream_id, function(location){
-            map.addPointToTrack(msg.stream_id, location)
+            var date_order_idx = map.addPointToTrack(msg.stream_id, location)
+            if(date_order_idx == 0) {
+              var point_date_html = '<time datetime="'+location.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
+              $('#last_point').html(point_date_html)
+            }
           })
         })
       })

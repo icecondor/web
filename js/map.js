@@ -21,10 +21,6 @@ var map = function(){
     $('#point_count').html(track.points.length)
 
     if(date_order_idx == 0) {
-      console.log('adding newest point '+point.date)
-      var point_date_html = '<time datetime="'+point.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
-      $('#last_point').html(point_date_html)
-
       if(track.marker) {
         map.moveMarker(track.marker, point)
       } else {
@@ -33,6 +29,7 @@ var map = function(){
       map.setCenter(point, 16)
     }
     time_fixups()
+    return date_order_idx
   }
 
   api.add_point = function(track_id, point) {
