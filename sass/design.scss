@@ -4,6 +4,9 @@
     margin: 0 auto;
     #status {
       background-color: lighten(#966C5B, 30%);
+      td {
+        padding-left: 1em;
+      }
     }
   }
 

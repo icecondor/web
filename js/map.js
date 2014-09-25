@@ -17,8 +17,10 @@ var map = function(){
 
   api.addPointToTrack = function(track_id, point) {
     var track = tracks[track_id]
-    var position = api.add_point(track_id, point)
-    if(position == 0) {
+    var date_order_idx = api.add_point(track_id, point)
+    $('#point_count').html(track.points.length)
+
+    if(date_order_idx == 0) {
       console.log('adding newest point '+point.date)
       var point_date_html = '<time datetime="'+point.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
       $('#last_point').html(point_date_html)

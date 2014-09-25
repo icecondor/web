@@ -11,11 +11,18 @@ block content
 
     div.mapdecor
       div#status
-        span.username
-        = ' '
-        | last position at
-        = ' '
-        span#last_point
+        table
+          tr
+            td Username
+            td Last position at
+            td Points
+          tr
+            td
+              span.username
+            td
+              span#last_point
+            td
+              span#point_count
       div#map
 
   script.
@@ -42,7 +49,7 @@ block content
         if(day) { today = new XDate(day) }
         var follow_tx = iceCondor.api('stream.follow', {username: username,
                                                         start:today.toISOString(),
-                                                        count: 30})
+                                                        count: 300})
         iceCondor.onResponse(follow_tx, function(msg){
           console.log('setting up stream listener for '+msg.stream_id)
           map.addTrack(msg.stream_id, username)
