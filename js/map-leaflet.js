@@ -1,35 +1,35 @@
 var map_leaflet = function() {
   var api = {}
+  var map;
 
   api.setup = function(center, zoom){
-    api.map = L.map('map', {drawControl: true, zoomControl: false}).
-                        setView(center, zoom);
+    map = L.map('map', {zoomControl: false})
+    map.setView(center, zoom);
     var zoom = L.control.zoom({position: 'topright'});
-    api.map.addControl(zoom);
-    api.remove_draw();
+    map.addControl(zoom);
+    //api.remove_draw();
 
     var osmUrl='//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     var osmAttrib='Map data © OpenStreetMap contributors';
     var osm = new L.TileLayer(osmUrl, {minZoom: 2, maxZoom: 18, attribution: osmAttrib});
-    osm.addTo(this.map);
-
-    return map
+    osm.addTo(map);
   }
 
   api.add_draw = function(){
-    api.map.drawControl.addTo(api.map)
+    map.drawControl.addTo(map)
   }
 
   api.remove_draw = function(){
-    api.map.drawControl.removeFrom(api.map)
+    map.drawControl.removeFrom(map)
   }
 
-  api.setCenter = function(center){
-    this.map.panTo(this.pointToLatLng(center))
+  api.setCenter = function(center, zoom){
+    map.panTo(api.pointToLatLng(center))
+    if(zoom){ map.setZoom(16) }
   }
 
   api.pointToLatLng = function(point){
-    return L.latLng(point.coordinates[1], point.coordinates[0])
+    return L.latLng(point.latitude, point.longitude)
   }
 
   api.latLngToPoint = function(latlng){
@@ -40,16 +40,15 @@ var map_leaflet = function() {
     return L.icon({iconUrl: url, iconSize: [w,h]})
   }
 
-  api.makeMarker = function(point, title){
+  api.addMarker = function(point, title){
     var marker = L.marker(this.pointToLatLng(point))
-    marker.addTo(this.map)
+    marker.addTo(map)
     return marker
   }
 
-  api.makeLine = function(points){
-    var latlngs = points.map(function(p){this.pointToLatLng(p)})
-    var line = L.polyline(latlngs)
-    api.map.addLayer(line)
+  api.addPolyline = function(opts){
+    var line = L.polyline([], opts)
+    line.addTo(map)
     return line
   }
 

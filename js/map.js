@@ -10,11 +10,8 @@ var map = function(){
 
   api.addTrack = function(track_id, name) {
     console.log("creating track "+track_id+" name "+name)
-    var line = L.polyline([], {color: 'red'})
-    line.addTo(map.map)
-    var marker = L.marker([0,0]) // fix this
-    marker.addTo(map.map)
-    tracks[track_id] = { name: name, points: [], line: line, marker: marker }
+    var line = map.addPolyline({color: 'red'})
+    tracks[track_id] = { name: name, points: [], line: line, marker: null }
   }
 
   api.addPointToTrack = function(track_id, point) {
@@ -23,11 +20,17 @@ var map = function(){
     if(position == 0) {
       console.log('adding newest point '+point.date)
       $('#last_point').html(point_date_html)
-      var pt = [point.latitude, point.longitude]
-      tracks[track_id].marker.setLatLng(pt)
-      tracks[track_id].marker.update()
-      map_leaflet.map.panTo(pt)
-      map_leaflet.map.setZoom(16)
+
+      if(tracks[track_id].marker) {
+        console.log('adjusting existing marker')
+        var pt = [point.latitude, point.longitude]
+        tracks[track_id].marker.setLatLng(pt)
+        tracks[track_id].marker.update()
+      } else {
+        console.log('creating marker')
+        tracks[track_id].marker = map.addMarker(point)
+      }
+      map.setCenter(point, 16)
     }
     time_fixups()
   }
