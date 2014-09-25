@@ -3,7 +3,7 @@ var map_leaflet = function() {
 
   api.setup = function(center, zoom){
     api.map = L.map('map', {drawControl: true, zoomControl: false}).
-                        setView(this.pointToLatLng(center), zoom);
+                        setView(center, zoom);
     var zoom = L.control.zoom({position: 'topright'});
     api.map.addControl(zoom);
     api.remove_draw();
