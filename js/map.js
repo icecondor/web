@@ -10,25 +10,23 @@ var map = function(){
 
   api.addTrack = function(track_id, name) {
     console.log("creating track "+track_id+" name "+name)
+    // marker must have lat/long so delay until first point
     var line = map.addPolyline({color: 'red'})
     tracks[track_id] = { name: name, points: [], line: line, marker: null }
   }
 
   api.addPointToTrack = function(track_id, point) {
-    var point_date_html = '<time datetime="'+point.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
+    var track = tracks[track_id]
     var position = api.add_point(track_id, point)
     if(position == 0) {
       console.log('adding newest point '+point.date)
+      var point_date_html = '<time datetime="'+point.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
       $('#last_point').html(point_date_html)
 
-      if(tracks[track_id].marker) {
-        console.log('adjusting existing marker')
-        var pt = [point.latitude, point.longitude]
-        tracks[track_id].marker.setLatLng(pt)
-        tracks[track_id].marker.update()
+      if(track.marker) {
+        map.moveMarker(track.marker, point)
       } else {
-        console.log('creating marker')
-        tracks[track_id].marker = map.addMarker(point)
+        track.marker = map.addMarker(point)
       }
       map.setCenter(point, 16)
     }

@@ -46,6 +46,11 @@ var map_leaflet = function() {
     return marker
   }
 
+  api.moveMarker = function(marker, point) {
+    marker.setLatLng(api.pointToLatLng(point))
+    marker.update()
+  }
+
   api.addPolyline = function(opts){
     var line = L.polyline([], opts)
     line.addTo(map)
