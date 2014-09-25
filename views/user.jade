@@ -23,6 +23,11 @@ block content
       var params = window.location.pathname.split('/')
       var username = params[1]
       var day = params[2]
+
+      $("#map").height($(window).height()*0.65);
+      var center_of_america = [39.8, -98.5]
+      map.setup(center_of_america, 3)
+
       $('.mapdecor .username').html(username)
       iceCondor.on('hello', function(point){
         $('.logo img').css('opacity','1.0')
@@ -37,7 +42,7 @@ block content
         if(day) { today = new XDate(day) }
         var follow_tx = iceCondor.api('stream.follow', {username: username,
                                                         start:today.toISOString(),
-                                                        count: 300})
+                                                        count: 30})
         iceCondor.onResponse(follow_tx, function(msg){
           console.log('setting up stream listener for '+msg.stream_id)
           map.addTrack(msg.stream_id, username)
@@ -46,6 +51,4 @@ block content
           })
         })
       })
-      $("#map").height($(window).height()*0.65);
-      map.setup({coordinates:[-98.5,39.8]}, 3)
     })
