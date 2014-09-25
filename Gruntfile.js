@@ -26,7 +26,8 @@ module.exports = function(grunt) {
     uglify: {
       dev: {
         options: {
-          beautify: true
+          beautify: true,
+          mangle: false
         },
         files: {
           'build/js/app.js': ['js/*']
