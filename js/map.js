@@ -28,7 +28,6 @@ var map = function(){
       }
       map.setCenter(point, 16)
     }
-    time_fixups()
     return date_order_idx
   }
 

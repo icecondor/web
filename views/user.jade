@@ -14,11 +14,14 @@ block content
         table
           tr
             td Username
-            td Last position at
+            td Viewing
+            td Most recent
             td Points
           tr
             td
               span.username
+            td
+              span#day
             td
               span#last_point
             td
@@ -56,8 +59,11 @@ block content
           iceCondor.onResponse(msg.stream_id, function(location){
             var date_order_idx = map.addPointToTrack(msg.stream_id, location)
             if(date_order_idx == 0) {
-              var point_date_html = '<time datetime="'+location.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
-              $('#last_point').html(point_date_html)
+              var point_day_html = '<time datetime="'+location.date+'" data-format="d-MMM-yyyy"/>'
+              var point_last_html = '<time datetime="'+location.date+'" data-format="h:mmtt"/>'
+              $('#day').html(point_day_html)
+              $('#last_point').html(point_last_html)
+              time_fixups()
             }
           })
         })
