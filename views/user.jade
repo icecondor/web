@@ -30,12 +30,22 @@ block content
       div#map
 
   script.
-    function locationBar(location) {
-      var point_day_html = '<time datetime="'+location.date+'" data-format="d-MMM-yyyy"/>'
-      var point_last_html = '<time datetime="'+location.date+'" data-format="h:mmtt"/>'
+    function locationBarDay(date) {
+      var point_day_html = '<time datetime="'+date.toISOString()+'" data-format="d-MMM-yyyy"/>'
+      console.log('locationBarDay ', point_day_html)
       $('#day').html(point_day_html)
+      time_fixups()
+    }
+
+    function locationBar(location) {
+      var point_last_html = '<time datetime="'+location.date+'" data-format="h:mmtt"/>'
       $('#last_point').html(point_last_html)
       time_fixups()
+    }
+
+    function locationBarPointCount(count) {
+      console.log('point count', count)
+      $('#point_count').html(count)
     }
 
     jQuery(function(){
@@ -57,17 +67,20 @@ block content
         $('#points').append('<li> heartbeat '+point_date_html+'</li>')
       })
       iceCondor.on('hello', function(beat){
+        locationBarDay(day)
         var follow_tx = iceCondor.api('stream.follow', {username: username,
                                                         start: day.toISOString(),
                                                         count: 300})
         iceCondor.onResponse(follow_tx, function(msg){
           console.log('setting up stream listener for '+msg.stream_id)
-          map.addTrack(msg.stream_id, username)
+          var track = map.addTrack(msg.stream_id, username)
+          locationBarPointCount(track.points.length)
           iceCondor.onResponse(msg.stream_id, function(location){
             var date_order_idx = map.addPointToTrack(msg.stream_id, location)
             if(date_order_idx == 0) {
               locationBar(location)
             }
+            locationBarPointCount(track.points.length)
           })
         })
       })

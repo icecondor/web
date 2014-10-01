@@ -12,13 +12,14 @@ var map = function(){
     console.log("creating track "+track_id+" name "+name)
     // marker must have lat/long so delay until first point
     var line = map.addPolyline({color: 'red'})
-    tracks[track_id] = { name: name, points: [], line: line, marker: null }
+    var track = { name: name, points: [], line: line, marker: null }
+    tracks[track_id] = track
+    return track
   }
 
   api.addPointToTrack = function(track_id, point) {
     var track = tracks[track_id]
     var date_order_idx = api.add_point(track_id, point)
-    $('#point_count').html(track.points.length)
 
     if(date_order_idx == 0) {
       if(track.marker) {
@@ -45,8 +46,6 @@ var map = function(){
     line.spliceLatLngs(insert_idx+1, 0, [point.latitude,point.longitude])
     return insert_idx
   }
-
-  api.tracks = function() { return tracks }
 
   return api
 }()
