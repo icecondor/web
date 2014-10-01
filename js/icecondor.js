@@ -13,7 +13,7 @@ var iceCondor = function() {
 
   function message(event) {
     var json = event.data.trim()
-    console.log(json)
+    console.log("<-", json)
     var msg = JSON.parse(json)
     if(msg.method) {
       dispatch(msg)
@@ -75,9 +75,8 @@ var iceCondor = function() {
     var id = Math.random().toString(36).substring(2,7)
     var payload = {id: id, method: method, params: params}
     var payload_json = JSON.stringify(payload)
-    console.log('iceCondor.api '+payload_json)
+    console.log('->', payload_json)
     sock.send(payload_json)
-    //sock.emit('api', payload) // socket.io
     return id
   }
 

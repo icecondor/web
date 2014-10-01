@@ -30,10 +30,18 @@ block content
       div#map
 
   script.
+    function locationBar(location) {
+      var point_day_html = '<time datetime="'+location.date+'" data-format="d-MMM-yyyy"/>'
+      var point_last_html = '<time datetime="'+location.date+'" data-format="h:mmtt"/>'
+      $('#day').html(point_day_html)
+      $('#last_point').html(point_last_html)
+      time_fixups()
+    }
+
     jQuery(function(){
       var params = window.location.pathname.split('/')
       var username = params[1]
-      var day = params[2]
+      var day = params[2] ? new XDate(params[2]) : new XDate().addDays(-1)
 
       $("#map").height($(window).height()*0.65);
       var center_of_america = [39.8, -98.5]
@@ -48,11 +56,9 @@ block content
         var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
         $('#points').append('<li> heartbeat '+point_date_html+'</li>')
       })
-      iceCondor.setup().then(function(){
-        var today = new XDate().addDays(-1)
-        if(day) { today = new XDate(day) }
+      iceCondor.on('hello', function(beat){
         var follow_tx = iceCondor.api('stream.follow', {username: username,
-                                                        start:today.toISOString(),
+                                                        start: day.toISOString(),
                                                         count: 300})
         iceCondor.onResponse(follow_tx, function(msg){
           console.log('setting up stream listener for '+msg.stream_id)
@@ -60,13 +66,11 @@ block content
           iceCondor.onResponse(msg.stream_id, function(location){
             var date_order_idx = map.addPointToTrack(msg.stream_id, location)
             if(date_order_idx == 0) {
-              var point_day_html = '<time datetime="'+location.date+'" data-format="d-MMM-yyyy"/>'
-              var point_last_html = '<time datetime="'+location.date+'" data-format="h:mmtt"/>'
-              $('#day').html(point_day_html)
-              $('#last_point').html(point_last_html)
-              time_fixups()
+              locationBar(location)
             }
           })
         })
+      })
+      iceCondor.setup().then(function(){
       })
     })
