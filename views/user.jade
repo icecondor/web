@@ -49,7 +49,6 @@ block content
     }
 
     function locationBarPointCount(count) {
-      console.log('point count', count)
       $('#point_count').html(count)
     }
 
@@ -89,12 +88,12 @@ block content
             console.log('auth resp', resp)
           })
         }
-        locationBarDay(daystr)
         var follow_tx = iceCondor.api('stream.follow', {username: username,
                                                         start: day.toISOString(),
                                                         count: 300})
         iceCondor.onResponse(follow_tx, function(msg){
           var track = map.addTrack(msg.stream_id, username)
+          locationBarDay(daystr)
           locationBarPointCount(track.points.length)
           iceCondor.onResponse(msg.stream_id, function(location){
             var date_order_idx = map.addPointToTrack(msg.stream_id, location)
@@ -103,6 +102,8 @@ block content
             }
             locationBarPointCount(track.points.length)
           })
+        }, function(err) {
+          $('#map').html("<h2>not found</h2>")
         })
       })
       iceCondor.setup()

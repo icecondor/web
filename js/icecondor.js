@@ -23,7 +23,10 @@ var iceCondor = function() {
       dispatch(msg)
     }
     if(msg.result){
-      if(responses[msg.id]) { responses[msg.id](msg.result) }
+      if(responses[msg.id]) { responses[msg.id].ok(msg.result) }
+    }
+    if(msg.error){
+      if(responses[msg.id]) { responses[msg.id].err(msg.error) }
     }
   }
 
@@ -72,7 +75,7 @@ var iceCondor = function() {
   }
 
   IceCondor.onResponse = function(id, cb, errcb) {
-    responses[id] = cb
+    responses[id] = {ok:cb, err:errcb}
   }
 
   IceCondor.api = function(method, params) {
