@@ -7,8 +7,12 @@ var iceCondor = function() {
   var responses = {}
 
   function connect() {
-    console.log('connected.')
     connected = true
+    dispatch({method:'connect'})
+  }
+
+  function disconnect() {
+    dispatch({method:'disconnect'})
   }
 
   function message(event) {

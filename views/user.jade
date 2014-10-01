@@ -59,15 +59,18 @@ block content
       map.setup(center_of_america, 3)
 
       $('.mapdecor .username').html(username)
-      iceCondor.on('hello', function(point){
+      iceCondor.on('connect', function(point){
         $('.logo img').css('opacity','1.0')
-        iceCondor.auth(getKey())
+      })
+      iceCondor.on('disconnect', function(point){
+        $('.logo img').css('opacity','0.5')
       })
       iceCondor.on('heartbeat', function(beat){
         var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
         $('#points').append('<li> heartbeat '+point_date_html+'</li>')
       })
       iceCondor.on('hello', function(beat){
+        iceCondor.auth(getKey())
         locationBarDay(day)
         var follow_tx = iceCondor.api('stream.follow', {username: username,
                                                         start: day.toISOString(),
@@ -85,6 +88,5 @@ block content
           })
         })
       })
-      iceCondor.setup().then(function(){
-      })
+      iceCondor.setup()
     })
