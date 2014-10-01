@@ -9,7 +9,6 @@ var map = function(){
   }
 
   api.addTrack = function(track_id, name) {
-    console.log("creating track "+track_id+" name "+name)
     // marker must have lat/long so delay until first point
     var line = map.addPolyline({color: 'red'})
     var track = { name: name, points: [], line: line, marker: null }

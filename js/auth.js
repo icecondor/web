@@ -31,7 +31,6 @@ function getQueryParameterByName(name) {
 
 function getKey() {
   var key = localStorage.getItem("apikey")
-  console.log('loaded key '+key)
   return key
 }
 

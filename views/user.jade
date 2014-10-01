@@ -32,9 +32,13 @@ block content
 
   script.
     function locationBarDay(date) {
-      var point_day_html = '<time datetime="'+date.toISOString()+'" data-format="d-MMM-yyyy"/>'
-      console.log('locationBarDay ', point_day_html)
-      $('#day').html(point_day_html)
+      var html
+      if(typeof(date) == "string"){
+        html = date
+      } else {
+        html = '<time datetime="'+date.toISOString()+'" data-format="d-MMM-yyyy"/>'
+      }
+      $('#day').html(html)
       time_fixups()
     }
 
@@ -52,7 +56,14 @@ block content
     jQuery(function(){
       var params = window.location.pathname.split('/')
       var username = params[1]
-      var day = params[2] ? new XDate(params[2]) : new XDate().addDays(-1)
+      var day, daystr
+      if(params[2]) {
+        daystr = params[2]
+        day = new XDate(params[2])
+      } else {
+        daystr = "24 hours"
+        day = new XDate().addDays(-1)
+      }
 
       $("#map").height($(window).height()*0.65);
       var center_of_america = [39.8, -98.5]
@@ -70,13 +81,19 @@ block content
         $('#points').append('<li> heartbeat '+point_date_html+'</li>')
       })
       iceCondor.on('hello', function(beat){
-        iceCondor.auth(getKey())
-        locationBarDay(day)
+        var key = getKey()
+        console.log('got hello', key)
+        if(key) {
+          var auth_tx = iceCondor.auth(key)
+          iceCondor.onResponse(auth_tx, function(resp){
+            console.log('auth resp', resp)
+          })
+        }
+        locationBarDay(daystr)
         var follow_tx = iceCondor.api('stream.follow', {username: username,
                                                         start: day.toISOString(),
                                                         count: 300})
         iceCondor.onResponse(follow_tx, function(msg){
-          console.log('setting up stream listener for '+msg.stream_id)
           var track = map.addTrack(msg.stream_id, username)
           locationBarPointCount(track.points.length)
           iceCondor.onResponse(msg.stream_id, function(location){
