@@ -69,12 +69,6 @@ block content
       map.setup(center_of_america, 3)
 
       $('.mapdecor .username').html(username)
-      iceCondor.on('connect', function(point){
-        $('.logo img').css('opacity','1.0')
-      })
-      iceCondor.on('disconnect', function(point){
-        $('.logo img').css('opacity','0.5')
-      })
       iceCondor.on('heartbeat', function(beat){
         var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
         $('#points').append('<li> heartbeat '+point_date_html+'</li>')

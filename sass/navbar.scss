@@ -13,6 +13,7 @@
     img {
       height: 2em;
       opacity: 0.5; /* until connected */
+      transition: opacity 1s ease;
     }
   }
 

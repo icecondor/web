@@ -19,4 +19,10 @@ html
       block content
 
     script.
+      iceCondor.on('connect', function(point){
+        $('.logo img').css('opacity','1.0')
+      })
+      iceCondor.on('disconnect', function(point){
+        $('.logo img').css('opacity','0.5')
+      })
       time_fixups()
