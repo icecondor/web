@@ -73,25 +73,8 @@ block content
         var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
         $('#points').append('<li> heartbeat '+point_date_html+'</li>')
       })
-      iceCondor.on('hello', function(beat){
-        var key = getKey()
-        console.log('got hello', key)
-        if(key) {
-          var auth_tx = iceCondor.auth(key)
-          iceCondor.onResponse(auth_tx, function(resp){
-            console.log('auth good for '+resp.user.id)
-            var user = dbGet(key)
-            if(user) {
-              $('.navbar .username').prepend(user.username)
-            } else {
-              var user_detail_tx = iceCondor.api('user.detail')
-              iceCondor.onResponse(user_detail_tx, function(user){
-                dbSet(key, user)
-                $('.navbar .username').prepend(user.username)
-              })
-            }
-          })
-        }
+
+      iceCondor.on('auth', function(user){
         var follow_tx = iceCondor.api('stream.follow', {username: username,
                                                         start: day.toISOString(),
                                                         count: 300})
