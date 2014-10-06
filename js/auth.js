@@ -29,15 +29,39 @@ function getQueryParameterByName(name) {
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
+/* db abstract */
+function dbGet(key) {
+  try {
+    var json = localStorage.getItem(key)
+    console.log('dbGet '+key, json)
+    return JSON.parse(json)
+  } catch(e) {
+    // extreme but better than the alternative
+    localStorage.clear()
+    window.location.reload(false)
+  }
+}
+
+function dbSet(key, value) {
+  var json = JSON.stringify(value)
+  return localStorage.setItem(key, json)
+}
+
+function dbDel(key) {
+  localStorage.removeItem(key)
+}
+
+/* api key helpers */
 function getKey() {
-  var key = localStorage.getItem("apikey")
+  var key = dbGet("apikey")
   return key
 }
 
 function setKey(key) {
-  return localStorage.setItem("apikey", key)
+  return dbSet("apikey", key)
 }
 
 function clearKey() {
-  localStorage.removeItem("apikey")
+  dbDel(getKey())
+  dbDel("apikey")
 }
