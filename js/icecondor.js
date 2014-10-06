@@ -35,18 +35,20 @@ var iceCondor = function() {
   }
 
   function dispatch(msg) {
-    var callback = callbacks[msg.method]
-    if (callback) {
-      callback(msg.params)
+    var cbs = callbacks[msg.method]
+    if (cbs) {
+      for(idx in cbs) {
+        cbs[idx](msg.params)
+      }
     } else {
       console.log('warning: no callback defined for '+msg.method)
     }
   }
 
-  IceCondor.setup = function(key) {
+  IceCondor.connect = function() {
     return new Promise(function(resolve, reject){
       if(connected) {
-        console.log('already connected.')
+        console.log('connect ignored. already connected.')
         resolve()
       } else {
         // websocket
@@ -71,7 +73,9 @@ var iceCondor = function() {
 
 
   IceCondor.on = function(type, cb) {
-    callbacks[type] = cb
+    var cbs = callbacks[type]
+    if(!cbs) { cbs = callbacks[type] = [] }
+    cbs.push(cb)
   }
 
   IceCondor.onResponse = function(id, cb, errcb) {

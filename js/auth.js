@@ -33,7 +33,7 @@ function getQueryParameterByName(name) {
 function dbGet(key) {
   try {
     var json = localStorage.getItem(key)
-    console.log('dbGet '+key, json)
+    console.log('dbGet',key, json)
     return JSON.parse(json)
   } catch(e) {
     // extreme but better than the alternative
