@@ -64,7 +64,7 @@ var iceCondor = function() {
   }
 
   IceCondor.auth = function(device_key) {
-    auth_tx = IceCondor.api('auth.token', {device_key: device_key})
+    auth_tx = IceCondor.api('auth.session', {device_key: device_key})
     console.log('auth emitted. waiting on id '+auth_tx)
     return auth_tx
   }
