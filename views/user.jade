@@ -90,7 +90,12 @@ block content
             locationBarPointCount(track.points.length)
           })
         }, function(err) {
-          $('#map').html("<h2>not found</h2>")
+          if(err.code == "UNF") {
+            $('#map').html("<h2>not found</h2>")
+          }
+          if(err.code == "NOACCESS") {
+            $('#map').html("<h2>"+username+" is not sharing location data with you</h2>")
+          }
         })
       })
       iceCondor.connect()
