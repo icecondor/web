@@ -10,31 +10,35 @@ block content
     p.
       Please enter a username.
     form
-      input(type='text')
+      input(type='text', name='username')
       input(type='submit', value='Save')
 
   script.
     var token = window.location.pathname.split('/')[2]
     var prefix = token.split('-')[0]
     if(prefix == "browser_key") {
+      clearKey()
       setKey(token)
       iceCondor.connect()
+      console.log('called auth')
       iceCondor.on("auth", function(session){
-        // ignore session data, do a new lookup
-        var detail_tx = iceCondor.api('user.detail')
-        iceCondor.onResponse(detail_tx, function(user){
-          console.log(user)
-          if(!user.username) {
-            window.location = "/"
-          } else {
-            // missing username
-            $('.askusername form').submit(function(event){
-              console.log('form submit')
-              event.preventDefault()
+        console.log(session.user)
+        if(!session.user.username) {
+          window.location = "/"
+        } else {
+          // missing username
+          $('.askusername form').submit(function(event){
+            console.log(event.target)
+            var username = event.target.elements['username'].value
+            var update_tx = iceCondor.api('user.update', {username: username})
+            iceCondor.onResponse(update_tx, function(resp){
+              console.log(resp)
+              window.location = "/"
             })
-            $('.askusername').show()
-          }
-        })
+            event.preventDefault()
+          })
+          $('.askusername').show()
+        }
       })
     } else if(prefix == "device_key") {
       window.location = "icecondor://android/v2/auth?access_token="+token

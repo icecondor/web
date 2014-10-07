@@ -27,27 +27,25 @@ html
       })
       iceCondor.on('hello', function(beat){
         var key = getKey()
-        console.log('got hello', key)
+        console.log('got hello', 'auth key', key)
         if(key) {
           var auth_tx = iceCondor.auth(key)
+          console.log('called auth')
           iceCondor.onResponse(auth_tx, function(resp){
             var user = dbGet(key)
             if(user) {
-              goodAuth(user)
+              $('.navbar .username').prepend(user.username)
+              iceCondor.emit({method: 'auth', params: {user: user}})
             } else {
               var user_detail_tx = iceCondor.api('user.detail')
               iceCondor.onResponse(user_detail_tx, function(user){
                 dbSet(key, user)
                 $('.navbar .username').prepend(user.username)
+                iceCondor.emit({method: 'auth', params: {user: user}})
               })
             }
           })
         }
       })
-
-      function goodAuth(user) {
-        $('.navbar .username').prepend(user.username)
-        iceCondor.emit({method: 'auth', params: {user: user}})
-      }
 
       time_fixups()

@@ -36,6 +36,7 @@ function dbGet(key) {
     return JSON.parse(json)
   } catch(e) {
     // extreme but better than the alternative
+    console.log("abandon localStorage")
     localStorage.clear()
     window.location.reload(false)
   }
