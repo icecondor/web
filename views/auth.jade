@@ -22,8 +22,7 @@ block content
       iceCondor.connect()
       console.log('called auth')
       iceCondor.on("auth", function(session){
-        console.log(session.user)
-        if(!session.user.username) {
+        if(session.user.username) {
           window.location = "/"
         } else {
           // missing username
