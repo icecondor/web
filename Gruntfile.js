@@ -7,10 +7,10 @@ module.exports = function(grunt) {
           pretty: true
         },
         files: {
-          "build/index.html": "views/main.jade",
+          "build/dashboard.html": "views/main.jade",
           "build/auth.html": "views/auth.jade",
           "build/user.html": "views/user.jade",
-          "build/fence.html": "views/fence.jade"
+          "build/profile.html": "views/profile.jade"
         }
       }
     },

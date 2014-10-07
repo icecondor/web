@@ -1,0 +1,102 @@
+extends layout
+
+block head
+  script(src='//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js')
+  script(src='//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.js')
+  link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css")
+
+block content
+
+  div.page-user
+
+    div.mapdecor
+      div#status
+        table
+          thead#header
+            tr
+              td Username
+              td Viewing
+              td Most recent
+              td Points
+          tr
+            td
+              span.username
+            td
+              span#daybox
+                span#day
+            td
+              span#last_point
+            td
+              span#point_count
+      div#map
+
+  script.
+    function locationBarDay(date) {
+      var html
+      if(typeof(date) == "string"){
+        html = date
+      } else {
+        html = '<time datetime="'+date.toISOString()+'" data-format="d-MMM-yyyy"/>'
+      }
+      $('#day').html(html)
+      time_fixups()
+    }
+
+    function locationBar(location) {
+      var point_last_html = '<time datetime="'+location.date+'" data-format="h:mmtt"/>'
+      $('#last_point').html(point_last_html)
+      time_fixups()
+    }
+
+    function locationBarPointCount(count) {
+      $('#point_count').html(count)
+    }
+
+    jQuery(function(){
+      var params = window.location.pathname.split('/')
+      var username = params[1]
+      var day, daystr
+      if(params[2]) {
+        daystr = params[2]
+        day = new XDate(params[2])
+      } else {
+        daystr = "24 hours"
+        day = new XDate().addDays(-1)
+      }
+
+      $("#map").height($(window).height()*0.65);
+      var center_of_america = [39.8, -98.5]
+      map.setup(center_of_america, 3)
+
+      $('.mapdecor .username').html(username)
+      iceCondor.on('heartbeat', function(beat){
+        var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
+        $('#points').append('<li> heartbeat '+point_date_html+'</li>')
+      })
+
+      iceCondor.on('auth', function(user){
+        var follow_tx = iceCondor.api('stream.follow', {username: username,
+                                                        start: day.toISOString(),
+                                                        count: 300})
+        iceCondor.onResponse(follow_tx, function(msg){
+          var track = map.addTrack(msg.stream_id, username)
+          locationBarDay(daystr)
+          locationBarPointCount(track.points.length)
+          iceCondor.onResponse(msg.stream_id, function(location){
+            var date_order_idx = map.addPointToTrack(msg.stream_id, location)
+            if(date_order_idx == 0) {
+              locationBar(location)
+            }
+            locationBarPointCount(track.points.length)
+          })
+        }, function(err) {
+          if(err.code == "UNF") {
+            $('#map').html("<h2>not found</h2>")
+          }
+          if(err.code == "NOACCESS") {
+            $('#map').html("<h2>"+username+" is not sharing location data with you</h2>")
+          }
+        })
+      })
+      iceCondor.connect()
+    })
