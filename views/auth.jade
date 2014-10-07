@@ -5,12 +5,40 @@ block content
   div.
     Auth
 
+  div.askusername.hidden
+    h2 Welcome to IceCondor
+    p.
+      Please enter a username.
+    form
+      input(type='text')
+      input(type='submit', value='Save')
+
   script.
     var token = window.location.pathname.split('/')[2]
     var prefix = token.split('-')[0]
     if(prefix == "browser_key") {
       setKey(token)
-      window.location = "/"
-    } else {
+      iceCondor.connect()
+      iceCondor.on("auth", function(session){
+        // ignore session data, do a new lookup
+        var detail_tx = iceCondor.api('user.detail')
+        iceCondor.onResponse(detail_tx, function(user){
+          console.log(user)
+          if(!user.username) {
+            window.location = "/"
+          } else {
+            // missing username
+            $('.askusername form').submit(function(event){
+              console.log('form submit')
+              event.preventDefault()
+            })
+            $('.askusername').show()
+          }
+        })
+      })
+    } else if(prefix == "device_key") {
       window.location = "icecondor://android/v2/auth?access_token="+token
+    } else {
+      // bad key
+      console.log('bad key')
     }
