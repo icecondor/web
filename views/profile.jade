@@ -15,6 +15,9 @@ block content
     div.friending.hidden
       button.accept Request share
 
+    div.friending-already.hidden
+      p Sharing requested
+
     div.offer.hidden
       span.username
       | has offered to share their location
@@ -32,17 +35,21 @@ block content
           fill_in(other)
           var me_tx = iceCondor.api('user.detail')
           iceCondor.onResponse(me_tx, function(me){
-            if(other.friend_requests.indexOf(me.username) > -1) {
-              $('.offer').show()
+            if(me.friend_requests.indexOf(other.id) > -1) {
+              $('.friending-already').show()
             } else {
-              $('.friending').show()
-            }
-            $('button.accept').click(function(evt){
-              var friend_tx = iceCondor.api('user.friend', {usename: username})
-              iceCondor.onResponse(friend_tx, function(resp){
-                console.log('accepted', resp)
+              if(other.friend_requests.indexOf(me.username) > -1) {
+                $('.offer').show()
+              } else {
+                $('.friending').show()
+              }
+              $('button.accept').click(function(evt){
+                var friend_tx = iceCondor.api('user.friend', {username: username})
+                iceCondor.onResponse(friend_tx, function(resp){
+                  console.log('accepted', resp)
+                })
               })
-            })
+            }
           })
         })
       })
