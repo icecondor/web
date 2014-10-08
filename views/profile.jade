@@ -13,7 +13,7 @@ block content
       span.username
 
     div.friending.hidden
-      button.friend Request share
+      button.accept Request share
 
     div.offer.hidden
       span.username
@@ -32,11 +32,17 @@ block content
           fill_in(other)
           var me_tx = iceCondor.api('user.detail')
           iceCondor.onResponse(me_tx, function(me){
-            if(other.friend_requests.indexOf(me.username)) {
+            if(other.friend_requests.indexOf(me.username) > -1) {
               $('.offer').show()
             } else {
               $('.friending').show()
             }
+            $('button.accept').click(function(evt){
+              var friend_tx = iceCondor.api('user.friend', {usename: username})
+              iceCondor.onResponse(friend_tx, function(resp){
+                console.log('accepted', resp)
+              })
+            })
           })
         })
       })
@@ -46,11 +52,5 @@ block content
     })
 
     function fill_in(user) {
-      $('.username').html(user.username)
-      $('button.accept').click(function(evt){
-        var friend_tx = iceCondor.api('user.friend', {usename: user.username})
-        iceCondor.onResponse(friend_tx, function(resp){
-          console.log('accepted', resp)
-        })
-      })
+      $('.page-profile .username').html(user.username)
     }
