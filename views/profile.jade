@@ -17,7 +17,14 @@ block content
       var params = window.location.pathname.split('/')
       var username = params[1]
       iceCondor.on('auth', function(user){
-        console.log('authed')
+
+        var detail_tx = iceCondor.api('user.detail', {username: username})
+        iceCondor.onResponse(detail_tx, function(other){
+          var me_tx = iceCondor.api('user.detail')
+          iceCondor.onResponse(me_tx, function(me){
+            console.log('comparing '+me.username+' to '+other.username)
+          })
+        })
       })
       iceCondor.connect()
     })
