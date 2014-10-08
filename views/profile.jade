@@ -15,7 +15,7 @@ block content
     div.friending.hidden
       button.accept Request share
 
-    div.friending-already.hidden
+    div.friending-confirm.hidden
       p Sharing requested
 
     div.offer.hidden
@@ -38,8 +38,8 @@ block content
             if(me.friend_requests.indexOf(other.id) > -1) {
               $('.friending-already').show()
             } else {
-              if(other.friend_requests.indexOf(me.username) > -1) {
-                $('.offer').show()
+              if(other.friend_requests.indexOf(me.id) > -1) {
+                $('.friending-confirm').show()
               } else {
                 $('.friending').show()
               }
