@@ -12,6 +12,9 @@ block content
     div
       span.username
 
+    div.friending.hidden
+      button.friend Request share
+
     div.offer.hidden
       span.username
       | has offered to share their location
@@ -29,8 +32,11 @@ block content
           fill_in(other)
           var me_tx = iceCondor.api('user.detail')
           iceCondor.onResponse(me_tx, function(me){
-            $('.offer').show()
-            console.log('comparing '+me.username+' to '+other.username)
+            if(other.friend_requests.indexOf(me.username)) {
+              $('.offer').show()
+            } else {
+              $('.friending').show()
+            }
           })
         })
       })
