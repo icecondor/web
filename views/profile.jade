@@ -9,8 +9,14 @@ block content
 
   div.page-profile
 
-    div.
-      Profile
+    div
+      span.username
+
+    div.offer.hidden
+      span.username
+      | has offered to share their location
+      button.accept Accept
+      button.ignore Ignore
 
   script.
     jQuery(function(){
@@ -20,11 +26,25 @@ block content
 
         var detail_tx = iceCondor.api('user.detail', {username: username})
         iceCondor.onResponse(detail_tx, function(other){
+          fill_in(other)
           var me_tx = iceCondor.api('user.detail')
           iceCondor.onResponse(me_tx, function(me){
+            $('.offer').show()
             console.log('comparing '+me.username+' to '+other.username)
           })
         })
       })
+
       iceCondor.connect()
+
     })
+
+    function fill_in(user) {
+      $('.username').html(user.username)
+      $('button.accept').click(function(evt){
+        var friend_tx = iceCondor.api('user.friend', {usename: user.username})
+        iceCondor.onResponse(friend_tx, function(resp){
+          console.log('accepted', resp)
+        })
+      })
+    }
