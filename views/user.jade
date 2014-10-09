@@ -52,35 +52,13 @@ block content
       $('#point_count').html(count)
     }
 
-    jQuery(function(){
-      var params = window.location.pathname.split('/')
-      var username = params[1]
-      var day, daystr
-      if(params[2]) {
-        daystr = params[2]
-        day = new XDate(params[2])
-      } else {
-        daystr = "24 hours"
-        day = new XDate().addDays(-1)
-      }
-
-      $("#map").height($(window).height()*0.65);
-      var center_of_america = [39.8, -98.5]
-      map.setup(center_of_america, 3)
-
-      $('.mapdecor .username').html(username)
-      iceCondor.on('heartbeat', function(beat){
-        var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
-        $('#points').append('<li> heartbeat '+point_date_html+'</li>')
-      })
-
-      iceCondor.on('auth', function(user){
+    function startFollow(username, day){
         var follow_tx = iceCondor.api('stream.follow', {username: username,
                                                         start: day.toISOString(),
                                                         count: 300})
         iceCondor.onResponse(follow_tx, function(msg){
           var track = map.addTrack(msg.stream_id, username)
-          locationBarDay(daystr)
+          locationBarDay(day)
           locationBarPointCount(track.points.length)
           iceCondor.onResponse(msg.stream_id, function(location){
             var date_order_idx = map.addPointToTrack(msg.stream_id, location)
@@ -97,6 +75,31 @@ block content
             $('#map').html("<h2>"+username+" is not sharing location data with you</h2>")
           }
         })
+    }
+
+    jQuery(function(){
+      var params = window.location.pathname.split('/')
+      var username = params[1]
+      var day
+      if(params[2]) {
+        day = new XDate(params[2])
+      } else {
+        day = new XDate().addDays(-1)
+      }
+
+      $("#map").height($(window).height()*0.65);
+      var center_of_america = [39.8, -98.5]
+      map.setup(center_of_america, 3)
+
+      $('.mapdecor .username').html(username)
+      iceCondor.on('heartbeat', function(beat){
+        var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
+        $('#points').append('<li> heartbeat '+point_date_html+'</li>')
+      })
+
+      var action = getKey() ? 'auth' : 'hello'
+      iceCondor.on(action, function(logged_in_user){
+        startFollow(username, day)
       })
       iceCondor.connect()
     })
