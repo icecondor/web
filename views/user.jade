@@ -73,6 +73,9 @@ block content
           }
           if(err.code == "NOACCESS") {
             $('#map').html("<h2>"+username+" is not sharing location data with you</h2>")
+            window.setTimeout(function(){
+              window.location = "/"+username+"/profile"
+            }, 1000)
           }
         })
     }
