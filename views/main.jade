@@ -2,8 +2,21 @@ extends layout
 
 block content
 
-  div.
-    Dashboard
+  div.page-dashboard
+    div.dashboard.hidden
+      Dashboard
+
+    div.splash.hidden
+      div.banner
+        | Welcome to IceCondor
+      div.signin
+        | Please sign in to begin.
+      img(src="/assets/logo.svg")
 
   script.
+    if(getKey()){
+      $('.dashboard').show()
+    } else {
+      $('.splash').show()
+    }
     iceCondor.connect()
