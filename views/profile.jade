@@ -12,13 +12,16 @@ block content
     div
       span.username
 
+    div.notfound.hidden
+      p Not Found
+
     div.friending.hidden
       button.accept Request share
 
-    div.friending-confirm.hidden
+    div.friending-already.hidden
       p Sharing requested
 
-    div.offer.hidden
+    div.friending-confirm.hidden
       span.username
       | has offered to share their location
       button.accept Accept
@@ -28,6 +31,8 @@ block content
     jQuery(function(){
       var params = window.location.pathname.split('/')
       var username = params[1]
+
+      $('.page-profile .username').html(username)
       iceCondor.on('auth', function(user){
 
         var detail_tx = iceCondor.api('user.detail', {username: username})
@@ -35,22 +40,10 @@ block content
           fill_in(other)
           var me_tx = iceCondor.api('user.detail')
           iceCondor.onResponse(me_tx, function(me){
-            if(me.friend_requests.indexOf(other.id) > -1) {
-              $('.friending-already').show()
-            } else {
-              if(other.friend_requests.indexOf(me.id) > -1) {
-                $('.friending-confirm').show()
-              } else {
-                $('.friending').show()
-              }
-              $('button.accept').click(function(evt){
-                var friend_tx = iceCondor.api('user.friend', {username: username})
-                iceCondor.onResponse(friend_tx, function(resp){
-                  console.log('accepted', resp)
-                })
-              })
-            }
+            if(other.id != me.id) { sharing_buttons(me, other)}
           })
+        }, function(err){
+          $('.notfound').show()
         })
       })
 
@@ -60,4 +53,22 @@ block content
 
     function fill_in(user) {
       $('.page-profile .username').html(user.username)
+    }
+
+    function sharing_buttons(me, other) {
+      if(me.friend_requests.indexOf(other.id) > -1) {
+        $('.friending-already').show()
+      } else {
+        if(other.friend_requests.indexOf(me.id) > -1) {
+          $('.friending-confirm').show()
+        } else {
+          $('.friending').show()
+        }
+        $('button.accept').click(function(evt){
+          var friend_tx = iceCondor.api('user.friend', {username: username})
+          iceCondor.onResponse(friend_tx, function(resp){
+            console.log('accepted', resp)
+          })
+        })
+      }
     }
