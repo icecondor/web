@@ -68,8 +68,8 @@ block content
           var friend_tx = iceCondor.api('user.friend', {username: other.username})
           iceCondor.onResponse(friend_tx, function(resp){
             $('.friending').hide()
+            $('.friending-confirm').hide()
             $('.friending-already').show()
-            console.log('accepted', resp)
           })
         })
       }
