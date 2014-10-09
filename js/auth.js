@@ -18,7 +18,8 @@ function emailTokenRequest(form){
   return iceCondor.connect().then(function(){
     var email_tx = iceCondor.api('auth.email', {email: email, device_id: "browser"})
     iceCondor.onResponse(email_tx, function(msg){
-      $('.login_box').html('token sent.')
+      $('.login_box').html('email sent.')
+      iceCondor.emit({method: 'email', params: {email: email}})
       console.log(msg)
     })
   })

@@ -4,19 +4,44 @@ block content
 
   div.page-dashboard
     div.dashboard.hidden
-      Dashboard
+      | Dashboard
+      = ' '
+      span.username
 
     div.splash.hidden
       div.banner
         | Welcome to IceCondor
       div.signin
         | Please sign in to begin.
+      div.email-sent.hidden
+        p
+          | A login token has been sent to your email.
+        p
+          | Please click on the link in the email to continue.
       img(src="/assets/logo.svg")
 
   script.
-    if(getKey()){
-      $('.dashboard').show()
-    } else {
-      $('.splash').show()
+    jQuery(function(){
+      if(getKey()){
+        $('.dashboard').show()
+        iceCondor.on('auth', function(auth_user){
+          var detail_tx = iceCondor.api('user.detail')
+          iceCondor.onResponse(detail_tx, function(user){
+            dashboard_detail(user)
+          })
+        })
+      } else {
+        $('.splash').show()
+      }
+      iceCondor.on('email', function(sent){
+        $('.signin').hide()
+        $('.email-sent').show()
+      })
+
+      iceCondor.connect()
+
+    })
+
+    function dashboard_detail(user) {
+      $('.page-dashboard .username').html('<a href="/'+user.username+'">'+user.username+'</a>')
     }
-    iceCondor.connect()
