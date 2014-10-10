@@ -8,7 +8,7 @@ div.navbar.flexbox
     ul.inline-menu.inline#navmenu
 
   div.flexbox.right
-    div.userarea
+    div.userarea.hidden
       span.username.inline
       a
         span.logout x
@@ -39,6 +39,7 @@ script.
     if(getKey()) {
       $('.login_box').css('display','none')
       $('.hamburger').css('display','none')
+      $('.userarea').show()
     }
   })
 

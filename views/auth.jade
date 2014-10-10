@@ -2,8 +2,8 @@ extends layout
 
 block content
 
-  div.
-    Auth
+  div.validating.hidden
+    | Validating token...
 
   div.askusername.hidden
     h2 Welcome to IceCondor
@@ -20,14 +20,13 @@ block content
       clearKey()
       setKey(token)
       iceCondor.connect()
-      console.log('called auth')
+      $('.validating').show()
       iceCondor.on("auth", function(session){
         if(session.user.username) {
           window.location = "/"
         } else {
           // missing username
           $('.askusername form').submit(function(event){
-            console.log(event.target)
             var username = event.target.elements['username'].value
             var update_tx = iceCondor.api('user.update', {username: username})
             iceCondor.onResponse(update_tx, function(resp){
@@ -36,6 +35,7 @@ block content
             })
             event.preventDefault()
           })
+          $('.validating').hide()
           $('.askusername').show()
         }
       })
