@@ -30,8 +30,12 @@
     }
   }
 
-  .username {
+  .userarea {
     margin-right: 1em;
+    .logout {
+      margin-left: 0.5em;
+      font-size: 80%
+    }
   }
 
   .hamburger {
