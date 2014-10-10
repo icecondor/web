@@ -19,13 +19,7 @@ block content
       button.accept Request share
 
     div.friending-already.hidden
-      p Sharing requested
-
-    div.friending-confirm.hidden
-      span.username
-      | has offered to share their location
-      button.accept Accept
-      button.ignore Ignore
+      p  Sharing Location
 
   script.
     jQuery(function(){
@@ -56,19 +50,14 @@ block content
     }
 
     function sharing_buttons(me, other) {
-      if(me.friend_requests.indexOf(other.id) > -1) {
+      if(me.friends.indexOf(other.id) > -1) {
         $('.friending-already').show()
       } else {
-        if(other.friend_requests.indexOf(me.id) > -1) {
-          $('.friending-confirm').show()
-        } else {
-          $('.friending').show()
-        }
+        $('.friending').show()
         $('button.accept').click(function(evt){
           var friend_tx = iceCondor.api('user.friend', {username: other.username})
           iceCondor.onResponse(friend_tx, function(resp){
             $('.friending').hide()
-            $('.friending-confirm').hide()
             $('.friending-already').show()
           })
         })
