@@ -6,6 +6,9 @@ block content
     div.validating.hidden
       | Validating token...
 
+    div.invalid.hidden
+      | Invalid token. Request a new one.
+
     div.askusername.hidden
       h2 Welcome to IceCondor
       p.
@@ -27,11 +30,13 @@ block content
           window.location = "/"
         } else {
           // missing username
+          clearKey()
           $('.askusername form').submit(function(event){
             var username = event.target.elements['username'].value
             var update_tx = iceCondor.api('user.update', {username: username})
             iceCondor.onResponse(update_tx, function(resp){
               console.log(resp)
+              setKey(token)
               window.location = "/"
             })
             event.preventDefault()
@@ -44,5 +49,6 @@ block content
       window.location = "icecondor://android/v2/auth?access_token="+token
     } else {
       // bad key
-      console.log('bad key')
+      $('.validating').hide()
+      $('.invalid').show()
     }
