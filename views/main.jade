@@ -3,6 +3,8 @@ extends layout
 block content
 
   div.page-dashboard
+    div.loading.hidden
+      | Loading
     div.dashboard.hidden
       | Dashboard
       = ' '
@@ -23,8 +25,9 @@ block content
   script.
     jQuery(function(){
       if(getKey()){
-        $('.dashboard').show()
         iceCondor.on('auth', function(auth_user){
+          $('.loading').hide()
+          $('.dashboard').show()
           var detail_tx = iceCondor.api('user.detail')
           iceCondor.onResponse(detail_tx, function(user){
             dashboard_detail(user)
