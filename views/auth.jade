@@ -38,7 +38,7 @@ block content
             iceCondor.onResponse(update_tx, function(resp){
               console.log(resp)
               setKey(token)
-              window.location = "/"
+              window.location = "/"+username
             }, function(err){
               $('.errmsg').html(err.msg)
             })
