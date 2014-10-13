@@ -16,6 +16,7 @@ block content
       form
         input(type='text', name='username')
         input(type='submit', value='Save')
+      p.errmsg
 
   script.
     var token = window.location.pathname.split('/')[2]
@@ -38,6 +39,8 @@ block content
               console.log(resp)
               setKey(token)
               window.location = "/"
+            }, function(err){
+              $('.errmsg').html(err.msg)
             })
             event.preventDefault()
           })
