@@ -16,6 +16,11 @@ block content
       span.friend-count
       | friends
 
+    div.sharing.hidden
+      span.username
+      = ' '
+      | is sharing their location with you.
+
     div.notfound.hidden
       p Not Found
 
@@ -23,9 +28,10 @@ block content
       button.accept Share my location
 
     div.friending-already.hidden
-      p  Your location is being shared with
-      = ' '
-      span.username
+      p
+        | Your location is being shared with
+        = ' '
+        span.username
 
   script.
     jQuery(function(){
@@ -40,6 +46,10 @@ block content
           fill_in(other)
           var me_tx = iceCondor.api('user.detail')
           iceCondor.onResponse(me_tx, function(me){
+            if(other.friends.indexOf(me.id) > -1) {
+              $('.sharing').show()
+            }
+
             if(other.id == me.id) {
               $('.friends').show()
             } else {
