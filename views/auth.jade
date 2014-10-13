@@ -28,7 +28,7 @@ block content
       $('.validating').show()
       iceCondor.on("auth", function(session){
         if(session.user.username) {
-          window.location = "/"+username
+          window.location = "/"+session.user.username
         } else {
           // missing username
           clearKey()
