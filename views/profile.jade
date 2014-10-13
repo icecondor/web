@@ -12,7 +12,7 @@ block content
     div
       span.username
 
-    div
+    div.friends.hidden
       span.friend-count
       | friends
 
@@ -20,7 +20,7 @@ block content
       p Not Found
 
     div.friending.hidden
-      button.accept Request share
+      button.accept Share my location
 
     div.friending-already.hidden
       p  Your location is being shared with
@@ -40,7 +40,11 @@ block content
           fill_in(other)
           var me_tx = iceCondor.api('user.detail')
           iceCondor.onResponse(me_tx, function(me){
-            if(other.id != me.id) { sharing_buttons(me, other)}
+            if(other.id == me.id) {
+              $('.friends').show()
+            } else {
+              sharing_buttons(me, other)
+            }
           })
         }, function(err){
           $('.notfound').show()
