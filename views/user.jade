@@ -20,7 +20,8 @@ block content
               td Points
           tr
             td
-              span.username
+              a.userlink
+                span.username
             td
               span#daybox
                 span#day
@@ -95,6 +96,7 @@ block content
       map.setup(center_of_america, 3)
 
       $('.mapdecor .username').html(username)
+      $('.mapdecor .userlink').attr('href', "/"+username+"/profile")
       iceCondor.on('heartbeat', function(beat){
         var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
         $('#points').append('<li> heartbeat '+point_date_html+'</li>')
