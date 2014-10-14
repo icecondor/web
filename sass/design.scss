@@ -49,10 +49,13 @@
 
 .page-profile {
   .detail-row {
-    justify-content: space-around;
-    align-items: center;
+    padding: 0 2em;
+    span {
+      padding: 0 1em;
+    }
   }
   .photo {
+    float: left;
     width: 250px;
     height: 250px;
   }
