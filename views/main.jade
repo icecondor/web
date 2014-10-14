@@ -26,6 +26,7 @@ block content
     jQuery(function(){
       if(getKey()){
         iceCondor.on('auth', function(auth_user){
+          window.location = "/"+auth_user.user.username
           $('.loading').hide()
           $('.dashboard').show()
           var detail_tx = iceCondor.api('user.detail')
