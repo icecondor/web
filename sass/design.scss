@@ -46,3 +46,15 @@
   text-align: center;
   h2 { margin-bottom: 1em; }
 }
+
+.page-profile {
+  .detail-row {
+    justify-content: space-around;
+    align-items: center;
+  }
+  .photo {
+    width: 250px;
+    height: 250px;
+  }
+
+}

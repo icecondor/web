@@ -9,12 +9,15 @@ block content
 
   div.page-profile
 
-    div
+    span.detail-row.flexbox
+      span.photo
+        img
+
       span.username
 
-    div.friends.hidden
-      span.friend-count
-      | friends
+      span.friends.hidden
+        span.friend-count
+        | friends
 
     div.sharing.hidden
       span.username
@@ -67,7 +70,8 @@ block content
 
     function fill_in(user) {
       $('.page-profile .username').html(user.username)
-      $('.friend-count').html(user.friends.length)
+      $('.page-profile .photo img').attr('src', 'http://www.gravatar.com/avatar/'+md5(user.email)+'?size=250')
+      $('.page-profile .friend-count').html(user.friends.length)
     }
 
     function sharing_buttons(me, other) {

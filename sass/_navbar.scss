@@ -5,6 +5,11 @@
   @include border-radius(4px, 4px);
   font-size: 120%;
 
+  .flexbox {
+    justify-content: space-between;
+    align-items: center;
+  }
+
 
   a {
     color: $navbar-color;
