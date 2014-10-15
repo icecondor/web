@@ -9,7 +9,7 @@ module.exports = function(grunt) {
         files: {
           "build/dashboard.html": "views/main.jade",
           "build/auth.html": "views/auth.jade",
-          "build/user.html": "views/user.jade",
+          "build/map.html": "views/map.jade",
           "build/profile.html": "views/profile.jade"
         }
       }
