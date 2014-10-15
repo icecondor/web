@@ -48,8 +48,9 @@
 }
 
 .page-profile {
+  padding: 0.5em 0.5em;
+
   .detail-row {
-    padding: 0 2em;
     span {
       padding: 0 1em;
     }
@@ -58,6 +59,7 @@
     float: left;
     width: 250px;
     height: 250px;
+    border: 0.2em solid;
   }
 
 }

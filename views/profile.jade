@@ -42,8 +42,14 @@ block content
       var username = params[1]
 
       $('.page-profile .username').html(username)
-      iceCondor.on('auth', function(user){
+      iceCondor.on('noauth', function(){
+        var detail_tx = iceCondor.api('user.detail', {username: username})
+        iceCondor.onResponse(detail_tx, function(other){
+          fill_in(other)
+        })
+      })
 
+      iceCondor.on('auth', function(user){
         var detail_tx = iceCondor.api('user.detail', {username: username})
         iceCondor.onResponse(detail_tx, function(other){
           fill_in(other)
@@ -69,8 +75,12 @@ block content
     })
 
     function fill_in(user) {
-      $('.page-profile .username').html(user.username)
-      $('.page-profile .photo img').attr('src', 'http://www.gravatar.com/avatar/'+md5(user.email)+'?size=250')
+      if(user.email){
+        $('.page-profile .photo img').attr('src', 'http://www.gravatar.com/avatar/'+md5(user.email)+'?size=250')
+      }else {
+        $('.page-profile .photo img').width(250)
+        $('.page-profile .photo img').attr('src', '/assets/logo.svg')
+      }
       $('.page-profile .friend-count').html(user.friends.length)
     }
 

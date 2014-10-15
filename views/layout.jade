@@ -46,6 +46,8 @@ html
               })
             }
           })
+        } else {
+          iceCondor.emit({method: 'noauth'})
         }
       })
 

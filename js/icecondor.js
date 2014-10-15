@@ -26,7 +26,13 @@ var iceCondor = function() {
       if(responses[msg.id]) { responses[msg.id].ok(msg.result) }
     }
     if(msg.error){
-      if(responses[msg.id]) { responses[msg.id].err(msg.error) }
+      if(responses[msg.id]) {
+        if(responses[msg.id].err){
+          responses[msg.id].err(msg.error)
+        } else {
+          console.log("warning: no error response defined for #"+msg.id)
+        }
+      }
     }
   }
 
