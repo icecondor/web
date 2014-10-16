@@ -50,11 +50,20 @@
 .page-profile {
   padding: 0.5em 0.5em;
 
+  .detail-top {
+    clear: both;
+  }
+
+  .detail-bottom {
+    clear: both;
+  }
+
   .detail-row {
-    span {
-      padding: 0 1em;
+    padding: 0 1em;
+    div {
     }
   }
+
   .photo {
     float: left;
     width: 250px;

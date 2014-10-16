@@ -9,32 +9,33 @@ block content
 
   div.page-profile
 
-    div.photo
+    div.photo.left
       img
 
-    div.detail-row.flexbox
-      span.username
+    div.detail-row.left
 
-      span.friends.hidden
-        span.friend-count
-        | friends
+      div.detail-top
+        div.username.left
 
-    div.sharing.hidden
-      span.username
-      = ' '
-      | is sharing their location with you.
+      div.detail-bottom
 
-    div.notfound.hidden
-      p Not Found
+        div.sharing.hidden
+          span.username
+          = ' '
+          | is sharing their location with you.
 
-    div.friending.hidden
-      button.accept Share my location
+        div.notfound.hidden
+          p Not Found
 
-    div.friending-already.hidden
-      p
-        | Your location is being shared with
-        = ' '
-        span.username
+        div.friending.hidden
+          button.accept Share my location
+
+        div.friending-already.hidden
+          p
+            | Your location is being shared with
+            = ' '
+            span.username
+            = '.'
 
   script.
     jQuery(function(){
@@ -75,13 +76,12 @@ block content
     })
 
     function fill_in(user) {
-      if(user.email){
-        $('.page-profile .photo img').attr('src', 'http://www.gravatar.com/avatar/'+md5(user.email)+'?size=250')
+      if(user.photo){
+        $('.page-profile .photo img').attr('src', user.photo+'?size=250')
       }else {
         $('.page-profile .photo img').width(250)
         $('.page-profile .photo img').attr('src', '/assets/logo.svg')
       }
-      $('.page-profile .friend-count').html(user.friends.length)
     }
 
     function sharing_buttons(me, other) {
