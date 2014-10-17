@@ -7,7 +7,7 @@ block head
 
 block content
 
-  div.page-user
+  div.page-map
 
     div.mapdecor
       div#status
@@ -73,7 +73,7 @@ block content
             $('#map').html("<h2>not found</h2>")
           }
           if(err.code == "NOACCESS") {
-            $('#map').html("<h2>"+username+" is not sharing location data with you</h2>")
+            $('#map').html("<h2>Location data for "+username+" is private.</h2>")
             window.setTimeout(function(){
               window.location = "/"+username+"/profile"
             }, 1000)
