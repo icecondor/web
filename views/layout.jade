@@ -28,7 +28,6 @@ html
       })
       iceCondor.on('hello', function(beat){
         var key = getKey()
-        console.log('got hello', 'auth key', key)
         if(key) {
           var auth_tx = iceCondor.auth(key)
           console.log('called auth')

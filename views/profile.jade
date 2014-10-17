@@ -24,8 +24,8 @@ block content
           = ' '
           | is sharing their location with you.
 
-        div.notfound.hidden
-          p Not Found
+        div.error.hidden
+          p
 
         div.friending.hidden
           button.accept Share my location
@@ -47,7 +47,7 @@ block content
         var detail_tx = iceCondor.api('user.detail', {username: username})
         iceCondor.onResponse(detail_tx, function(other){
           fill_in(other)
-        })
+        }, err_display)
       })
 
       iceCondor.on('auth', function(user){
@@ -66,9 +66,7 @@ block content
               sharing_buttons(me, other)
             }
           })
-        }, function(err){
-          $('.notfound').show()
-        })
+        }, err_display)
       })
 
       iceCondor.connect()
@@ -97,4 +95,9 @@ block content
           })
         })
       }
+    }
+
+    function err_display(err) {
+      $('.error').show()
+      $('.error p').html(err.message)
     }
