@@ -34,13 +34,13 @@ html
           iceCondor.onResponse(auth_tx, function(resp){
             var user = dbGet(key)
             if(user) {
-              $('.navbar .username').prepend(user.username)
+              navbar_fixup(user)
               iceCondor.emit({method: 'auth', params: {user: user}})
             } else {
               var user_detail_tx = iceCondor.api('user.detail')
               iceCondor.onResponse(user_detail_tx, function(user){
                 dbSet(key, user)
-                $('.navbar .username').prepend(user.username)
+                navbar_fixup(user)
                 iceCondor.emit({method: 'auth', params: {user: user}})
               })
             }
@@ -51,3 +51,7 @@ html
       })
 
       time_fixups()
+      function navbar_fixup(user) {
+        $('.navbar .username').html(user.username)
+        $('.navbar .userlink').attr('href', "/"+user.username)
+      }
