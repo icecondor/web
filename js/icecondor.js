@@ -60,7 +60,7 @@ var iceCondor = function() {
         // websocket
         //sock = new WebSocket("wss://staging.api.icecondor.com/v2");
         // sockjs
-        sock = new SockJS('https://staging.icecondor.com/sockjs');
+        sock = new SockJS('https://icecondor.com/sockjs');
         sock.onmessage = message
         sock.onerror = error
         sock.onopen = function(){
