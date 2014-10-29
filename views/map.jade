@@ -91,7 +91,7 @@ block content
         day = new XDate().addDays(-1)
       }
 
-      $("#map").height($(window).height()*0.65);
+      $("#map").height($(window).height()-$('.navbar').height()-60);
       var center_of_america = [39.8, -98.5]
       map.setup(center_of_america, 3)
 
