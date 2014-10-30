@@ -51,6 +51,11 @@ var map_leaflet = function() {
     marker.update()
   }
 
+  api.addPopup = function(marker) {
+    var popup = L.popup()
+    marker.bindPopup(popup)
+  }
+
   api.addPolyline = function(opts){
     var line = L.polyline([], opts)
     line.addTo(map)

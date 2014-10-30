@@ -25,7 +25,9 @@ var map = function(){
         map.moveMarker(track.marker, point)
       } else {
         track.marker = map.addMarker(point)
+        map.addPopup(track.marker)
       }
+      set_popup_detail(track.marker.getPopup(), point)
       map.setCenter(point, 16)
     }
     return date_order_idx
@@ -48,6 +50,11 @@ var map = function(){
       line.spliceLatLngs(insert_idx+1, 0, [point.latitude,point.longitude])
       return insert_idx
     }
+  }
+
+  function set_popup_detail(popup, point) {
+    var text = point.provider+' '+point.accuracy+'m'
+    popup.setContent(text)
   }
 
   return api
