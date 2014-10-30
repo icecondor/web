@@ -91,7 +91,6 @@ block content
         day = new XDate().addDays(-1)
       }
 
-      $("#map").height($(window).height()-$('.navbar').height()-60);
       var center_of_america = [39.8, -98.5]
       map.setup(center_of_america, 3)
 
@@ -101,6 +100,9 @@ block content
         var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
         $('#points').append('<li> heartbeat '+point_date_html+'</li>')
       })
+
+      // adjust map height after status bar has been populated
+      $("#map").height($(window).height()-$('.navbar').height()-$('#status').height()-10);
 
       var action = getKey() ? 'auth' : 'hello'
       iceCondor.on(action, function(logged_in_user){
