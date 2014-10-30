@@ -9,7 +9,7 @@ var map = function(){
   }
 
   api.addTrack = function(track_id, name) {
-    var line = map.addPolyline({color: 'red'})
+    var line = map.addPolyline({color: 'red', smoothFactor: 0})
     // marker must have lat/long so delay until first point
     var track = { name: name, points: [], line: line, marker: null }
     tracks[track_id] = track
@@ -34,6 +34,7 @@ var map = function(){
   api.add_point = function(track_id, point) {
     var line = tracks[track_id].line
     var points = tracks[track_id].points
+
     // keep points in date sorted order
     var insert_idx = 0
     points.forEach(function(pt, idx){
