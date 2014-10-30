@@ -9,8 +9,8 @@ var map = function(){
   }
 
   api.addTrack = function(track_id, name) {
-    // marker must have lat/long so delay until first point
     var line = map.addPolyline({color: 'red'})
+    // marker must have lat/long so delay until first point
     var track = { name: name, points: [], line: line, marker: null }
     tracks[track_id] = track
     return track
@@ -41,9 +41,14 @@ var map = function(){
         insert_idx = idx
       }
     })
-    points.splice(insert_idx+1, 0, point) // need full point
-    line.spliceLatLngs(insert_idx+1, 0, [point.latitude,point.longitude])
-    return insert_idx
+
+    if(point.accuracy < 200) {
+      points.splice(insert_idx+1, 0, point) // need full point
+      line.spliceLatLngs(insert_idx+1, 0, [point.latitude,point.longitude])
+      return insert_idx
+    } else {
+      console.log('skipping poor accuracy', point.accuracy, point.provider)
+    }
   }
 
   return api
