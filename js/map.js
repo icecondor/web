@@ -46,8 +46,6 @@ var map = function(){
       points.splice(insert_idx+1, 0, point) // need full point
       line.spliceLatLngs(insert_idx+1, 0, [point.latitude,point.longitude])
       return insert_idx
-    } else {
-      console.log('skipping poor accuracy', point.accuracy, point.provider)
     }
   }
 
