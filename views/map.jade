@@ -82,11 +82,18 @@ block content
     }
 
     jQuery(function(){
-      var params = window.location.pathname.split('/')
-      var username = params[1]
+      var params = {}
+      var paths = window.location.pathname.split('/')
+      var queryparts = window.location.href.split('?')[1]
+      if(queryparts) {
+        absorb(params, queryparts)
+      }
+      params.username = paths[1]
+
+      console.log(params)
       var day
-      if(params[2]) {
-        day = new XDate(params[2])
+      if(params.start) {
+        day = new XDate(params.start)
       } else {
         day = new XDate().addDays(-1)
       }
@@ -94,8 +101,8 @@ block content
       var center_of_america = [39.8, -98.5]
       map.setup(center_of_america, 3)
 
-      $('.mapdecor .username').html(username)
-      $('.mapdecor .userlink').attr('href', "/"+username+"/profile")
+      $('.mapdecor .username').html(params.username)
+      $('.mapdecor .userlink').attr('href', "/"+params.username+"/profile")
       iceCondor.on('heartbeat', function(beat){
         var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
         $('#points').append('<li> heartbeat '+point_date_html+'</li>')
@@ -107,7 +114,15 @@ block content
 
       var action = getKey() ? 'auth' : 'hello'
       iceCondor.on(action, function(logged_in_user){
-        startFollow(username, day)
+        startFollow(params.username, day)
       })
       iceCondor.connect()
     })
+
+    function absorb(hash, qstr) {
+      var pieces = qstr.split('&')
+      pieces.forEach(function(kv){
+        kv = kv.split('=')
+        hash[kv[0]] = kv[1]
+      })
+    }
