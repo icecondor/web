@@ -8,6 +8,10 @@ var map = function(){
     map.setup(center, zoom)
   }
 
+  api.resize = function() {
+    map.resize()
+  }
+
   api.addTrack = function(track_id, name) {
     var line = map.addPolyline({color: 'red', smoothFactor: 0})
     // marker must have lat/long so delay until first point

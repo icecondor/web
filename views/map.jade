@@ -103,6 +103,7 @@ block content
 
       // adjust map height after status bar has been populated
       $("#map").height($(window).height()-$('.navbar').height()-$('#status').height()-10);
+      map.resize()
 
       var action = getKey() ? 'auth' : 'hello'
       iceCondor.on(action, function(logged_in_user){

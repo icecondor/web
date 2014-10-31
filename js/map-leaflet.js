@@ -15,6 +15,10 @@ var map_leaflet = function() {
     osm.addTo(map);
   }
 
+  api.resize = function() {
+    map.invalidateSize()
+  }
+
   api.add_draw = function(){
     map.drawControl.addTo(map)
   }
