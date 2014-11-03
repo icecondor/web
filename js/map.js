@@ -57,8 +57,23 @@ var map = function(){
   }
 
   function set_popup_detail(popup, point) {
-    var text = point.provider+' '+point.accuracy+'m'
-    popup.setContent(text)
+    var ft = point.accuracy * 3.28
+    var provider = point.provider
+    if(provider == "network") {
+      if (point.accuracy > 500) {
+        provider = "tower"
+      } else {
+        provider = "wifi"
+      }
+    }
+    // templatify this
+    $('#popup-holder').append('<div id="marker-popup-'+point.id+'">'+
+                                  provider+' inside '+ft.toFixed(0)+'ft'+
+                                  '<br/>'+
+                                  '<time datetime="'+point.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'+
+                                   '</div>')
+    time_fixups()
+    popup.setContent($('#marker-popup-'+point.id)[0])
   }
 
   return api
