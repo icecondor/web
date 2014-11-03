@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  div.page-billing
+    div.status Status
+
+
+  script.
+    jQuery(function(){
+      iceCondor.on('auth', function(user){
+        var me_tx = iceCondor.api('user.detail')
+        iceCondor.onResponse(me_tx, function(me) {
+          $('.status').css('background', 'red')
+        })
+      })
+
+      if(getKey()){
+        iceCondor.connect()
+      } else {
+        window.location = "/"
+      }
+    })
