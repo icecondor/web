@@ -15,7 +15,6 @@ block content
           thead#header
             tr
               td Username
-              td Viewing
               td Most recent
               td Points
           tr
@@ -23,28 +22,18 @@ block content
               a.userlink
                 span.username
             td
-              span#daybox
-                span#day
-            td
               span#last_point
             td
               span#point_count
       div#map
 
   script.
-    function locationBarDay(date) {
-      var html
-      if(typeof(date) == "string"){
-        html = date
-      } else {
-        html = '<time datetime="'+date.toISOString()+'" data-format="d-MMM-yyyy"/>'
-      }
-      $('#day').html(html)
-      time_fixups()
-    }
-
     function locationBar(location) {
-      var point_last_html = '<time datetime="'+location.date+'" title="'+location.date+'" data-format="h:mmtt"/>'
+      var date_format = "ddd h:mmtt"
+      var point_last_html = '<time datetime='+JSON.stringify(location.date)+
+                            ' title='+JSON.stringify(location.date)+
+                            ' data-format='+JSON.stringify(date_format)+
+                            '/>'
       $('#last_point').html(point_last_html)
       time_fixups()
     }
@@ -59,7 +48,6 @@ block content
                                                         count: 300})
         iceCondor.onResponse(follow_tx, function(msg){
           var track = map.addTrack(msg.stream_id, username)
-          locationBarDay(day)
           locationBarPointCount(track.points.length)
           iceCondor.onResponse(msg.stream_id, function(location){
             var date_order_idx = map.addPointToTrack(msg.stream_id, location)
