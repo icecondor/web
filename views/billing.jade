@@ -9,8 +9,8 @@ block content
 
     div.checkout
       div Add
-      button#customButton 1 Month
-      button#customButton 6 Months
+      button#premium1 1 Month
+      button#premium6 6 Months
 
   script.
     jQuery(function(){
@@ -41,12 +41,21 @@ block content
         }
       });
 
-      document.getElementById('customButton').addEventListener('click', function(e) {
+      document.getElementById('premium1').addEventListener('click', function(e) {
         // Open Checkout with further options
         handler.open({
           name: 'IceCondor Premium Service',
           description: '1 month non-recurring ($3.00)',
           amount: 300
+        });
+        e.preventDefault();
+      });
+      document.getElementById('premium6').addEventListener('click', function(e) {
+        // Open Checkout with further options
+        handler.open({
+          name: 'IceCondor Premium Service',
+          description: '6 months non-recurring ($15.00)',
+          amount: 1500
         });
         e.preventDefault();
       });
