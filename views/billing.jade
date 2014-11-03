@@ -1,9 +1,16 @@
 extends layout
 
+block head
+  script(src='https://checkout.stripe.com/checkout.js')
+
 block content
   div.page-billing
     div.status Status
 
+    div.checkout
+      div Add
+      button#customButton 1 Month
+      button#customButton 6 Months
 
   script.
     jQuery(function(){
@@ -20,3 +27,22 @@ block content
         window.location = "/"
       }
     })
+
+    var handler = StripeCheckout.configure({
+      key: 'pk_test_6pRNASCoBOKtIshFeQd4XMUh',
+      image: '/assets/logo.svg',
+      token: function(token) {
+        // Use the token to create the charge with a server-side script.
+        // You can access the token ID with `token.id`
+      }
+    });
+
+    document.getElementById('customButton').addEventListener('click', function(e) {
+      // Open Checkout with further options
+      handler.open({
+        name: 'IceCondor Premium Service',
+        description: '1 month non-recurring ($3.00)',
+        amount: 300
+      });
+      e.preventDefault();
+    });
