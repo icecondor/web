@@ -36,8 +36,7 @@ block content
         image: '/assets/logo.svg',
         email: email,
         token: function(token) {
-          // Use the token to create the charge with a server-side script.
-          // You can access the token ID with `token.id`
+          var pay_tx = iceCondor.api('user.payment', {token: token.id})
         }
       });
 
