@@ -17,7 +17,7 @@ var iceCondor = function() {
 
   function message(event) {
     var json = event.data.trim()
-    console.log("<-", json)
+    //console.log("<-", json)
     var msg = JSON.parse(json)
     if(msg.method) {
       dispatch(msg)
