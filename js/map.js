@@ -22,19 +22,25 @@ var map = function(){
 
   api.addPointToTrack = function(track_id, point) {
     var track = tracks[track_id]
-    var date_order_idx = api.add_point(track_id, point)
 
-    if(date_order_idx == 0) {
-      if(track.marker) {
-        map.moveMarker(track.marker, point)
-      } else {
-        track.marker = map.addMarker(point)
-        map.addPopup(track.marker)
+    if(point.accuracy < 200) {
+      var date_order_idx = api.add_point(track_id, point)
+
+      if(date_order_idx == 0) {
+        if(track.marker) {
+          map.moveMarker(track.marker, point)
+        } else {
+          track.marker = map.addMarker(point, "person")
+          map.addPopup(track.marker)
+        }
+        set_popup_detail(track.marker.getPopup(), point)
+        map.setCenter(point, 16)
       }
-      set_popup_detail(track.marker.getPopup(), point)
-      map.setCenter(point, 16)
+      return date_order_idx
+    } else {
+      var tower_marker = map.addMarker(point, "tower")
+      map.addPopup(tower_marker)
     }
-    return date_order_idx
   }
 
   api.add_point = function(track_id, point) {
@@ -49,11 +55,9 @@ var map = function(){
       }
     })
 
-    if(point.accuracy < 200) {
-      points.splice(insert_idx+1, 0, point) // need full point
-      line.spliceLatLngs(insert_idx+1, 0, [point.latitude,point.longitude])
-      return insert_idx
-    }
+    points.splice(insert_idx+1, 0, point) // need full point
+    line.spliceLatLngs(insert_idx+1, 0, [point.latitude,point.longitude])
+    return insert_idx
   }
 
   function set_popup_detail(popup, point) {

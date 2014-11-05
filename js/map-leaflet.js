@@ -40,12 +40,18 @@ var map_leaflet = function() {
     return {coordinates: [latlng.lat, latlng.lng]}
   }
 
-  api.makeIcon = function(url, w, h){
-    return L.icon({iconUrl: url, iconSize: [w,h]})
+  var icons = {"tower":{isize:[38,45], anchor:[16,45]},
+               "person":{isize:[25,41], anchor:[12,41]}
+              }
+  api.makeIcon = function(name){
+    return L.icon({iconUrl: "/assets/"+name+".svg",
+                   iconSize: icons[name].isize,
+                   iconAnchor: icons[name].anchor})
   }
 
-  api.addMarker = function(point, title){
-    var marker = L.marker(this.pointToLatLng(point))
+  api.addMarker = function(point, icon_name){
+    var marker = L.marker(this.pointToLatLng(point),
+                          {icon: api.makeIcon(icon_name)})
     marker.addTo(map)
     return marker
   }
