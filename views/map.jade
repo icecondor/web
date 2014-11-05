@@ -48,7 +48,7 @@ block content
                                                         count: 300})
         iceCondor.onResponse(follow_tx, function(msg){
           var track = map.addTrack(msg.stream_id, username)
-          locationBarPointCount(track.points.length)
+          locationBarPointCount("-loading-")
           iceCondor.onResponse(msg.stream_id, function(location){
             var date_order_idx = map.addPointToTrack(msg.stream_id, location)
             if(date_order_idx == 0) {
