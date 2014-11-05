@@ -45,7 +45,6 @@ block content
 
     function startFollow(username, day){
         var follow_tx = iceCondor.api('stream.follow', {username: username,
-                                                        start: day.toISOString(),
                                                         count: 300})
         iceCondor.onResponse(follow_tx, function(msg){
           var track = map.addTrack(msg.stream_id, username)
