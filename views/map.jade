@@ -30,9 +30,15 @@ block content
 
   script.
     function locationBar(location) {
-      var date_format = "ddd h:mmtt"
+      var date = new XDate(location.date)
+      var days = date.diffDays()
+      var date_format
+      if(days < 7) {
+        date_format = "ddd h:mmtt"
+      } else {
+        date_format = "MMM-dd h:mmtt"
+      }
       var point_last_html = '<time datetime='+JSON.stringify(location.date)+
-                            ' title='+JSON.stringify(location.date)+
                             ' data-format='+JSON.stringify(date_format)+
                             '/>'
       $('#last_point').html(point_last_html)
@@ -43,30 +49,34 @@ block content
       $('#point_count').html(count)
     }
 
-    function startFollow(username, day){
-        var follow_tx = iceCondor.api('stream.follow', {username: username,
-                                                        count: 300})
-        iceCondor.onResponse(follow_tx, function(msg){
-          var track = map.addTrack(msg.stream_id, username)
-          locationBarPointCount("-loading-")
-          iceCondor.onResponse(msg.stream_id, function(location){
-            var date_order_idx = map.addPointToTrack(msg.stream_id, location)
-            if(date_order_idx == 0) {
-              locationBar(location)
-            }
-            locationBarPointCount(track.points.length)
-          })
-        }, function(err) {
-          if(err.code == "UNF") {
-            $('#map').html("<h2>User not found.</h2>")
+    function startFollow(username, start, stop){
+      console.log('startFollow', username, start, stop)
+      var filter = {username: username,
+                    count: 300}
+      if(start) { filter.start = start.toISOString()}
+      if(stop) { filter.stop = stop.toISOString()}
+      var follow_tx = iceCondor.api('stream.follow', filter)
+      iceCondor.onResponse(follow_tx, function(msg){
+        var track = map.addTrack(msg.stream_id, username)
+        locationBarPointCount("-loading-")
+        iceCondor.onResponse(msg.stream_id, function(location){
+          var date_order_idx = map.addPointToTrack(msg.stream_id, location)
+          if(date_order_idx == 0) {
+            locationBar(location)
           }
-          if(err.code == "NOACCESS") {
-            $('#map').html("<h2>Location data for "+username+" is private.</h2>")
-            window.setTimeout(function(){
-              window.location = "/"+username+"/profile"
-            }, 2000)
-          }
+          locationBarPointCount(track.points.length)
         })
+      }, function(err) {
+        if(err.code == "UNF") {
+          $('#map').html("<h2>User not found.</h2>")
+        }
+        if(err.code == "NOACCESS") {
+          $('#map').html("<h2>Location data for "+username+" is private.</h2>")
+          window.setTimeout(function(){
+            window.location = "/"+username+"/profile"
+          }, 2000)
+        }
+      })
     }
 
     jQuery(function(){
@@ -78,11 +88,12 @@ block content
       }
       params.username = paths[1]
 
-      var day
+      var start, stop
       if(params.start) {
-        day = new XDate(params.start)
-      } else {
-        day = new XDate().addDays(-1)
+        start = new XDate(params.start)
+      }
+      if(params.stop) {
+        stop = new XDate(params.stop)
       }
 
       var center_of_america = [39.8, -98.5]
@@ -101,7 +112,7 @@ block content
 
       var action = getKey() ? 'auth' : 'hello'
       iceCondor.on(action, function(logged_in_user){
-        startFollow(params.username, day)
+        startFollow(params.username, start, stop)
       })
       iceCondor.connect()
     })
