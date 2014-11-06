@@ -52,7 +52,7 @@ block content
     function startFollow(username, start, stop){
       console.log('startFollow', username, start, stop)
       var filter = {username: username,
-                    count: 300}
+                    count: 200}
       if(start) { filter.start = start.toISOString()}
       if(stop) { filter.stop = stop.toISOString()}
       var follow_tx = iceCondor.api('stream.follow', filter)
