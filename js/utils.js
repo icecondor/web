@@ -11,3 +11,19 @@ function time_fixups() {
   var timezone_name = timezone_letters[1]+timezone_letters[2]+timezone_letters[3] //hack to get the full timezone name
   $('.local_timezone').html(timezone_name)
 }
+
+function statusTab(msg){
+  var tab = $('.statustab')
+  if(msg){
+    console.log('top', tab.css('top'))
+    if(tab.css('top') < -60) { // first time
+      tab.css('top',-tab.outerHeight())
+    }
+    tab.css('transition', 'top 1s')
+    tab.html(msg)
+    tab.css('top',0)
+  } else {
+    tab.css('transition', 'top 1s')
+    tab.css('top',-$('.statustab').outerHeight())
+  }
+}

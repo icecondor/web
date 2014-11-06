@@ -59,6 +59,7 @@ block content
       }
       var follow_tx = iceCondor.api('stream.follow', filter)
       iceCondor.onResponse(follow_tx, function(msg){
+        statusTab()
         var track = map.addTrack(msg.stream_id, username)
         locationBarPointCount("-loading-")
         iceCondor.onResponse(msg.stream_id, function(location){
@@ -82,6 +83,7 @@ block content
     }
 
     jQuery(function(){
+      statusTab('Connecting')
       var params = {}
       var paths = window.location.pathname.split('/')
       var queryparts = window.location.href.split('?')[1]
