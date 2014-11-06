@@ -26,7 +26,7 @@ var map = function(){
 
     var date_order_idx = point_index(track_id, point)
 
-    if(point.type == "tower") {
+    if(type == "tower") {
       // simple case
       var marker = map.addMarker(point, type)
       map.addPopup(marker)
