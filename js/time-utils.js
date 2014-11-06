@@ -4,7 +4,7 @@ function time_fixups() {
     var datetime = new XDate($(this).attr('datetime'))
     var formatted = datetime.toString($(this).attr('data-format'))
     $(this).html(formatted)
-    var fulltime = datetime.toString("yyyy-mm-dd hh:mmtt")
+    var fulltime = datetime.toString("yyyy-MM-dd hh:mmtt")
     $(this).attr('title', fulltime)
   })
   var timezone_letters = (new XDate()).toString().match(/\(([A-Z]).*([A-Z]).*([A-Z]).*\)/)
