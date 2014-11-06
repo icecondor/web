@@ -24,6 +24,7 @@ block content
   script.
     jQuery(function(){
       if(getKey()){
+        statusTab("Loading")
         iceCondor.on('auth', function(auth_user){
           window.location = "/"+auth_user.user.username
           statusTab()
@@ -41,7 +42,6 @@ block content
         $('.email-sent').show()
       })
 
-      statusTab("Loading")
       iceCondor.connect()
 
     })
