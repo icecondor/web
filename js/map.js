@@ -40,6 +40,7 @@ var map = function(){
     } else {
       var tower_marker = map.addMarker(point, "tower")
       map.addPopup(tower_marker)
+      set_popup_detail(tower_marker.getPopup(), point)
     }
   }
 
