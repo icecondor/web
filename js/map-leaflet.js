@@ -40,7 +40,8 @@ var map_leaflet = function() {
     return {coordinates: [latlng.lat, latlng.lng]}
   }
 
-  var icons = {"tower":{isize:[38,45], anchor:[16,45]},
+  var icons = {"tower":{isize:[33,40], anchor:[16,40]},
+               "wifi":{isize:[33,40], anchor:[16,40]},
                "person":{isize:[25,41], anchor:[12,41]}
               }
   api.makeIcon = function(name){

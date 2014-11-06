@@ -22,10 +22,18 @@ var map = function(){
 
   api.addPointToTrack = function(track_id, point) {
     var track = tracks[track_id]
+    var type = provider_type(point)
 
-    if(point.accuracy < 200) {
-      var date_order_idx = api.add_point(track_id, point)
+    var date_order_idx = point_index(track_id, point)
 
+    if(point.type == "tower") {
+      // simple case
+      var marker = map.addMarker(point, type)
+      map.addPopup(marker)
+      set_popup_detail(marker.getPopup(), point, type)
+    } else {
+      add_point_to_track(track, point, date_order_idx)
+      var historical_point
       if(date_order_idx == 0) {
         if(track.marker) {
           map.moveMarker(track.marker, point)
@@ -33,19 +41,19 @@ var map = function(){
           track.marker = map.addMarker(point, "person")
           map.addPopup(track.marker)
         }
-        set_popup_detail(track.marker.getPopup(), point)
+        set_popup_detail(track.marker.getPopup(), point, type)
         map.setCenter(point, 16)
       }
-      return date_order_idx
-    } else {
-      var tower_marker = map.addMarker(point, "tower")
-      map.addPopup(tower_marker)
-      set_popup_detail(tower_marker.getPopup(), point)
     }
+    return date_order_idx
   }
 
-  api.add_point = function(track_id, point) {
-    var line = tracks[track_id].line
+  function add_point_to_track(track, point, insert_idx) {
+    track.points.splice(insert_idx+1, 0, point) // need full point
+    track.line.spliceLatLngs(insert_idx+1, 0, [point.latitude,point.longitude])
+  }
+
+  function point_index(track_id, point) {
     var points = tracks[track_id].points
 
     // keep points in date sorted order
@@ -56,29 +64,31 @@ var map = function(){
       }
     })
 
-    points.splice(insert_idx+1, 0, point) // need full point
-    line.spliceLatLngs(insert_idx+1, 0, [point.latitude,point.longitude])
     return insert_idx
   }
 
-  function set_popup_detail(popup, point) {
+  function set_popup_detail(popup, point, type) {
     var ft = point.accuracy * 3.28
-    var provider = point.provider
-    if(provider == "network") {
-      if (point.accuracy > 500) {
-        provider = "tower"
-      } else {
-        provider = "wifi"
-      }
-    }
     // templatify this
     $('#popup-holder').append('<div id="marker-popup-'+point.id+'">'+
-                                  provider+' inside '+ft.toFixed(0)+'ft'+
+                                  type+' inside '+ft.toFixed(0)+'ft'+
                                   '<br/>'+
                                   '<time datetime="'+point.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'+
                                    '</div>')
     time_fixups()
     popup.setContent($('#marker-popup-'+point.id)[0])
+  }
+
+  function provider_type(point){
+    var type = point.provider
+    if(point.provider == "network") {
+      if (point.accuracy < 200) {
+        type = "wifi"
+      } else {
+        type = "tower"
+      }
+    }
+    return type
   }
 
   return api

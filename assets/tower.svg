@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="57"
-   height="83"
+   width="33"
+   height="40"
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.48.5 r10040"
@@ -38,8 +38,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="5.3045766"
-     inkscape:cx="45.000008"
-     inkscape:cy="46.84634"
+     inkscape:cx="37.45935"
+     inkscape:cy="40.870135"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -88,20 +88,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(2024.7066,1071.8172)">
-    <path
-       sodipodi:type="arc"
-       style="fill:none;stroke:#000000;stroke-width:80;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       id="path3183"
-       sodipodi:cx="-1048.5714"
-       sodipodi:cy="3.7907546"
-       sodipodi:rx="465.71429"
-       sodipodi:ry="465.71429"
-       d="m -1377.8812,333.10049 a 465.71429,465.71429 0 0 1 0,-658.61947"
-       transform="matrix(0.05496283,0,0,0.05496283,-1939.0408,-1050.04)"
-       sodipodi:start="2.3561945"
-       sodipodi:end="3.9269908"
-       sodipodi:open="true" />
+     transform="translate(2024.7066,1028.8172)">
     <path
        sodipodi:type="arc"
        style="fill:none;stroke:#000000;stroke-width:80;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
@@ -111,29 +98,16 @@
        sodipodi:rx="465.71429"
        sodipodi:ry="465.71429"
        d="m -719.26169,-325.519 a 465.71429,465.71429 0 0 1 0,658.6195"
-       transform="matrix(0.03011893,0,0,0.03011893,-1965.0913,-1049.9458)"
+       transform="matrix(0.03011893,0,0,0.03011893,-1977.7219,-1015.2588)"
        sodipodi:start="5.4977871"
        sodipodi:end="7.0685835"
        sodipodi:open="true" />
     <path
        inkscape:connector-curvature="0"
        style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.35634571;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
-       d="m -1992.4135,-1049.4444 c -0.044,1.745 -1.0502,3.1953 -2.6021,3.9248 -0.2548,0.1078 2.4536,54.56725 2.5567,56.31265 -4.0816,0.015 -4.1791,0.01 -8.4589,0.023 0.073,-1.7454 2.8419,-56.22785 2.5871,-56.33565 -1.5933,-0.7233 -2.5327,-2.2087 -2.6021,-3.9248 0,-2.3513 1.9083,-4.2597 4.2597,-4.2597 2.3513,0 4.2596,1.9084 4.2596,4.2597 z"
+       d="m -2005.0441,-1014.7574 c -0.044,1.745 -1.0502,3.1953 -2.6021,3.9248 -0.2548,0.1078 1.511,19.69173 1.6141,21.43713 -4.0816,0.015 -1.9169,0.1985 -6.1967,0.2115 0.073,-1.7454 1.5223,-21.54083 1.2675,-21.64863 -1.5933,-0.7233 -2.5327,-2.2087 -2.6021,-3.9248 0,-2.3513 1.9083,-4.2597 4.2597,-4.2597 2.3513,0 4.2596,1.9084 4.2596,4.2597 z"
        id="path2385"
        sodipodi:nodetypes="ccccccsc" />
-    <path
-       sodipodi:type="arc"
-       style="fill:none;stroke:#000000;stroke-width:80;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       id="path3229"
-       sodipodi:cx="-1048.5714"
-       sodipodi:cy="3.7907546"
-       sodipodi:rx="465.71429"
-       sodipodi:ry="465.71429"
-       d="m -719.26169,-325.519 a 465.71429,465.71429 0 0 1 0,658.6195"
-       transform="matrix(0.05496283,0,0,0.05496283,-1939.0408,-1050.04)"
-       sodipodi:start="5.4977871"
-       sodipodi:end="7.0685835"
-       sodipodi:open="true" />
     <path
        sodipodi:type="arc"
        style="fill:none;stroke:#000000;stroke-width:80;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
@@ -143,7 +117,7 @@
        sodipodi:rx="465.71429"
        sodipodi:ry="465.71429"
        d="m -1377.8812,333.10049 a 465.71429,465.71429 0 0 1 0,-658.61947"
-       transform="matrix(0.03011893,0,0,0.03011893,-1965.0913,-1049.9458)"
+       transform="matrix(0.03011893,0,0,0.03011893,-1977.7219,-1015.2588)"
        sodipodi:start="2.3561945"
        sodipodi:end="3.9269908"
        sodipodi:open="true" />
