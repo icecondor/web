@@ -51,10 +51,12 @@ block content
 
     function startFollow(username, start, stop){
       console.log('startFollow', username, start, stop)
-      var filter = {username: username,
-                    count: 200}
+      var filter = {username: username}
       if(start) { filter.start = start.toISOString()}
       if(stop) { filter.stop = stop.toISOString()}
+      if(!(start && stop)) {
+        filter.count = 200
+      }
       var follow_tx = iceCondor.api('stream.follow', filter)
       iceCondor.onResponse(follow_tx, function(msg){
         var track = map.addTrack(msg.stream_id, username)
