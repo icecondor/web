@@ -11,6 +11,8 @@ block content
     div.splash.hidden
       div.banner
         | Welcome to IceCondor
+      div.intro
+        | IceCondor provides advanced location services
       div.signin
         | Please sign in to begin.
       div.email-sent.hidden
@@ -18,8 +20,15 @@ block content
           | A login token has been sent to your email.
         p
           | Please click on the link in the email to continue.
-      div.logo
-        img(src="/assets/logo.svg")
+      div.twologo.flexbox
+        div.logo.flexbox
+          img(src="/assets/logo.svg")
+        div.playbutton.flexbox
+          a(href="https://play.google.com/store/apps/details?id=com.icecondor.nest")
+            img(src="http://developer.android.com/images/brand/Android_Robot_200.png")
+            br
+            img(alt="Android app on Google Play"
+                src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png")
 
   script.
     jQuery(function(){
@@ -35,7 +44,7 @@ block content
           })
         })
       } else {
-        $('.splash').show()
+        $('.splash').removeClass('hidden')
       }
       iceCondor.on('email', function(sent){
         $('.signin').hide()
