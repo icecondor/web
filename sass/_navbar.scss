@@ -36,12 +36,21 @@
     }
   }
 
+  .userarea:hover {
+    background-color: tint($navbar-background, 30);
+  }
   .userarea {
     margin-right: 1em;
+    padding: 0.5em;
+
+    .menu-triangle {
+    }
+
     .logout {
       margin-left: 0.5em;
       font-size: 80%
     }
+
   }
 
   .hamburger {

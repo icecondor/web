@@ -11,10 +11,8 @@ div.navbar
 
     div.flexbox
       div.userarea.hidden
-        a.userlink
-          span.username.inline
-        a
-          span.logout x
+        span.username.inline
+
       div.hamburger.hidden
         svg(width="30" height="30" id="icoOpen")
           path(d="M0,5 30,5" stroke="#fff" stroke-width="5")
@@ -40,15 +38,19 @@ script.
       window.location = "/"
     })
     if(getKey()) {
-      $('.login_box').css('display','none')
-      $('.hamburger').css('display','none')
-      $('.userarea').show()
+      $('.login_box').addClass('hidden')
+      $('.hamburger').addClass('hidden')
+      $('.userarea').removeClass('hidden')
     }
+    $('.navbar .userarea').click(function(evt){
+      $('.navbar .userarea').addClass('overlay')
+      evt.preventDefault()
+    })
   })
 
   function showLogin(){
-    $('.hamburger').css('display','none')
-    $('.login_box').show()
+    $('.hamburger').addClass('hidden')
+    $('.login_box').removeClass('hidden')
     $('.navbar .flexbox').removeClass('flexbox')
   }
 
