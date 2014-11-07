@@ -51,9 +51,11 @@
     }
     .twologo {
       justify-content: center;
-      align-items: center;
       margin: 2em auto;
-      div { padding: 0 2em}
+      div {
+        padding: 0 2em;
+        align-items: center;
+      }
     }
   }
 }
