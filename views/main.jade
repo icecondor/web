@@ -14,7 +14,12 @@ block content
       div.intro
         | IceCondor provides cell-phone location recording and sharing.
       div.signin
-        | Please sign in to begin.
+        | Please sign in below or install the app to begin.
+      div.login_box.inline
+        form.token_email
+          input#login(type="email" placeholder="email address" name="email")
+          button(type="submit") Sign in
+
       div.email-sent.hidden
         p
           | A login token has been sent to your email.
