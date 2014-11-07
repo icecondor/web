@@ -10,15 +10,17 @@
     align-items: center;
   }
 
+  .logo img {
+    height: 2em;
+    margin: 0 0.5em;
+    opacity: 0.5; /* until connected */
+    transition: opacity 1s ease;
+  }
+
   a {
     color: $navbar-color;
     text-decoration: none;
 
-    img {
-      height: 2em;
-      opacity: 0.5; /* until connected */
-      transition: opacity 1s ease;
-    }
   }
 
   a:hover {
