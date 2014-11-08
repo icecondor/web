@@ -12,6 +12,9 @@ div.navbar
     div.flexbox
       div.userarea.hidden
         span.username.inline
+        ul.menu.hidden
+          li.logout
+            a Logout
 
       div.hamburger.hidden
         svg(width="30" height="30" id="icoOpen")
@@ -33,7 +36,7 @@ script.
     $('.hamburger').click(function(evt){
       showLogin()
     })
-    $('.logout').click(function(evt){
+    $('.menu .logout').click(function(evt){
       clearKey()
       window.location = "/"
     })
@@ -43,7 +46,7 @@ script.
       $('.userarea').removeClass('hidden')
     }
     $('.navbar .userarea').click(function(evt){
-      $('.navbar .userarea').addClass('overlay')
+      $('.navbar .userarea .menu').removeClass('hidden')
       evt.preventDefault()
     })
   })

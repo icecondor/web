@@ -51,6 +51,14 @@
       font-size: 80%
     }
 
+    .menu {
+      position: absolute;
+      padding: 0.5em 0.2em;
+      height: 5em;
+      opacity: 1;
+      background-color: #111;
+      z-index: 1001; // over leaflet controls
+    }
   }
 
   .hamburger {
