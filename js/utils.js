@@ -18,11 +18,9 @@ function statusTab(msg){
     if(tab.css('top') < -60) { // first time
       tab.css('top',-tab.outerHeight())
     }
-    tab.css('transition', 'top 1s')
     tab.html(msg)
     tab.css('top',0)
   } else {
-    tab.css('transition', 'top 1s')
     tab.css('top',-$('.statustab').outerHeight())
   }
 }
