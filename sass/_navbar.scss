@@ -46,11 +46,6 @@
     .menu-triangle {
     }
 
-    .logout {
-      margin-left: 0.5em;
-      font-size: 80%
-    }
-
     .menu {
       position: absolute;
       padding: 0.5em 0.2em;
@@ -66,12 +61,11 @@
   }
 
   @media screen and (max-width: 40em) {
-    .login_box {
+    .widescreen {
       display: none;
-      padding: 0.5em;
     }
-    .hamburger {
-      display: inline-block;
+    .smallscreen {
+      display: flexbox;
     }
   }
 

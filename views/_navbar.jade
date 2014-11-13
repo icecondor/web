@@ -13,19 +13,25 @@ div.navbar
       div.userarea.hidden
         span.username.inline
         ul.menu.hidden
+          li.map
+            a(href="#") Map
+          li.profile
+            a(href="#") Profile
           li.logout
-            a Logout
+            a(href="/") Logout
 
-      div.hamburger.hidden
-        svg(width="30" height="30" id="icoOpen")
-          path(d="M0,5 30,5" stroke="#fff" stroke-width="5")
-          path(d="M0,14 30,14" stroke="#fff" stroke-width="5")
-          path(d="M0,23 30,23" stroke="#fff" stroke-width="5")
+      div.smallscreen
+        div.hamburger.hidden
+          svg(width="30" height="30" id="icoOpen")
+            path(d="M0,5 30,5" stroke="#fff" stroke-width="5")
+            path(d="M0,14 30,14" stroke="#fff" stroke-width="5")
+            path(d="M0,23 30,23" stroke="#fff" stroke-width="5")
 
-      div.login_box.inline
-        form.token_email
-          input#login(type="email" placeholder="email address" name="email")
-          button(type="submit") Sign in
+      div.widescreen
+        div.login_box.inline
+          form.token_email
+            input#login(type="email" placeholder="email address" name="email")
+            button(type="submit") Sign in
 
 script.
   $(function(){
@@ -44,6 +50,8 @@ script.
       $('.login_box').addClass('hidden')
       $('.hamburger').addClass('hidden')
       $('.userarea').removeClass('hidden')
+    } else {
+      $('.hamburger').removeClass('hidden')
     }
     $('.navbar .userarea').click(function(evt){
       $('.navbar .userarea .menu').removeClass('hidden')
@@ -53,7 +61,8 @@ script.
 
   function showLogin(){
     $('.hamburger').addClass('hidden')
-    $('.login_box').removeClass('hidden')
-    $('.navbar .flexbox').removeClass('flexbox')
+    $('.widescreen').css('display', 'block')
+    $('.navbar .flexbox').css('display', 'block')
+    $('.login_box').css('display', 'flexbox')
   }
 

@@ -55,5 +55,6 @@ html
       time_fixups()
       function navbar_fixup(user) {
         $('.navbar .username').html(user.username)
-        $('.navbar .userlink').attr('href', "/"+user.username)
+        $('.navbar .menu .map a').attr('href', "/"+user.username)
+        $('.navbar .menu .profile a').attr('href', "/"+user.username+"/profile")
       }
