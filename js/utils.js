@@ -14,13 +14,14 @@ function time_fixups() {
 
 function statusTab(msg){
   var tab = $('.statustab')
+  var tab_height = tab.outerHeight()
   if(msg){
     if(tab.css('top') < -60) { // first time
-      tab.css('top',-tab.outerHeight())
+      tab.css('top',-tab_height)
     }
     tab.html(msg)
     tab.css('top',0)
   } else {
-    tab.css('top',-$('.statustab').outerHeight())
+    tab.css('top',-tab_height)
   }
 }
