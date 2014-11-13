@@ -39,6 +39,8 @@ block content
 
   script.
     jQuery(function(){
+      statusTab('Connecting')
+
       var params = window.location.pathname.split('/')
       var username = params[1]
 
@@ -51,6 +53,7 @@ block content
       })
 
       iceCondor.on('auth', function(user){
+        statusTab()
         var detail_tx = iceCondor.api('user.detail', {username: username})
         iceCondor.onResponse(detail_tx, function(other){
           fill_in(other)

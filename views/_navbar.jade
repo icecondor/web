@@ -11,7 +11,7 @@ div.navbar
 
     div.flexbox
       div.userarea.hidden
-        span.username.inline
+        div.username
         ul.menu.hidden
           li.map
             a(href="#") Map
@@ -54,7 +54,7 @@ script.
       $('.hamburger').removeClass('hidden')
     }
     $('.navbar .userarea .username').click(function(evt){
-      $('.navbar .userarea .menu').removeClass('hidden')
+      $('.navbar .userarea .menu').toggleClass('hidden')
       evt.preventDefault()
     })
   })

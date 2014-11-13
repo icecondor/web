@@ -41,7 +41,10 @@
   }
   .userarea {
     margin-right: 1em;
-    padding: 0.5em;
+
+    .username {
+      padding: 0.5em;
+    }
 
     .menu-triangle {
     }
@@ -49,10 +52,13 @@
     .menu {
       position: absolute;
       padding: 0.5em 0.2em;
-      height: 5em;
       opacity: 1;
       background-color: #111;
       z-index: 1001; // over leaflet controls
+
+      li {
+        padding: 0.1em;
+      }
     }
   }
 
