@@ -15,7 +15,6 @@ function time_fixups() {
 function statusTab(msg){
   var tab = $('.statustab')
   if(msg){
-    console.log('top', tab.css('top'))
     if(tab.css('top') < -60) { // first time
       tab.css('top',-tab.outerHeight())
     }
