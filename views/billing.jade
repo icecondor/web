@@ -15,16 +15,35 @@ block content
         span.account
 
     div.section-spacer
-      div.extra-pitch
-        h2 Extra Account Level
-        | An IceCondor Extra account adds
-        ul
-          li Long Term History Storage
+      h2 Account Levels
+      div.levels.flexbox
+        div.pitch
+          div Feature
+          ul
+            li(style="font-weight:bold") Location History
+        div.pitch
+          div.pitch-head Basic Account
+          ul
+            li 2 Hours
+        div.pitch
+          div.pitch-head Extra Account
+          ul
+            li
+              | Account lifetime
 
+    div.section-spacer
       div.checkout.hidden
-        span.label Add
-        button#premium1 1 Month
-        button#premium6 6 Months
+        div Purchase Extra Account Time:
+        div
+          | One month of extra account time til
+          span.adddate#add3mo
+          | for $3.
+        button#premium1 1 Month for $3
+        div
+          | Six months of extra account time til
+          span.adddate#add6mo
+          | for $15.
+        button#premium6 6 Months for $15
 
   script.
     jQuery(function(){
@@ -83,8 +102,12 @@ block content
       } else {
         account = "Basic account"
         $('.extra-pitch').removeClass('hidden')
+        var add3mo = new XDate().addMonths(1).toString("yyyy-MMM-dd")
+        $('#add3mo').html(add3mo)
+        var add6mo = new XDate().addMonths(6).toString("yyyy-MMM-dd")
+        $('#add6mo').html(add6mo)
       }
 
       $('.page-billing .status .account').html(account)
-      //$('.checkout').removeClass('hidden')
+      $('.checkout').removeClass('hidden')
     }
