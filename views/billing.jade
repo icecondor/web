@@ -14,7 +14,7 @@ block content
         span.label Status:
         span.account
 
-    div.section-spacer
+    div.section-spacer.levels-pitch
       h2 Account Levels
       div.levels.flexbox
         div.pitch
@@ -31,21 +31,23 @@ block content
             li
               | Account lifetime
 
-    div.section-spacer
-      div.checkout.hidden
-        div Purchase Extra Account Time:
+    div.section-spacer.checkout.hidden
+      div Purchase Extra Account Time:
+      div.vertical-spacer
         div
           | One month of extra account time til
           span.adddate#add3mo
           | for $3.
-        button#premium1 1 Month for $3
+        button#premium1 Add 1 Month for $3
+      div.vertical-spacer
         div
           | Six months of extra account time til
           span.adddate#add6mo
           | for $15.
-        button#premium6 6 Months for $15
+        button#premium6 Add 6 Months for $15
 
   script.
+    var product_id
     jQuery(function(){
       statusTab('Connecting')
       iceCondor.on('auth', function(user){
@@ -70,12 +72,24 @@ block content
         image: '/assets/logo.svg',
         email: email,
         token: function(token) {
-          var pay_tx = iceCondor.api('user.payment', {token: token.id})
+          /*token  { id: "tok_6AIUbaiRbIF",
+                     livemode: false,
+                     created: 1416262966,
+                     used: false,
+                     object: "token",
+                     type: "card",
+                     card: Object,
+                     email: "nobody@email.com",
+                     amount: 0,
+                     currency: "usd" } */
+          var pay_tx = iceCondor.api('user.payment', {token: token.id,
+                                                      product: product_id})
         }
       });
 
       document.getElementById('premium1').addEventListener('click', function(e) {
         // Open Checkout with further options
+        product_id = "ex1mo"
         handler.open({
           name: 'IceCondor Premium Service',
           description: '1 month non-recurring ($3.00)',
@@ -85,6 +99,7 @@ block content
       });
       document.getElementById('premium6').addEventListener('click', function(e) {
         // Open Checkout with further options
+        product_id = "ex6mo"
         handler.open({
           name: 'IceCondor Premium Service',
           description: '6 months non-recurring ($15.00)',
