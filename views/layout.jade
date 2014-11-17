@@ -31,10 +31,10 @@ html
         $('.logo img').css('opacity','0.5')
       })
       iceCondor.on('hello', function(beat){
+        console.log('hello', beat)
         var key = getKey()
         if(key) {
           var auth_tx = iceCondor.auth(key)
-          console.log('called auth')
           iceCondor.onResponse(auth_tx, function(resp){
             var user = dbGet(key)
             if(user) {
