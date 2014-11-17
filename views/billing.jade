@@ -5,21 +5,36 @@ block head
 
 block content
   div.page-billing
-    div.status Status
+    div.section-spacer
+      div.user
+        span.label Username:
+        span.username
 
-    div.checkout
-      div Add
-      button#premium1 1 Month
-      button#premium6 6 Months
+      div.status
+        span.label Status:
+        span.account
+
+    div.section-spacer
+      div.extra-pitch
+        h2 Extra Account Level
+        | An IceCondor Extra account adds
+        ul
+          li Long Term History Storage
+
+      div.checkout.hidden
+        span.label Add
+        button#premium1 1 Month
+        button#premium6 6 Months
 
   script.
     jQuery(function(){
+      statusTab('Connecting')
       iceCondor.on('auth', function(user){
         var me_tx = iceCondor.api('user.detail')
         iceCondor.onResponse(me_tx, function(me) {
-          $('.status').css('background', 'red')
-          console.log(me)
+          statusTab('')
           stripe(me.email)
+          billing_status(me)
         })
       })
 
@@ -58,4 +73,18 @@ block content
         });
         e.preventDefault();
       });
+    }
+
+    function billing_status(user) {
+      $('.page-billing .username').html(user.username)
+      var account
+      if(user.billing) {
+        account = user.account
+      } else {
+        account = "Basic account"
+        $('.extra-pitch').removeClass('hidden')
+      }
+
+      $('.page-billing .status .account').html(account)
+      //$('.checkout').removeClass('hidden')
     }
