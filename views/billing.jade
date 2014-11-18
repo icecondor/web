@@ -35,13 +35,13 @@ block content
       div Purchase Extra Account Time:
       div.vertical-spacer
         div
-          | One month of extra account time til
+          | Add one month of extra account time til
           span.adddate#add3mo
           | for $3.
         button#premium1 Add 1 Month for $3
       div.vertical-spacer
         div
-          | Six months of extra account time til
+          | Add six months of extra account time til
           span.adddate#add6mo
           | for $15.
         button#premium6 Add 6 Months for $15
@@ -112,16 +112,28 @@ block content
     function billing_status(user) {
       $('.page-billing .username').html(user.username)
       var account
-      if(user.billing) {
-        account = user.account
+      var extra_date
+      if(user.level) {
+        if(user.level.extra) {
+          var date = new Date(user.level.extra)
+          if(date > Date.now()) {
+            extra_date = new XDate(date)
+          }
+        }
+      }
+
+      if(extra_date) {
+        account = "Extra account until "+extra_date.toString("yyyy-MMM-dd")
       } else {
+        extra_date = new XDate()
         account = "Basic account"
         $('.extra-pitch').removeClass('hidden')
-        var add3mo = new XDate().addMonths(1).toString("yyyy-MMM-dd")
-        $('#add3mo').html(add3mo)
-        var add6mo = new XDate().addMonths(6).toString("yyyy-MMM-dd")
-        $('#add6mo').html(add6mo)
       }
+
+      var add3mo = extra_date.addMonths(1).toString("yyyy-MMM-dd")
+      $('#add3mo').html(add3mo)
+      var add6mo = extra_date.addMonths(6).toString("yyyy-MMM-dd")
+      $('#add6mo').html(add6mo)
 
       $('.page-billing .status .account').html(account)
       $('.checkout').removeClass('hidden')
