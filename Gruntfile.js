@@ -4,6 +4,7 @@ module.exports = function(grunt) {
     jade: {
       compile: {
         options: {
+          basedir: "./views",
           pretty: true
         },
         files: {
@@ -11,7 +12,9 @@ module.exports = function(grunt) {
           "build/auth.html": "views/auth.jade",
           "build/map.html": "views/map.jade",
           "build/profile.html": "views/profile.jade",
-          "build/billing.html": "views/billing.jade"
+          "build/billing.html": "views/billing.jade",
+          "build/p/contact-us.html": "views/page/contact-us.jade",
+          "build/p/terms-of-service.html": "views/page/terms-of-service.jade"
         }
       }
     },
