@@ -8,7 +8,6 @@ block head
 block content
 
   div.page-map
-
     div.mapdecor
       div#status
         table
@@ -110,8 +109,14 @@ block content
         $('#points').append('<li> heartbeat '+point_date_html+'</li>')
       })
 
+      console.log('wtf')
       // adjust map height after status bar has been populated
-      $("#map").height($(window).height()-$('.navbar').height()-$('#status').height()-10);
+      var map_height = $(window).outerHeight()-
+                          $('.navbar').outerHeight()-
+                          $('#status').outerHeight()-
+                          $('.footer').outerHeight()-5
+      console.log('map height', map_height)
+      $("#map").height(map_height)
       map.resize()
 
       var action = getKey() ? 'auth' : 'hello'

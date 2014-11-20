@@ -19,7 +19,7 @@
   }
 
   a:hover {
-    color: $navbar-color / 2;
+    color: $navbar-color * 0.7;
   }
 }
 
@@ -37,10 +37,11 @@
 
 .footer {
   justify-content: center;
-  background-color: grey;
+  background-color: $footer-background;
   margin: 0.5em 0;
+  padding: 0.9em;
   .toe {
-    color: white;
+    color: $footer-color;
     padding: 0 0.5em;
   }
 }
