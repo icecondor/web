@@ -115,12 +115,18 @@
   }
 }
 
+// static pages
+.page-page {
+  margin: 2% 8%;
+}
+
 .page-contact-us {
   .tweetbox {
     margin: 1em;
   }
 }
 
-.page-page {
-  margin: 2% 8%;
+.page-terms-of-service {
+  li p { margin-left: 1em; }
+  li h3 { font-style: italic; }
 }
