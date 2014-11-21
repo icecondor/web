@@ -14,7 +14,9 @@ module.exports = function(grunt) {
           "build/profile.html": "views/profile.jade",
           "build/billing.html": "views/billing.jade",
           "build/p/contact-us.html": "views/page/contact-us.jade",
-          "build/p/terms-of-service.html": "views/page/terms-of-service.jade"
+          "build/p/terms-of-service.html": "views/page/terms-of-service.jade",
+          "build/b/index.html": "views/blog/index.jade",
+          "build/b/2014/11/21/why-icecondor.html": "views/blog/2014/11/21/why-icecondor.jade",
         }
       }
     },
