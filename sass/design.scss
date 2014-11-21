@@ -134,3 +134,23 @@
 .page-blog-list {
   ul { margin-left: 1em }
 }
+
+.blog-page {
+  .article-head {
+    margin-bottom: 1em;
+  }
+  .attribution {
+    font-size: 90%;
+    margin-left: 1em;
+  }
+
+  table {
+    margin: 1em 0em;
+  }
+
+  table, td, td {
+    border: 1px solid black;
+    padding: 0.1em 0.5em;
+  }
+}
+

@@ -1,7 +1,72 @@
 extends /layout
 
 block content
-  h1 Why IceCondor
+  div.page-page.blog-page
+    div.article-head
+      h1 Why IceCondor
+      div.attribution
+        span.date 2014-Nov-21 Don Park
 
-  p.
-    Because reasons
+    p.
+      IceCondor was started in late 2008. The first Android phones became available and cell data
+      plans had enough coverage and a low enough cost to consider continuous location tracking. A
+      lot has changed since then. I'd like to talk about the different location tracking options
+      today and where IceCondor fits in.
+
+    table
+      thead
+        tr
+          td Service
+          td(colspan="2") Reporting frequency
+          td API includes friends
+          td History
+        tr
+          td
+          td Best Speed
+          td Manual Control
+
+      tr
+        td IceCondor
+        td 1 min
+        td 1-10 min
+        td Yes
+        td Yes
+      tr
+        td Google Plus (Latitude)
+        td 1-30 Minutes
+        td No
+        td No
+        td Yes
+      tr
+        td FourSquare / Swarm
+        td 15 Min
+        td No
+        td No
+        td No
+      tr
+        td Glympse
+        td 5 Seconds
+        td No
+        td No
+        td No
+      tr
+        td Apple Find My Friends
+        td ?
+        td No
+        td No
+        td ?
+
+    p.
+      Google Plus has friend-location feature, formerly a standalone product called Google Latitude.
+      It used to have a terrible update frequency of anywhere between an hour to a day. Its better now,
+      seems to be about 30 minutes to 1 minute update on average. Its a good way to find friends.
+      The API does not include access to friends' location.
+
+    p.
+      FourSquare blazed a trail for check-in services and did a lot of great experimentation with
+      game points and automatic checkins. The novelty of 'checking in' eventually wore off.
+      The Swarm product is very interesting because it brought the idea of continuous location
+      tracking to a large number of location fans. Swarm tracks your friends to the neighborhood
+      level with about a 15 minute accuracy. A great way to see if someone is home or at work.
+
+
