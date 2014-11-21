@@ -54,7 +54,7 @@ block content
       if(start) { filter.start = start.toISOString()}
       if(stop) { filter.stop = stop.toISOString()}
       if(!(start && stop)) {
-        filter.count = 200
+        filter.count = 100
       }
       var follow_tx = iceCondor.api('stream.follow', filter)
       iceCondor.onResponse(follow_tx, function(msg){
@@ -109,7 +109,6 @@ block content
         $('#points').append('<li> heartbeat '+point_date_html+'</li>')
       })
 
-      console.log('wtf')
       // adjust map height after status bar has been populated
       var map_height = $(window).outerHeight()-
                           $('.navbar').outerHeight()-
