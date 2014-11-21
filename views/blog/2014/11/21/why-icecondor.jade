@@ -18,6 +18,7 @@ block content
         tr
           td Service
           td(colspan="2") Reporting frequency
+          td Identity
           td API includes friends
           td History
         tr
@@ -29,30 +30,35 @@ block content
         td IceCondor
         td 1 min
         td 1-10 min
+        td Email
         td Yes
         td Yes
       tr
         td Google Plus (Latitude)
         td 1-30 Minutes
         td No
+        td Google Account
         td No
         td Yes
       tr
         td FourSquare / Swarm
         td 15 Min
         td No
+        td Email
         td No
         td No
       tr
         td Glympse
         td 5 Seconds
         td No
+        td Automatic
         td No
         td No
       tr
         td Apple Find My Friends
         td ?
         td No
+        td Apple Account
         td No
         td ?
 
@@ -60,7 +66,8 @@ block content
       Google Plus has friend-location feature, formerly a standalone product called Google Latitude.
       It used to have a terrible update frequency of anywhere between an hour to a day. Its better now,
       seems to be about 30 minutes to 1 minute update on average. Its a good way to find friends.
-      The API does not include access to friends' location.
+      The API does not include access to friends' location. Google Location History shows your
+      route for any day in the past.
 
     p.
       FourSquare blazed a trail for check-in services and did a lot of great experimentation with
@@ -68,5 +75,21 @@ block content
       The Swarm product is very interesting because it brought the idea of continuous location
       tracking to a large number of location fans. Swarm tracks your friends to the neighborhood
       level with about a 15 minute accuracy. A great way to see if someone is home or at work.
+
+    p.
+      Glympse defined what it means for continuous location tracking for very short periods of time.
+      It emphasises location update frequency over everything else, including battery life.
+      Their approach to a login-free app does a great job leveraging a phone's contact database.
+      After using Glypmse for a while, it got tiring to request someone turn it on. Usually the
+      person receiving the information is the one who needs to initiate tracking. For the one
+      being followed, its a chore to start a track.
+
+    p.
+      Apple's Find My Friends is their friend tracking feature that I havent used much but I expect
+      it to be subject to the extraordinary policy controls of most Apple products.
+
+    p.
+      The feature set for IceCondor fits those who want all-day tracking with an API that
+      includes friends locations.
 
 
