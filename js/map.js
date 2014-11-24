@@ -3,7 +3,6 @@ var map = function(){
   var map = map_leaflet
   var tracks = {}
 
-
   api.setup = function(center, zoom){
     map.setup(center, zoom)
   }
@@ -25,6 +24,9 @@ var map = function(){
     var type = provider_type(point)
 
     var date_order_idx = point_index(track_id, point)
+    if(track.points.length == 0) {
+      map.setCenter(point, 16) // map center bug/hack
+    }
 
     if(type == "tower") {
       // simple case
@@ -35,12 +37,7 @@ var map = function(){
       add_point_to_track(track, point, date_order_idx)
       var historical_point
       if(date_order_idx == 0) {
-        if(track.marker) {
-          map.moveMarker(track.marker, point)
-        } else {
-          track.marker = map.addMarker(point, "person")
-          map.addPopup(track.marker)
-        }
+        move_head(track, point)
         set_popup_detail(track.marker.getPopup(), point, type)
         map.setCenter(point, 16)
       }
@@ -48,9 +45,18 @@ var map = function(){
     return date_order_idx
   }
 
+  function move_head(track, point) {
+    if(track.marker) {
+      map.moveMarker(track.marker, point)
+    } else {
+      track.marker = map.addMarker(point, "person")
+      map.addPopup(track.marker)
+    }
+  }
+
   function add_point_to_track(track, point, insert_idx) {
-    track.points.splice(insert_idx+1, 0, point) // need full point
-    track.line.spliceLatLngs(insert_idx+1, 0, [point.latitude,point.longitude])
+    track.points.splice(insert_idx, 0, point) // need full point
+    track.line.spliceLatLngs(insert_idx, 0, [point.latitude,point.longitude])
   }
 
   function point_index(track_id, point) {
@@ -60,7 +66,7 @@ var map = function(){
     var insert_idx = 0
     points.forEach(function(pt, idx){
       if(pt.date > point.date) {
-        insert_idx = idx
+        insert_idx = idx+1
       }
     })
 

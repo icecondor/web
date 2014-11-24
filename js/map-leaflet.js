@@ -28,7 +28,8 @@ var map_leaflet = function() {
   }
 
   api.setCenter = function(center, zoom){
-    map.panTo(api.pointToLatLng(center))
+    var latLng = api.pointToLatLng(center)
+    map.panTo(latLng)
     if(zoom){ map.setZoom(16) }
   }
 

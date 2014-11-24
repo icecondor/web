@@ -49,7 +49,6 @@ block content
     }
 
     function startFollow(username, start, stop){
-      console.log('startFollow', username, start, stop)
       var filter = {username: username}
       if(start) { filter.start = start.toISOString()}
       if(stop) { filter.stop = stop.toISOString()}
@@ -114,7 +113,6 @@ block content
                           $('.navbar').outerHeight()-
                           $('#status').outerHeight()-
                           $('.footer').outerHeight()-5
-      console.log('map height', map_height)
       $("#map").height(map_height)
       map.resize()
 
