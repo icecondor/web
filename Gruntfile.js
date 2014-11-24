@@ -49,7 +49,7 @@ module.exports = function(grunt) {
     },
     watch: {
       html: {
-        files: ['views/*'],
+        files: ['views/**'],
         tasks: ['jade'],
       },
       css: {
