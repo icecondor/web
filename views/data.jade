@@ -1,0 +1,58 @@
+extends layout
+
+block head
+  script(src='//cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js')
+
+block content
+  div.page-data
+    div.section-spacer
+      div.user
+        span.label Username:
+        span.username
+
+      div.stats
+        div.day
+          | Today records:
+          span.count
+          div.location
+            | Today locations:
+            span.count
+        div.total
+          | Total records:
+          span.count
+
+
+  script.
+    jQuery(function(){
+      statusTab('Connecting')
+      iceCondor.on('auth', function(user){
+        var me_tx = iceCondor.api('user.detail')
+        iceCondor.onResponse(me_tx, function(me) {
+          user_detail(me)
+
+          statusTab('loading stats')
+          var data_tx = iceCondor.api('activity.stats', {type: 'location'})
+          iceCondor.onResponse(data_tx, function(stats){
+            statusTab('')
+            stats_detail(stats)
+          })
+        })
+
+      })
+
+      if(getKey()){
+        iceCondor.connect()
+      } else {
+        window.location = "/"
+      }
+    })
+
+    function user_detail(me){
+      $('.page-data .user .username').html(me.username)
+    }
+
+    function stats_detail(stats){
+      $('.page-data .stats .total .count').html(stats.total)
+      $('.page-data .stats .day .count').html(stats.day.total)
+      $('.page-data .stats .day .location .count').html(stats.day.location)
+    }
