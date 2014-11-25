@@ -1,31 +1,36 @@
 extends layout
 
 block head
-  script(src='//cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js')
 
 block content
   div.page-data
     div.section-spacer
+      h2 Stats
       div.user
         span.label Username:
         span.username
 
       div.stats
         div.day
-          | Today records:
-          span.count
           div.location
-            | Today locations:
+            | Today location count:
+            = ' '
             span.count
         div.total
-          | Total records:
+          | Total record count:
+          = ' '
           span.count
 
+    div.section-spacer
+      h2 Datastream
+      div#graph
 
   script.
     jQuery(function(){
       var paths = window.location.pathname.split('/')
       var username = paths[1]
+      $('.page-data .user .username').html(username)
+
       statusTab('Connecting')
       iceCondor.on('auth', function(user){
         var me_tx = iceCondor.api('user.detail')
@@ -35,11 +40,21 @@ block content
             window.location = '/'+me.username+'/data'
           }
 
-          statusTab('loading stats')
+          statusTab('loading data')
           var data_tx = iceCondor.api('activity.stats', {type: 'location'})
           iceCondor.onResponse(data_tx, function(stats){
             statusTab('')
             stats_detail(stats)
+          })
+
+          var filter = {username: username, count: 3}
+          var follow_tx = iceCondor.api('stream.follow', filter)
+          iceCondor.onResponse(follow_tx, function(msg){
+            statusTab()
+            iceCondor.onResponse(msg.stream_id, function(location){
+              add_graph_node(location)
+              console.log(location)
+            })
           })
         })
 
@@ -53,7 +68,6 @@ block content
     })
 
     function user_detail(me){
-      $('.page-data .user .username').html(me.username)
     }
 
     function stats_detail(stats){
@@ -61,3 +75,19 @@ block content
       $('.page-data .stats .day .count').html(stats.day.total)
       $('.page-data .stats .day .location .count').html(stats.day.location)
     }
+
+    function add_graph_node(node){
+      var type_code = capitaliseFirstLetter(node.type)
+      var provider_code = capitaliseFirstLetter(node.provider)
+      var time = new XDate(node.date)
+      $("#graph").append("<div class='report'>"+
+                         "<div>"+type_code+"</div>"+
+                         "<div>"+provider_code+"</div>"+
+                         "<div>"+time.toString("hh:mm")+"</div>"+
+                         "</div>")
+    }
+
+    function capitaliseFirstLetter(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+

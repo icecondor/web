@@ -69,6 +69,20 @@
   h2 { margin-bottom: 1em; }
 }
 
+.page-data {
+  #graph {
+    text-align: center;
+
+    .report {
+      display: inline-block;
+      color: white;
+      background-color: brown;
+      padding: 0 0.2em;
+      margin: 0 0.4em;
+    }
+  }
+}
+
 .page-profile {
   padding: 0.5em 0.5em;
 
