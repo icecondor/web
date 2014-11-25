@@ -89,7 +89,7 @@ block content
       }
       var time = new XDate(node.date)
       if(node.type == "location" || node.type == "heartbeat")
-      $("#graph").append("<div class='report "+node.type+"'>"+
+      $("#graph").prepend("<div class='report "+node.type+"'>"+
                          "<div>"+type_code+"</div>"+
                          "<div>"+provider_code+"</div>"+
                          "<div>"+time.toString("hh:mm")+"</div>"+
