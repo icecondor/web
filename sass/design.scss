@@ -76,9 +76,15 @@
     .report {
       display: inline-block;
       color: white;
-      background-color: brown;
       padding: 0 0.2em;
       margin: 0 0.4em;
+    }
+
+    .heartbeat {
+      background-color: brown;
+    }
+    .location {
+      background-color: green;
     }
   }
 }

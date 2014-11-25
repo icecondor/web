@@ -41,19 +41,21 @@ block content
           }
 
           statusTab('loading data')
+          /*
           var data_tx = iceCondor.api('activity.stats', {type: 'location'})
           iceCondor.onResponse(data_tx, function(stats){
             statusTab('')
             stats_detail(stats)
           })
+          */
 
-          var filter = {username: username, count: 3}
+          var filter = {username: username, count: 20}
           var follow_tx = iceCondor.api('stream.follow', filter)
           iceCondor.onResponse(follow_tx, function(msg){
             statusTab()
             iceCondor.onResponse(msg.stream_id, function(location){
               add_graph_node(location)
-              console.log(location)
+              console.log(location.date, location.type)
             })
           })
         })
@@ -78,9 +80,16 @@ block content
 
     function add_graph_node(node){
       var type_code = capitaliseFirstLetter(node.type)
-      var provider_code = capitaliseFirstLetter(node.provider)
+      var provider_code = ""
+      if(node.type == "location"){
+        provider_code = capitaliseFirstLetter(node.provider)
+      }
+      if(node.type == "heartbeat"){
+        provider_code = node.power ? "AC on" : "AC off"
+      }
       var time = new XDate(node.date)
-      $("#graph").append("<div class='report'>"+
+      if(node.type == "location" || node.type == "heartbeat")
+      $("#graph").append("<div class='report "+node.type+"'>"+
                          "<div>"+type_code+"</div>"+
                          "<div>"+provider_code+"</div>"+
                          "<div>"+time.toString("hh:mm")+"</div>"+

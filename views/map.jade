@@ -49,7 +49,7 @@ block content
     }
 
     function startFollow(username, start, stop){
-      var filter = {username: username}
+      var filter = {username: username, type: "location"}
       if(start) { filter.start = start.toISOString()}
       if(stop) { filter.stop = stop.toISOString()}
       if(!(start && stop)) {
