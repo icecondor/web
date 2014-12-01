@@ -10,7 +10,7 @@ block content
         span.label Username:
         span.username
 
-      div.stats
+      div.stats.hidden
         div.day
           div.location
             | Today location count:
@@ -49,13 +49,13 @@ block content
           })
           */
 
-          var filter = {username: username, count: 20}
+          var filter = {username: username, count: 15}
           var follow_tx = iceCondor.api('stream.follow', filter)
           iceCondor.onResponse(follow_tx, function(msg){
             statusTab()
-            iceCondor.onResponse(msg.stream_id, function(location){
-              add_graph_node(location)
-              //console.log(location)
+            iceCondor.onResponse(msg.stream_id, function(node){
+              add_graph_node(node)
+              console.log(node.type, node)
             })
           })
         })
@@ -85,6 +85,9 @@ block content
       if(node.type == "location"){
         provider_code = capitaliseFirstLetter(node.provider)
       }
+      if(node.type == "config"){
+        provider_code = "Turn "+node.recording
+      }
       if(node.type == "heartbeat"){
         provider_code = "<div>"+node.battery.percentage +"% batt / "+
                         (node.power ? "AC on" : "AC off")+"</div>"
@@ -94,12 +97,13 @@ block content
         }
       }
       var time = new XDate(node.date)
-      if(node.type == "location" || node.type == "heartbeat")
-      $("#graph").prepend("<div class='report "+node.type+"'>"+
+      if(node.type == "location" || node.type == "heartbeat" || node.type == "config"){
+        $("#graph").prepend("<div class='report "+node.type+"'>"+
                          "<div>"+type_code+"</div>"+
                          "<div>"+provider_code+"</div>"+
-                         "<div>"+time.toString("hh:mm")+"</div>"+
+                         "<div>"+time.toString("h:mmtt")+"</div>"+
                          "</div>")
+      }
     }
 
     function capitaliseFirstLetter(string) {
