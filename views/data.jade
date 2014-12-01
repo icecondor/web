@@ -55,7 +55,7 @@ block content
             statusTab()
             iceCondor.onResponse(msg.stream_id, function(location){
               add_graph_node(location)
-              console.log(location.date, location.type)
+              //console.log(location)
             })
           })
         })
@@ -81,11 +81,17 @@ block content
     function add_graph_node(node){
       var type_code = capitaliseFirstLetter(node.type)
       var provider_code = ""
+
       if(node.type == "location"){
         provider_code = capitaliseFirstLetter(node.provider)
       }
       if(node.type == "heartbeat"){
-        provider_code = node.power ? "AC on" : "AC off"
+        provider_code = "<div>"+node.battery.percentage +"% batt / "+
+                        (node.power ? "AC on" : "AC off")+"</div>"
+        if(node.memory){
+          provider_code += "<div>Free: "+(node.memory.free/1024/1024).toFixed(0)+"mb"+
+                           " / Total "+(node.memory.total/1024/1024).toFixed(0)+"mb</div>"
+        }
       }
       var time = new XDate(node.date)
       if(node.type == "location" || node.type == "heartbeat")
