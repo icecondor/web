@@ -57,7 +57,7 @@
     padding-right: 2px;
   }
 
-  @media screen and (max-width: 40em) {
+  @media screen and (max-aspect-ratio: 1/1) {
     .widescreen {
       display: none;
     }
