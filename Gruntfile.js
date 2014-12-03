@@ -4,21 +4,21 @@ module.exports = function(grunt) {
     jade: {
       compile: {
         options: {
-          basedir: "./views",
+          basedir: "./jade",
           pretty: true
         },
         files: {
-          "build/dashboard.html": "views/main.jade",
-          "build/auth.html": "views/auth.jade",
-          "build/map.html": "views/map.jade",
-          "build/data.html": "views/data.jade",
-          "build/profile.html": "views/profile.jade",
-          "build/billing.html": "views/billing.jade",
-          "build/p/contact-us.html": "views/page/contact-us.jade",
-          "build/p/terms-of-service.html": "views/page/terms-of-service.jade",
-          "build/p/developer.html": "views/page/developer.jade",
-          "build/b/index.html": "views/blog/index.jade",
-          "build/b/2014/11/21/why-icecondor.html": "views/blog/2014/11/21/why-icecondor.jade",
+          "build/dashboard.html": "jade/main.jade",
+          "build/auth.html": "jade/auth.jade",
+          "build/map.html": "jade/map.jade",
+          "build/data.html": "jade/data.jade",
+          "build/profile.html": "jade/profile.jade",
+          "build/billing.html": "jade/billing.jade",
+          "build/p/contact-us.html": "jade/page/contact-us.jade",
+          "build/p/terms-of-service.html": "jade/page/terms-of-service.jade",
+          "build/p/developer.html": "jade/page/developer.jade",
+          "build/b/index.html": "jade/blog/index.jade",
+          "build/b/2014/11/21/why-icecondor.html": "jade/blog/2014/11/21/why-icecondor.jade",
         }
       }
     },
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
     },
     watch: {
       html: {
-        files: ['views/**'],
+        files: ['jade/**'],
         tasks: ['jade'],
       },
       css: {
