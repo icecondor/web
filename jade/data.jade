@@ -36,11 +36,8 @@ block content
         var me_tx = iceCondor.api('user.detail')
         iceCondor.onResponse(me_tx, function(me) {
           user_detail(me)
-          if(me.username != username) {
-            window.location = '/'+me.username+'/data'
-          }
-
           statusTab('loading data')
+
           /*
           var data_tx = iceCondor.api('activity.stats', {type: 'location'})
           iceCondor.onResponse(data_tx, function(stats){
