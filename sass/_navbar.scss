@@ -57,13 +57,4 @@
     padding-right: 2px;
   }
 
-  @media screen and (max-aspect-ratio: 1/1) {
-    .widescreen {
-      display: none;
-    }
-    .smallscreen {
-      display: flexbox;
-    }
-  }
-
 }

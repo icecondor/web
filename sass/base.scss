@@ -12,6 +12,16 @@
   clear: both;
 }
 
+.smallscreen { display: none; }
+@media screen and (max-aspect-ratio: 1/1) {
+  .widescreen {
+    display: none;
+  }
+  .smallscreen {
+    display: flex;
+  }
+}
+
 .dark-links {
   a {
     color: $navbar-color;
