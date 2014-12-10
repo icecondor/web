@@ -70,6 +70,20 @@
 .page-auth {
   text-align: center;
   h2 { margin-bottom: 1em; }
+
+  .megalink {
+    padding: 1.5em
+    a {
+      font-size: 200%;
+      padding: 0.5em 1em;
+      background-color: lightgrey;
+    }
+  }
+
+  p {
+    padding: 0.5em;
+  }
+  .droid { width: 3em; }
 }
 
 .page-data {

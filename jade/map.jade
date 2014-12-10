@@ -15,7 +15,7 @@ block content
             tr
               td Username
               td Most recent
-              td Points
+              td Start
           tr
             td
               a.userlink
@@ -23,7 +23,16 @@ block content
             td
               span#last_point
             td
-              span#point_count
+              select
+                option Dec
+              select
+                option 9
+              | -
+              select
+                option Dec
+              select
+                option 9
+              input(type='submit' value='load')
       div#map
       div.hidden#popup-holder
 

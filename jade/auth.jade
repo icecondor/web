@@ -20,6 +20,23 @@ block content
         input(type='submit', value='Save')
       p.errmsg
 
+    div.appnotice.hidden
+      h2 Congratulations #[span.username] - Your account is ready!
+      p
+        | To start recording your location,
+        br
+        | install #[a(href='https://play.google.com/store/apps/details?id=com.icecondor.nest') IceCondor] from the Google Play Store.
+      p
+        a(href="https://play.google.com/store/apps/details?id=com.icecondor.nest")
+          img.droid(src="/assets/android.svg")
+          br
+          img(alt="Android app on Google Play"
+              src="https://developer.android.com/images/brand/en_app_rgb_wo_45.png")
+      p.
+        Your map is below. Click the link to continue.
+      p.megalink
+        a.userlink
+
   script.
     var token = window.location.pathname.split('/')[2]
     var prefix = token.split('-')[0]
@@ -40,7 +57,11 @@ block content
             iceCondor.onResponse(update_tx, function(resp){
               console.log(resp)
               setKey(token)
-              window.location = "/"+username
+              $('.askusername').hide()
+              $('.appnotice').show()
+              $('.username').html(username)
+              var userlink = window.location.protocol+'//'+window.location.host+'/'+username
+              $('.userlink').attr('href', userlink).html(userlink)
             }, function(err){
               $('.errmsg').html(err.message)
             })
