@@ -23,16 +23,8 @@ block content
             td
               span#last_point
             td
-              select
-                option Dec
-              select
-                option 9
-              | -
-              select
-                option Dec
-              select
-                option 9
-              input(type='submit' value='load')
+              select.month
+              select.day
       div#map
       div.hidden#popup-holder
 
@@ -57,6 +49,12 @@ block content
       $('#point_count').html(count)
     }
 
+    function setBarDate(date_str) {
+      var date = new XDate(date_str)
+      $('.page-map select.month').append('<option>'+date.toString("MMM")+'</option>')
+      $('.page-map select.day').append('<option>'+date.toString("d")+'</option>')
+    }
+
     function startFollow(username, start, stop){
       var filter = {username: username, type: "location"}
       if(start) { filter.start = start.toISOString()}
@@ -69,12 +67,16 @@ block content
         statusTab()
         var track = map.addTrack(msg.stream_id, username)
         locationBarPointCount("-loading-")
+        var firstPoint = true
         iceCondor.onResponse(msg.stream_id, function(location){
           var date_order_idx = map.addPointToTrack(msg.stream_id, location)
           if(date_order_idx == 0) {
             locationBar(location)
           }
-          locationBarPointCount(track.points.length)
+          if(firstPoint) {
+            setBarDate(location.date)
+            firstPoint = false
+          }
         })
       }, function(err) {
         if(err.code == "UNF") {
