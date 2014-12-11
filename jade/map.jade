@@ -15,18 +15,20 @@ block content
             tr
               td Username
               td Most recent
-              //
-                td Day
+              td Day
+              td Points
           tr
             td
               a.userlink
                 span.username
             td
               span#last_point
-            //
-              td
-                select.month
-                select.day
+            td
+              select.month(disabled='1')
+              select.day(disabled='1')
+            td
+              span#point_count
+
       div#map
       div.hidden#popup-holder
 
@@ -52,18 +54,41 @@ block content
     }
 
     function setBarDate(date_str) {
+      $('.page-map select').removeAttr('disabled')
       var date = new XDate(date_str)
-      $('.page-map select.month').append('<option>'+date.toString("MMM")+'</option>')
-      $('.page-map select.day').append('<option>'+date.toString("d")+'</option>')
+      $('.page-map select.month').val(date.getMonth())
+      $('.page-map select.day').val(date.getDate())
     }
 
-    function startFollow(username, start, stop){
-      var filter = {username: username, type: "location"}
+    function day_selected(evt){
+      var day = new XDate()
+      day.setMonth($('.page-map select.month').val())
+      day.setDate($('.page-map select.day').val())
+      day.setHours(0)
+      day.setMinutes(0)
+      var stop = new XDate(day)
+      stop.addDays(1)
+      map.removeTracks()
+      $('#last_point').html('')
+      startFollow(params.username, day, stop, 100)
+    }
+
+    function month_day_select_setup(){
+      $('.page-map select').attr('disabled', true)
+      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31].forEach(function(day_idx){
+        $('.page-map select.day').append('<option value=\''+day_idx+'\'>'+day_idx+'</option>')
+      });
+      [0,1,2,3,4,5,6,7,8,9,10,11].forEach(function(month_idx){
+        var date = new XDate()
+        date.setMonth(month_idx)
+        $('.page-map select.month').append('<option value=\''+month_idx+'\' >'+date.toString('MMM')+'</option>')
+      });
+    }
+
+    function startFollow(username, start, stop, count){
+      var filter = {username: username, type: "location", count: count}
       if(start) { filter.start = start.toISOString()}
       if(stop) { filter.stop = stop.toISOString()}
-      if(!(start && stop)) {
-        filter.count = 100
-      }
       var follow_tx = iceCondor.api('stream.follow', filter)
       iceCondor.onResponse(follow_tx, function(msg){
         statusTab()
@@ -75,6 +100,7 @@ block content
           if(date_order_idx == 0) {
             locationBar(location)
           }
+          locationBarPointCount(track.points.length)
           if(firstPoint) {
             setBarDate(location.date)
             firstPoint = false
@@ -93,9 +119,9 @@ block content
       })
     }
 
+    var params = {}
     jQuery(function(){
       statusTab('Connecting')
-      var params = {}
       var paths = window.location.pathname.split('/')
       var queryparts = window.location.href.split('?')[1]
       if(queryparts) {
@@ -111,6 +137,7 @@ block content
         stop = new XDate(params.stop)
       }
 
+      month_day_select_setup()
       var center_of_america = [39.8, -98.5]
       map.setup(center_of_america, 3)
 
@@ -120,6 +147,8 @@ block content
         var point_date_html = '<time datetime="'+beat.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'
         $('#points').append('<li> heartbeat '+point_date_html+'</li>')
       })
+
+      $('.page-map select').change(day_selected)
 
       // adjust map height after status bar has been populated
       var map_height = $(window).outerHeight()-
@@ -131,7 +160,7 @@ block content
 
       var action = getKey() ? 'auth' : 'hello'
       iceCondor.on(action, function(logged_in_user){
-        startFollow(params.username, start, stop)
+        startFollow(params.username, start, stop, 100)
       })
       iceCondor.connect()
     })

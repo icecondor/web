@@ -19,6 +19,14 @@ var map = function(){
     return track
   }
 
+  api.removeTracks = function() {
+    for(var track_id in tracks) {
+      map.removeLayer(tracks[track_id].line)
+      map.removeLayer(tracks[track_id].marker)
+      delete tracks[track_id]
+    }
+  }
+
   api.addPointToTrack = function(track_id, point) {
     var track = tracks[track_id]
     var type = provider_type(point)

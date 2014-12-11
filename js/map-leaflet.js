@@ -63,6 +63,10 @@ var map_leaflet = function() {
     marker.update()
   }
 
+  api.removeMarker = function(marker) {
+    map.removeLayer(marker)
+  }
+
   api.addPopup = function(marker) {
     var popup = L.popup()
     marker.bindPopup(popup)
@@ -72,6 +76,16 @@ var map_leaflet = function() {
     var line = L.polyline([], opts)
     line.addTo(map)
     return line
+  }
+
+  api.removeLayer = function(layer) {
+    map.removeLayer(layer)
+  }
+
+  api.removeLayers = function() {
+    map.eachLayer(function(layer){
+      api.removeLayer(layer)
+    })
   }
 
   return api
