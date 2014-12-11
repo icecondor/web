@@ -75,9 +75,9 @@ block content
 
     function month_day_select_setup(){
       $('.page-map select').attr('disabled', true)
-      [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31].forEach(function(day_idx){
-        $('.page-map select.day').append('<option value=\''+day_idx+'\'>'+day_idx+'</option>')
-      });
+      for(var day=1; day <= 31; day++) {
+        $('.page-map select.day').append('<option value=\''+day+'\'>'+day+'</option>')
+      }
       [0,1,2,3,4,5,6,7,8,9,10,11].forEach(function(month_idx){
         var date = new XDate()
         date.setMonth(month_idx)
