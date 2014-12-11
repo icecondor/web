@@ -70,7 +70,7 @@ block content
       stop.addDays(1)
       map.removeTracks()
       $('#last_point').html('')
-      startFollow(params.username, day, stop, 300)
+      startFollow(params.username, day, stop, 300, 'oldest')
     }
 
     function month_day_select_setup(){
@@ -85,8 +85,9 @@ block content
       });
     }
 
-    function startFollow(username, start, stop, count){
-      var filter = {username: username, type: "location", count: count}
+    function startFollow(username, start, stop, count, order, follow){
+      var filter = {username: username, type: "location", count: count, order: order}
+      if(follow){filter.follow = follow}
       if(start) { filter.start = start.toISOString()}
       if(stop) { filter.stop = stop.toISOString()}
       var follow_tx = iceCondor.api('stream.follow', filter)
@@ -129,12 +130,19 @@ block content
       }
       params.username = paths[1]
 
+      var now = new XDate()
       var start, stop
       if(params.start) {
         start = new XDate(params.start)
+      } else {
+        start = new XDate(now)
+        start.setHours(0)
+        start.setMinutes(0)
       }
       if(params.stop) {
         stop = new XDate(params.stop)
+      } else {
+        stop = new XDate(now)
       }
 
       month_day_select_setup()
@@ -160,7 +168,7 @@ block content
 
       var action = getKey() ? 'auth' : 'hello'
       iceCondor.on(action, function(logged_in_user){
-        startFollow(params.username, start, stop, 100)
+        startFollow(params.username, start, stop, 100, 'newest', true)
       })
       iceCondor.connect()
     })
