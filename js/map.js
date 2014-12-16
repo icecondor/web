@@ -14,7 +14,7 @@ var map = function(){
   api.addTrack = function(track_id, name) {
     var line = map.addPolyline({color: 'red', smoothFactor: 0})
     // marker must have lat/long so delay until first point
-    var track = { name: name, points: [], line: line, marker: null }
+    var track = { name: name, points: [], line: line, marker: null, bounds: map.bounds() }
     tracks[track_id] = track
     return track
   }
@@ -32,9 +32,6 @@ var map = function(){
     var type = provider_type(point)
 
     var date_order_idx = point_index(track_id, point)
-    if(track.points.length == 0) {
-      map.setCenter(point, 16) // map center bug/hack
-    }
 
     if(type == "tower") {
       // simple case
@@ -46,8 +43,8 @@ var map = function(){
       var historical_point
       if(date_order_idx == 0) {
         move_head(track, point)
+        map.recenter(track.bounds)
         set_popup_detail(track.marker.getPopup(), point, type)
-        map.setCenter(point, 16)
       }
     }
     return date_order_idx
@@ -65,6 +62,7 @@ var map = function(){
   function add_point_to_track(track, point, insert_idx) {
     track.points.splice(insert_idx, 0, point) // need full point
     track.line.spliceLatLngs(insert_idx, 0, [point.latitude,point.longitude])
+    map.bounds_extend(track.bounds, point)
   }
 
   function point_index(track_id, point) {
@@ -89,7 +87,7 @@ var map = function(){
                                   '<br/>'+
                                   '<time datetime="'+point.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'+
                                    '</div>')
-    time_fixups()
+    time_fixups('#marker-popup-'+point.id)
     popup.setContent($('#marker-popup-'+point.id)[0])
   }
 

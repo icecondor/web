@@ -28,9 +28,22 @@ var map_leaflet = function() {
   }
 
   api.setCenter = function(center, zoom){
+    console.log('setCenter', center, zoom)
     var latLng = api.pointToLatLng(center)
     map.panTo(latLng)
-    if(zoom){ map.setZoom(16) }
+    if(zoom){ map.setZoom(zoom) }
+  }
+
+  api.recenter = function(bounds) {
+    map.fitBounds(bounds)
+  }
+
+  api.bounds = function() {
+    return L.latLngBounds([])
+  }
+
+  api.bounds_extend = function(bounds, point) {
+    bounds.extend(api.pointToLatLng(point))
   }
 
   api.pointToLatLng = function(point){

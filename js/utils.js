@@ -1,6 +1,6 @@
 // fixup the timestamps with the browser's timezone
-function time_fixups() {
-  $('time').each(function(){
+function time_fixups(selector) {
+  $(selector+' time').each(function(){
     var datetime = new XDate($(this).attr('datetime'))
     var formatted = datetime.toString($(this).attr('data-format'))
     $(this).html(formatted)
