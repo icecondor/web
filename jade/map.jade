@@ -133,11 +133,17 @@ block content
       var now = new XDate()
       var follow = true
       var day_count = 100
+      var day_order = 'newest'
       var start, stop
       if(params.start) {
         start = new XDate(params.start)
+        if(!params.stop){
+          stop = new XDate(start)
+          stop.addDays(1)
+        }
         follow = false
         day_count = 1000
+        day_order = 'oldest'
       } else {
         start = new XDate(now)
         start.setHours(0)
@@ -147,8 +153,9 @@ block content
         stop = new XDate(params.stop)
         follow = false
         day_count = 1000
+        day_order = 'oldest'
       } else {
-        stop = new XDate(now)
+        if(!stop) { stop = new XDate(now) }
       }
 
       month_day_select_setup()
@@ -174,7 +181,7 @@ block content
 
       var action = getKey() ? 'auth' : 'hello'
       iceCondor.on(action, function(logged_in_user){
-        startFollow(params.username, start, stop, day_count, 'newest', follow)
+        startFollow(params.username, start, stop, day_count, day_order, follow)
       })
       iceCondor.connect()
     })
