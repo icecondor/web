@@ -22,7 +22,6 @@ html
       block content
 
     include _footer
-    include _google_analytics
 
     script.
       iceCondor.on('connect', function(point){
@@ -62,3 +61,6 @@ html
         $('.navbar .menu .data a').attr('href', "/"+user.username+"/data")
         $('.navbar .menu .billing a').attr('href', "/"+user.username+"/billing")
       }
+
+    block adsense
+      include _google_analytics
