@@ -83,7 +83,13 @@ block content
         provider_code = capitaliseFirstLetter(node.provider)
       }
       if(node.type == "config"){
-        provider_code = "Turn "+node.recording
+        if(node.recording){
+          provider_code = "Turn "+node.recording
+        } else if(node.frequency){
+          provider_code = "Freq "+node.frequency+" min."
+        } else {
+          provider_code = "Unknown"
+        }
       }
       if(node.type == "heartbeat"){
         provider_code = "<div>"+node.battery.percentage +"% batt / "+
