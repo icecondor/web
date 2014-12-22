@@ -12,13 +12,14 @@ block content
       div.banner
         | Welcome to IceCondor
       div.intro
-        | IceCondor provides cell-phone location recording and sharing.
+        | IceCondor provides all-day cell-phone location recording and sharing.
       div.signin
-        | Please sign in below or install the app to begin.
+        | Please sign in below or #[a(href='https://play.google.com/store/apps/details?id=com.icecondor.nest') install the app] to begin.
       div.login_box.inline
         form.token_email
           input#login(type="email" placeholder="email address" name="email")
           button(type="submit") Sign in
+
 
       div.email-sent.hidden
         p
@@ -29,6 +30,8 @@ block content
         div.flexflex.flexbox
           div.logo.flexbox
             img(src="/assets/logo.svg")
+          div
+            img(src="/assets/screenshot.jpg")
           div.android.flexbox
             a(href="https://play.google.com/store/apps/details?id=com.icecondor.nest")
               img(src="/assets/android.svg")
