@@ -79,13 +79,8 @@ block content
     })
 
     function fill_in(user) {
-      if(user.photo){
-        $('.page-profile .photo img').attr('src', user.photo+'?size=250')
-      } else {
-        $('.page-profile .photo img').width(130)
-        $('.page-profile .photo img').height(250)
-        $('.page-profile .photo img').attr('src', '/assets/logo.svg')
-      }
+      console.log('fill_in', user)
+      $('.page-profile .photo img').attr('src', user.photo+'?size=250')
     }
 
     function sharing_buttons(me, other) {
