@@ -53,6 +53,18 @@ block content
           var graph_width = $('#graph').width()
           var filter = {username: username, count: 15, order: 'newest'}
           var follow_tx = iceCondor.api('stream.follow', filter)
+          var time_scale = d3.time.scale()
+                    .domain(["2015-02-01", "2015-02-02"])
+                    .range([0,graph_width])
+          var xAxis = d3.svg.axis()
+             .scale(time_scale)
+             .orient('bottom')
+             .ticks(d3.time.hour.utc, 1)
+             .tickFormat(d3.time.format('%a %d'))
+          graph.append("g")
+              .attr('class', 'x axis')
+              .attr('transform', 'translate(0,'+(graph_height-30)+')')
+              .call(xAxis);
           iceCondor.onResponse(follow_tx, function(msg){
             statusTab()
             iceCondor.onResponse(msg.stream_id, function(node){
@@ -107,11 +119,10 @@ block content
                            " / Total "+(node.memory.total/1024/1024).toFixed(0)+"mb</div>"
         }
       }
-      var time = new XDate(node.date)
       var vnode = { type: node.type,
                     code: type_code,
                     provider: provider_code,
-                    time: time.toString("h:mmtt") }
+                    time: node.date }
       return vnode
     }
 
@@ -133,8 +144,4 @@ block content
         .attr('y', slot_width/2)
         .attr('fill', 'blue')
         .attr('stroke', 'red')
-      slot.append("text")
-        .text(function(w){return w.time;})
-        .attr('x', 0)
-        .attr('y', slot_height)
     }
