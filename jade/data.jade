@@ -1,6 +1,7 @@
 extends layout
 
 block head
+  script(src='/assets/d3.v3.min.js')
 
 block content
   div.page-data
@@ -23,7 +24,7 @@ block content
 
     div.section-spacer
       h2 Datastream
-      div#graph
+      svg#graph(style="background-color: #ddd; width: 100%; height: 200px;")
 
   script.
     jQuery(function(){
@@ -46,13 +47,20 @@ block content
           })
           */
 
+          var pts = []
+          var graph = d3.select('#graph')
+          var graph_height = $('#graph').height()
+          var graph_width = $('#graph').width()
           var filter = {username: username, count: 15, order: 'newest'}
           var follow_tx = iceCondor.api('stream.follow', filter)
           iceCondor.onResponse(follow_tx, function(msg){
             statusTab()
             iceCondor.onResponse(msg.stream_id, function(node){
-              add_graph_node(node)
-              console.log(node.type, node)
+              var vnode = add_graph_node(node);
+              pts.push(vnode)
+              var slots = graph.selectAll('g').data(pts)
+              draw_slots(slots, graph_width/24, graph_height)
+              console.log(pts.length, vnode)
             })
           })
         })
@@ -100,16 +108,33 @@ block content
         }
       }
       var time = new XDate(node.date)
-      if(node.type == "location" || node.type == "heartbeat" || node.type == "config"){
-        $("#graph").prepend("<div class='report "+node.type+"'>"+
-                         "<div>"+type_code+"</div>"+
-                         "<div>"+provider_code+"</div>"+
-                         "<div>"+time.toString("h:mmtt")+"</div>"+
-                         "</div>")
-      }
+      var vnode = { type: node.type,
+                    code: type_code,
+                    provider: provider_code,
+                    time: time.toString("h:mmtt") }
+      return vnode
     }
 
     function capitaliseFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    function draw_slots(slots, slot_width, slot_height){
+      var slot = slots.enter().append('svg:g')
+                        .attr('transform', function(d,i){return 'translate('+i*slot_width+',0)'})
+      slot.append('circle')
+        .attr('cx', slot_width/2)
+        .attr('cy', slot_width/2)
+        .attr('r', slot_width/2)
+        .attr('stroke', 'blue')
+      slot.append("text")
+        .text(function(w){return w.type[0];})
+        .attr('x', slot_width/4)
+        .attr('y', slot_width/2)
+        .attr('fill', 'blue')
+        .attr('stroke', 'red')
+      slot.append("text")
+        .text(function(w){return w.time;})
+        .attr('x', 0)
+        .attr('y', slot_height)
+    }
