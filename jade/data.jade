@@ -51,7 +51,14 @@ block content
           var graph = d3.select('#graph')
           var graph_height = $('#graph').height()
           var graph_width = $('#graph').width()
-          var filter = {username: username, count: 15, order: 'newest'}
+          var stop = new Date()
+          var hours = 6
+          var start = d3.time.hour.offset(stop, -1*hours)
+          var filter = {username: username,
+                        start: start.toISOString(),
+                        stop: stop.toISOString(),
+                        count: hours*60,
+                        order: 'newest'}
           var follow_tx = iceCondor.api('stream.follow', filter)
           var time_scale = d3.time.scale()
                     .domain([new Date("2015-02-09"), new Date("2015-02-10")])
