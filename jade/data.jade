@@ -54,13 +54,13 @@ block content
           var filter = {username: username, count: 15, order: 'newest'}
           var follow_tx = iceCondor.api('stream.follow', filter)
           var time_scale = d3.time.scale()
-                    .domain(["2015-02-01", "2015-02-02"])
+                    .domain([new Date("2015-02-09"), new Date("2015-02-10")])
                     .range([0,graph_width])
           var xAxis = d3.svg.axis()
-             .scale(time_scale)
-             .orient('bottom')
-             .ticks(d3.time.hour.utc, 1)
-             .tickFormat(d3.time.format('%a %d'))
+              .scale(time_scale)
+              .orient('bottom')
+              .ticks(d3.time.hours.utc, 1)
+              .tickFormat(d3.time.format('%-H:%M'))
           graph.append("g")
               .attr('class', 'x axis')
               .attr('transform', 'translate(0,'+(graph_height-30)+')')
@@ -70,7 +70,7 @@ block content
             iceCondor.onResponse(msg.stream_id, function(node){
               var vnode = add_graph_node(node);
               pts.push(vnode)
-              var slots = graph.selectAll('g').data(pts)
+              var slots = graph.selectAll('g.dpoint').data(pts)
               draw_slots(slots, graph_width/24, graph_height)
               console.log(pts.length, vnode)
             })
@@ -132,6 +132,7 @@ block content
 
     function draw_slots(slots, slot_width, slot_height){
       var slot = slots.enter().append('svg:g')
+                        .attr('class', 'dpoint')
                         .attr('transform', function(d,i){return 'translate('+i*slot_width+',0)'})
       slot.append('circle')
         .attr('cx', slot_width/2)
