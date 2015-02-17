@@ -60,13 +60,13 @@ block content
                         stop: stop.toISOString(),
                         count: hours*60,
                         order: 'oldest'}
-          var time_scale = d3.time.scale.utc()
+          var time_scale = d3.time.scale()
                     .domain([start, stop])
                     .range([0,graph_width])
           var xAxis = d3.svg.axis()
               .scale(time_scale)
               .orient('bottom')
-              .ticks(d3.time.minutes.utc, 15)
+              .ticks(d3.time.minutes, 15)
           graph.append("g")
               .attr('class', 'x axis')
               .attr('transform', 'translate(0,'+(graph_height-30)+')')
