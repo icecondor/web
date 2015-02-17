@@ -151,15 +151,27 @@ block content
                      'connected':slot_unit_height*3,
                      'disconnected':slot_unit_height*4,
                      }
-      slot.append('circle')
-        .attr('cx', slot_width/2)
-        .attr('cy', function(d){return heights[d.type]+(slot_unit_height*0.3)})
-        .attr('r', slot_width/2)
-        .attr('fill', '#ddd')
+      slot.append('rect')
+        .attr('x', 0)
+        .attr('y', function(d){return heights[d.type]})
+        .attr('width', slot_width)
+        .attr('height', slot_unit_height)
+        .attr('fill', '#eee')
         .attr('stroke', 'blue')
       slot.append("text")
-        .text(function(w){return w.type[0];})
-        .attr('x', slot_width/4)
-        .attr('y', function(d){return heights[d.type]+(slot_unit_height*0.5)})
+        .text(function(w){
+          if(w.type == 'location') {
+            if(w.provider == 'Network') {
+              return "N"
+            }
+            if(w.provider == 'Gps') {
+              return "G"
+            }
+          } else {
+            return w.type[0];
+          }
+        })
+        .attr('x', slot_width/5)
+        .attr('y', function(d){return heights[d.type]+(slot_unit_height*0.6)})
         .attr('stroke', 'brown')
     }
