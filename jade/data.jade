@@ -52,33 +52,34 @@ block content
           var graph_height = $('#graph').height()
           var graph_width = $('#graph').width()
           var stop = new Date()
-          var hours = 6
-          var start = d3.time.hour.offset(stop, -1*hours)
+          var hours = 3
+          var slot_count = 3*30
+          var start = d3.time.minute.offset(stop, -1*slot_count)
           var filter = {username: username,
                         start: start.toISOString(),
                         stop: stop.toISOString(),
                         count: hours*60,
-                        order: 'newest'}
-          var follow_tx = iceCondor.api('stream.follow', filter)
-          var time_scale = d3.time.scale()
-                    .domain([new Date("2015-02-09"), new Date("2015-02-10")])
+                        order: 'oldest'}
+          var time_scale = d3.time.scale.utc()
+                    .domain([start, stop])
                     .range([0,graph_width])
           var xAxis = d3.svg.axis()
               .scale(time_scale)
               .orient('bottom')
-              .ticks(d3.time.hours.utc, 1)
-              .tickFormat(d3.time.format('%-H:%M'))
+              .ticks(d3.time.minutes.utc, 15)
           graph.append("g")
               .attr('class', 'x axis')
               .attr('transform', 'translate(0,'+(graph_height-30)+')')
               .call(xAxis);
+
+          var follow_tx = iceCondor.api('stream.follow', filter)
           iceCondor.onResponse(follow_tx, function(msg){
             statusTab()
             iceCondor.onResponse(msg.stream_id, function(node){
               var vnode = add_graph_node(node);
               pts.push(vnode)
               var slots = graph.selectAll('g.dpoint').data(pts)
-              draw_slots(slots, graph_width/24, graph_height)
+              draw_slots(slots, time_scale, graph_width/slot_count, graph_height)
               console.log(pts.length, vnode)
             })
           })
@@ -137,19 +138,28 @@ block content
       return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    function draw_slots(slots, slot_width, slot_height){
+    function draw_slots(slots, time_scale, slot_width, slot_height){
       var slot = slots.enter().append('svg:g')
                         .attr('class', 'dpoint')
-                        .attr('transform', function(d,i){return 'translate('+i*slot_width+',0)'})
+                        .attr('transform', function(d,i){return 'translate('+
+                                              time_scale(new Date(d.time))+',0)'})
+      var slot_unit_height = slot_height / 6
+      var heights = {
+                     'location':slot_unit_height*0,
+                     'heartbeat':slot_unit_height*1,
+                     'connecting':slot_unit_height*2,
+                     'connected':slot_unit_height*3,
+                     'disconnected':slot_unit_height*4,
+                     }
       slot.append('circle')
         .attr('cx', slot_width/2)
-        .attr('cy', slot_width/2)
+        .attr('cy', function(d){return heights[d.type]+(slot_unit_height*0.3)})
         .attr('r', slot_width/2)
+        .attr('fill', '#ddd')
         .attr('stroke', 'blue')
       slot.append("text")
         .text(function(w){return w.type[0];})
         .attr('x', slot_width/4)
-        .attr('y', slot_width/2)
-        .attr('fill', 'blue')
-        .attr('stroke', 'red')
+        .attr('y', function(d){return heights[d.type]+(slot_unit_height*0.5)})
+        .attr('stroke', 'brown')
     }
