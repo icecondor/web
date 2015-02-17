@@ -1,6 +1,7 @@
 extends layout
 
 block head
+  script(src='/assets/d3.v3.min.js')
 
 block content
   div.page-data
@@ -23,7 +24,7 @@ block content
 
     div.section-spacer
       h2 Datastream
-      div#graph
+      svg#graph(style="background-color: #ddd; width: 100%; height: 200px;")
 
   script.
     jQuery(function(){
@@ -46,13 +47,40 @@ block content
           })
           */
 
-          var filter = {username: username, count: 15, order: 'newest'}
+          var pts = []
+          var graph = d3.select('#graph')
+          var graph_height = $('#graph').height()
+          var graph_width = $('#graph').width()
+          var stop = new Date()
+          var hours = 3
+          var slot_count = 3*30
+          var start = d3.time.minute.offset(stop, -1*slot_count)
+          var filter = {username: username,
+                        start: start.toISOString(),
+                        stop: stop.toISOString(),
+                        count: hours*60,
+                        order: 'oldest'}
+          var time_scale = d3.time.scale.utc()
+                    .domain([start, stop])
+                    .range([0,graph_width])
+          var xAxis = d3.svg.axis()
+              .scale(time_scale)
+              .orient('bottom')
+              .ticks(d3.time.minutes.utc, 15)
+          graph.append("g")
+              .attr('class', 'x axis')
+              .attr('transform', 'translate(0,'+(graph_height-30)+')')
+              .call(xAxis);
+
           var follow_tx = iceCondor.api('stream.follow', filter)
           iceCondor.onResponse(follow_tx, function(msg){
             statusTab()
             iceCondor.onResponse(msg.stream_id, function(node){
-              add_graph_node(node)
-              console.log(node.type, node)
+              var vnode = add_graph_node(node);
+              pts.push(vnode)
+              var slots = graph.selectAll('g.dpoint').data(pts)
+              draw_slots(slots, time_scale, graph_width/slot_count, graph_height)
+              console.log(pts.length, vnode)
             })
           })
         })
@@ -99,17 +127,51 @@ block content
                            " / Total "+(node.memory.total/1024/1024).toFixed(0)+"mb</div>"
         }
       }
-      var time = new XDate(node.date)
-      if(node.type == "location" || node.type == "heartbeat" || node.type == "config"){
-        $("#graph").prepend("<div class='report "+node.type+"'>"+
-                         "<div>"+type_code+"</div>"+
-                         "<div>"+provider_code+"</div>"+
-                         "<div>"+time.toString("h:mmtt")+"</div>"+
-                         "</div>")
-      }
+      var vnode = { type: node.type,
+                    code: type_code,
+                    provider: provider_code,
+                    time: node.date }
+      return vnode
     }
 
     function capitaliseFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+    function draw_slots(slots, time_scale, slot_width, slot_height){
+      var slot = slots.enter().append('svg:g')
+                        .attr('class', 'dpoint')
+                        .attr('transform', function(d,i){return 'translate('+
+                                              time_scale(new Date(d.time))+',0)'})
+      var slot_unit_height = slot_height / 6
+      var heights = {
+                     'location':slot_unit_height*0,
+                     'heartbeat':slot_unit_height*1,
+                     'connecting':slot_unit_height*2,
+                     'connected':slot_unit_height*3,
+                     'disconnected':slot_unit_height*4,
+                     }
+      slot.append('rect')
+        .attr('x', 0)
+        .attr('y', function(d){return heights[d.type]})
+        .attr('width', slot_width)
+        .attr('height', slot_unit_height)
+        .attr('fill', '#eee')
+        .attr('stroke', 'blue')
+      slot.append("text")
+        .text(function(w){
+          if(w.type == 'location') {
+            if(w.provider == 'Network') {
+              return "N"
+            }
+            if(w.provider == 'Gps') {
+              return "G"
+            }
+          } else {
+            return w.type[0];
+          }
+        })
+        .attr('x', slot_width/5)
+        .attr('y', function(d){return heights[d.type]+(slot_unit_height*0.6)})
+        .attr('stroke', 'brown')
+    }
