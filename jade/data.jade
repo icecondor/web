@@ -52,13 +52,13 @@ block content
           var graph_height = $('#graph').height()
           var graph_width = $('#graph').width()
           var stop = new Date()
-          var hours = 3
-          var slot_count = 3*30
-          var start = d3.time.minute.offset(stop, -1*slot_count)
+          var hours = 2
+          var slot_count = hours*30
+          var start = d3.time.minute.offset(stop, -1*hours*60)
           var filter = {username: username,
                         start: start.toISOString(),
                         stop: stop.toISOString(),
-                        count: hours*60,
+                        count: hours*60*2,
                         order: 'oldest'}
           var time_scale = d3.time.scale()
                     .domain([start, stop])
@@ -167,6 +167,8 @@ block content
             if(w.provider == 'Gps') {
               return "G"
             }
+          } else if(w.type == 'heartbeat') {
+            return 'b'
           } else {
             return w.type[0];
           }
