@@ -32,6 +32,11 @@ block content
     jQuery(function(){
       var paths = window.location.pathname.split('/')
       var username = paths[1]
+      var parts = window.location.href.split('?')
+      var qparams = {}
+      console.log(parts)
+      if(parts[1]) { parts[1].split('&').forEach(function(part){p=part.split('='); qparams[p[0]]=p[1]}) }
+      console.log(qparams)
       $('.page-data .user .username').html(username)
 
       statusTab('Connecting')
@@ -53,8 +58,8 @@ block content
           var graph_height = $('#graph').height()
           var graph_width = $('#graph').width()
           var stop = new Date()
-          var hours = 2
-          var slot_count = hours*30
+          var hours = qparams['hours'] || 2
+          var slot_count = hours*60
           var start = d3.time.minute.offset(stop, -1*hours*60)
           var filter = {username: username,
                         start: start.toISOString(),
