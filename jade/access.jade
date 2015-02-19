@@ -8,9 +8,7 @@ block content
 
     form.build-access
       | Read
-      input(type='checkbox')
-      | Write
-      input(type='checkbox')
+      input(type='checkbox' checked='checked')
       input(type='submit' value='Grant Access')
 
     h1 Keylist
@@ -25,6 +23,16 @@ block content
 
         $('.build-access').submit(function(evt){
           console.log(evt.target)
+
+          var add_tx = iceCondor.api('user.access.add')
+          iceCondor.onResponse(add_tx, function(acc_ok) {
+            console.log(acc_ok)
+            var me_tx = iceCondor.api('user.detail')
+            iceCondor.onResponse(me_tx, function(me) {
+              keylist(me.access)
+            })
+          })
+
           evt.preventDefault()
         })
 
@@ -32,9 +40,7 @@ block content
         iceCondor.onResponse(me_tx, function(me) {
           console.log(me)
           statusTab()
-          Object.keys(me.access).forEach(function(akey){
-            $('.keylist').append('<li>'+me.access[akey]+'</li>')
-          })
+          keylist(me.access)
         })
 
       })
@@ -45,4 +51,10 @@ block content
         window.location = "/"
       }
 
+      function keylist(klist) {
+        Object.keys(klist).forEach(function(akey){
+          var keylink = '<a href="https://icecondor.com/auth/'+akey+'">'+akey+'</a>'
+          $('.keylist').append('<li>'+keylink+' '+klist[akey].scopes+'</li>')
+        })
+      }
     })
