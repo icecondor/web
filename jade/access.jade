@@ -4,4 +4,45 @@ block head
 
 block content
   div.page-access
-    h1 Access
+    h2 Access Control
+
+    form.build-access
+      | Read
+      input(type='checkbox')
+      | Write
+      input(type='checkbox')
+      input(type='submit' value='Grant Access')
+
+    h1 Keylist
+    ul.keylist
+
+  script.
+    jQuery(function(){
+      statusTab('Connecting')
+      iceCondor.on('auth', function(user){
+        statusTab('loading data')
+        console.log(user)
+
+        $('.build-access').submit(function(evt){
+          console.log(evt.target)
+          evt.preventDefault()
+        })
+
+        var me_tx = iceCondor.api('user.detail')
+        iceCondor.onResponse(me_tx, function(me) {
+          console.log(me)
+          statusTab()
+          Object.keys(me.access).forEach(function(akey){
+            $('.keylist').append('<li>'+me.access[akey]+'</li>')
+          })
+        })
+
+      })
+
+      if(getKey()){
+        iceCondor.connect()
+      } else {
+        window.location = "/"
+      }
+
+    })
