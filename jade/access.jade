@@ -20,29 +20,17 @@ block content
       iceCondor.on('auth', function(user){
         statusTab('loading data')
         console.log(user)
+        keylist_refresh()
 
         $('.build-access').submit(function(evt){
           console.log(evt.target)
 
           var add_tx = iceCondor.api('user.access.add')
           iceCondor.onResponse(add_tx, function(acc_ok) {
-            console.log(acc_ok)
-            var me_tx = iceCondor.api('user.detail')
-            iceCondor.onResponse(me_tx, function(me) {
-              keylist(me.access)
-            })
+            keylist_refresh()
           })
-
           evt.preventDefault()
         })
-
-        var me_tx = iceCondor.api('user.detail')
-        iceCondor.onResponse(me_tx, function(me) {
-          console.log(me)
-          statusTab()
-          keylist(me.access)
-        })
-
       })
 
       if(getKey()){
@@ -51,10 +39,17 @@ block content
         window.location = "/"
       }
 
-      function keylist(klist) {
-        Object.keys(klist).forEach(function(akey){
-          var keylink = '<a href="https://icecondor.com/auth/'+akey+'">'+akey+'</a>'
-          $('.keylist').append('<li>'+keylink+' '+klist[akey].scopes+'</li>')
+      function keylist_refresh() {
+        var me_tx = iceCondor.api('user.detail')
+        iceCondor.onResponse(me_tx, function(me) {
+          console.log(me)
+          statusTab()
+          Object.keys(me.access).forEach(function(akey){
+            var me_url = 'https://icecondor.com/'+me.username+'?key='+akey
+            var keylink = '<a href="'+me_url+'">'+me_url+'</a>'
+            $('.keylist').append('<li>'+keylink+' Access: '+me.access[akey].scopes+'</li>')
+          })
         })
+
       }
     })
