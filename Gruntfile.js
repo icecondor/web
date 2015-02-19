@@ -11,6 +11,7 @@ module.exports = function(grunt) {
           "build/dashboard.html": "jade/main.jade",
           "build/auth.html": "jade/auth.jade",
           "build/map.html": "jade/map.jade",
+          "build/access.html": "jade/access.jade",
           "build/data.html": "jade/data.jade",
           "build/profile.html": "jade/profile.jade",
           "build/billing.html": "jade/billing.jade",
