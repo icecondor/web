@@ -32,15 +32,12 @@ block content
     jQuery(function(){
       var paths = window.location.pathname.split('/')
       var username = paths[1]
-      var parts = window.location.href.split('?')
-      var qparams = {}
-      console.log(parts)
-      if(parts[1]) { parts[1].split('&').forEach(function(part){p=part.split('='); qparams[p[0]]=p[1]}) }
+      var qparams = url_params(window.location.href)
       console.log(qparams)
       $('.page-data .user .username').html(username)
 
       statusTab('Connecting')
-      iceCondor.on('auth', function(user){
+      iceCondor.on('auth', function(session){
         var me_tx = iceCondor.api('user.detail')
         iceCondor.onResponse(me_tx, function(me) {
           user_detail(me)

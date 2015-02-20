@@ -125,11 +125,8 @@ block content
     jQuery(function(){
       statusTab('Connecting')
       var paths = window.location.pathname.split('/')
-      var queryparts = window.location.href.split('?')[1]
-      if(queryparts) {
-        absorb(params, queryparts)
-      }
       params.username = paths[1]
+      var queryparts = url_params(window.location.href)
 
       var now = new XDate()
       var follow = true
@@ -180,11 +177,3 @@ block content
       })
       iceCondor.connect()
     })
-
-    function absorb(hash, qstr) {
-      var pieces = qstr.split('&')
-      pieces.forEach(function(kv){
-        kv = kv.split('=')
-        hash[kv[0]] = kv[1]
-      })
-    }

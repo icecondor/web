@@ -15,11 +15,21 @@ block content
     ul.keylist
 
   script.
+    var qparams = url_params(window.location.href)
+    var paths = window.location.pathname.split('/')
     jQuery(function(){
       statusTab('Connecting')
-      iceCondor.on('auth', function(user){
+      iceCondor.on('auth', function(session){
+        console.log(session.user.username, paths[1] )
+        if(session.user.username != paths[1]){
+          statusTab('no access')
+          if(session.user.username) {
+            window.location = '/'+session.user.username+'/access'
+          } else {
+            window.location = '/'
+          }
+        }
         statusTab('loading data')
-        console.log(user)
         keylist_refresh()
 
         $('.build-access').submit(function(evt){

@@ -25,3 +25,16 @@ function statusTab(msg){
     tab.css('top',-tab_height)
   }
 }
+
+function url_params(url){
+  var parts = url.split('?')
+  var qparams = {}
+  console.log(parts)
+  if(parts[1]) {
+    parts[1].split('&').forEach(function(part){
+                     p=part.split('=');
+                     qparams[p[0]]=p[1]
+                   })
+  }
+  return qparams
+}
