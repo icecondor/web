@@ -63,8 +63,8 @@ block content
       function keylist_refresh() {
         var me_tx = iceCondor.api('user.detail')
         iceCondor.onResponse(me_tx, function(me) {
-          console.log(me)
           statusTab()
+          $('.keylist').empty()
           Object.keys(me.access).forEach(function(akey){
             var key_html = keydetail(me.username, akey, me.access[akey])
             var key_li = $('.keylist').append(key_html)
