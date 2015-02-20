@@ -173,11 +173,16 @@
     button {
       font-size: 50%;
       vertical-align: middle;
+      margin-left: 1em;
     }
+
   }
 
   .keygendetail{
     margin-left: 2em;
+    input[type='number'] {
+      width: 3em;
+    }
   }
 }
 

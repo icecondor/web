@@ -16,7 +16,7 @@ block content
         .keygendetail
           | Read
           input(type='checkbox' checked='checked')
-      .keygensection
+      .keygensection.hidden
         input(type='checkbox')
         | Expires in (optional)
         .keygendetail
@@ -88,7 +88,7 @@ block content
                    rule.scopes+
                    " Expires: "+
                    expires+
-                   "<button>X</button>"
-        return '<li id="key-'+key+'">'+t+'</li>'
+                   "<button title='delete'>X</button>"
+        return '<li class="key" id="key-'+key+'">'+t+'</li>'
       }
     })
