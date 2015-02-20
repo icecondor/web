@@ -90,6 +90,7 @@ block content
       if(follow){filter.follow = follow}
       if(start) { filter.start = start.toISOString()}
       if(stop) { filter.stop = stop.toISOString()}
+      if(params.key) {filter.key = params.key}
       var follow_tx = iceCondor.api('stream.follow', filter)
       iceCondor.onResponse(follow_tx, function(msg){
         statusTab()
