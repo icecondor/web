@@ -166,7 +166,18 @@
   }
 
   .keylist {
+    width: 90%;
+    margin: auto;
+    background-color: #eee;
 
+    button {
+      font-size: 50%;
+      vertical-align: middle;
+    }
+  }
+
+  .keygendetail{
+    margin-left: 2em;
   }
 }
 

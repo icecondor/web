@@ -6,13 +6,24 @@ block content
   div.page-access
     h2 Access Control
 
-    form.build-access
-      | Read
-      input(type='checkbox' checked='checked')
-      input(type='submit' value='Grant Access')
-
     h1 Keylist
     ul.keylist
+
+    h1 Generate Key
+    form.build-access
+      .keygensection
+        | Access Type
+        .keygendetail
+          | Read
+          input(type='checkbox' checked='checked')
+      .keygensection
+        input(type='checkbox')
+        | Expires in (optional)
+        .keygendetail
+          | Hours
+          input(type='number' value='24')
+      input(type='submit' value='Generate Key')
+
 
   script.
     var qparams = url_params(window.location.href)
@@ -55,11 +66,29 @@ block content
           console.log(me)
           statusTab()
           Object.keys(me.access).forEach(function(akey){
-            var me_url = 'https://icecondor.com/'+me.username+'?key='+akey
-            var keylink = '<a href="'+me_url+'">'+me_url+'</a>'
-            $('.keylist').append('<li>'+keylink+' Access: '+me.access[akey].scopes+'</li>')
+            var key_html = keydetail(me.username, akey, me.access[akey])
+            var key_li = $('.keylist').append(key_html)
+            $('li#key-'+akey+' button').click(function(evt){
+                console.log(evt)
+                var add_tx = iceCondor.api('user.access.del', {key: akey})
+                iceCondor.onResponse(add_tx, function(acc_ok) {
+                  keylist_refresh()
+                })
+              })
           })
         })
+      }
 
+      function keydetail(username, key, rule){
+        //template here
+        var me_url = 'https://icecondor.com/'+username+'?key='+key
+        var link = '<a href="'+me_url+'">'+me_url+'</a>'
+        var expires = rule.expires_at ? rule.expires_at : "Never"
+        var t = link+' Access: '+
+                   rule.scopes+
+                   " Expires: "+
+                   expires+
+                   "<button>X</button>"
+        return '<li id="key-'+key+'">'+t+'</li>'
       }
     })
