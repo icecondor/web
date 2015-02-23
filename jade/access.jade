@@ -95,14 +95,17 @@ block content
         var me_url = 'https://icecondor.com/'+username+'?key='+key
         var link = '<a href="'+me_url+'">'+me_url+'</a>'
         var expires = rule.expires_at ? '<time datetime="'+rule.expires_at+'" data-format="MMM-d hh:mmtt">' : "Never"
-        var t = link+' Access: '+ rule.scopes
+        var t = ' Access: '+ rule.scopes
         var expired_style = ""
         if(rule.expires_at && (new Date(rule.expires_at)) < (new Date()) ) {
           expired_style = 'overdue'
         }
         t = t +" Expires: <span class='"+expired_style+"'>"+expires+"</span>"
         t = t + "<button title='delete'>X</button>"
-        return '<li class="key" id="key-'+key+'">'+t+'</li>'
+        return '<li class="key" id="key-'+key+'">'+
+                '<div>'+t+'</div>'+
+                '<div class="keylink">'+link+'</div>'+
+               '</li>'
       }
       function enable_gen_form(){
         $('form.build-access input').prop('disabled', false)
