@@ -15,14 +15,14 @@ block content
         | Access Type
         .keygendetail
           | Read
-          input(type='checkbox' checked='checked')
-      .keygensection.hidden
-        input(type='checkbox')
+          input(type='checkbox' checked='checked' disabled)
+      .keygensection
+        input(type='checkbox' disabled)
         | Expires in (optional)
         .keygendetail
           | Hours
-          input(type='number' value='24')
-      input(type='submit' value='Generate Key')
+          input(type='number' value='24' disabled)
+      input(type='submit' value='Generate Key' disabled)
 
 
   script.
@@ -42,6 +42,7 @@ block content
         }
         statusTab('loading data')
         keylist_refresh()
+        enable_gen_form()
 
         $('.build-access').submit(function(evt){
           console.log(evt.target)
@@ -90,5 +91,8 @@ block content
                    expires+
                    "<button title='delete'>X</button>"
         return '<li class="key" id="key-'+key+'">'+t+'</li>'
+      }
+      function enable_gen_form(){
+        $('form.build-access input').prop('disabled', false)
       }
     })
