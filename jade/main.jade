@@ -42,7 +42,7 @@ block content
   script.
     jQuery(function(){
       if(getKey()){
-        statusTab("Loading")
+        statusTab("Connecting")
         iceCondor.on('auth', function(auth_user){
           window.location = "/"+auth_user.user.username
           statusTab()
@@ -51,6 +51,12 @@ block content
           iceCondor.onResponse(detail_tx, function(user){
             dashboard_detail(user)
           })
+        })
+        iceCondor.on('noauth', function(auth_user){
+          statusTab("Bad auth")
+          setTimeout(function(){statusTab()}, 1000)
+          $('.splash').removeClass('hidden')
+          $('.login_box').removeClass('hidden')
         })
       } else {
         $('.splash').removeClass('hidden')

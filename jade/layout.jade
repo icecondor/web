@@ -48,6 +48,8 @@ html
                 iceCondor.emit({method: 'auth', params: {user: user}})
               })
             }
+          }, function(err){
+            iceCondor.emit({method: 'noauth'})
           })
         } else {
           iceCondor.emit({method: 'noauth'})
