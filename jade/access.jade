@@ -14,14 +14,14 @@ block content
       .keygensection
         | Access Type
         .keygendetail
-          | Read
-          input(type='checkbox' checked='checked' disabled)
+          | Read Location
+          input(type='checkbox' name='read' checked='checked' disabled)
       .keygensection
-        input(type='checkbox' disabled)
-        | Expires in (optional)
+        input(type='checkbox' name='expires' disabled)
+        | Expires in
         .keygendetail
           | Hours
-          input(type='number' value='24' disabled)
+          input(type='number' name='expires-hours' value='24' disabled)
       input(type='submit' value='Generate Key' disabled)
 
 
@@ -45,9 +45,17 @@ block content
         enable_gen_form()
 
         $('.build-access').submit(function(evt){
-          console.log(evt.target)
+          var rule = { scopes: [] }
+          if(evt.target.elements['read'].checked){
+            rule.scopes.push('read')
+          }
+          if(evt.target.elements['expires'].checked){
+            var hours = evt.target.elements['expires-hours'].value
+            rule.expires_at = (new XDate()).addHours(hours)
+          }
+          console.log(rule)
 
-          var add_tx = iceCondor.api('user.access.add')
+          var add_tx = iceCondor.api('user.access.add', rule)
           iceCondor.onResponse(add_tx, function(acc_ok) {
             keylist_refresh()
           })
