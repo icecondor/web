@@ -21,6 +21,7 @@ module.exports = function(grunt) {
           "build/b/index.html": "jade/blog/index.jade",
           "build/b/2014/11/21/why-icecondor.html": "jade/blog/2014/11/21/why-icecondor.jade",
           "build/b/2014/12/12/history-control.html": "jade/blog/2014/12/12/history-control.jade",
+          "build/b/2015/02/23/access-links.html": "jade/blog/2015/02/23/access-links.jade",
         }
       }
     },
