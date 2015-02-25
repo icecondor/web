@@ -1,0 +1,56 @@
+extends layout
+
+block head
+  script(src='//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js')
+  script(src='//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.js')
+  link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css")
+
+block content
+  div.page-fences
+    div.section-spacer
+      h2 Fences
+      ul.fences
+
+    div.section-spacer
+      h2 Make a fence
+      form.build-fence
+        .keygensection
+          | Name
+          input(name='name' checked='checked' )
+        input(type='submit' value='Make fence')
+
+  template#fence.hidden
+    p
+      | I am a fence named {{name}} {{name}}
+
+
+  script.
+    jQuery(function(){
+      var paths = window.location.pathname.split('/')
+      var username = paths[1]
+      var qparams = url_params(window.location.href)
+      console.log(qparams)
+      $('.page-data .user .username').html(username)
+      var fence_tmpl = uStache.compile($('template#fence').html())
+
+      statusTab('Connecting')
+      iceCondor.on('auth', function(session){
+        statusTab()
+        var html = fence_tmpl({name: 'home'})
+        $('ul.fences').append('<li>'+html+'</li>')
+        $('.build-fence').submit(function(evt){
+          var add_tx = iceCondor.api('fence.add', rule)
+          iceCondor.onResponse(add_tx, function(acc_ok) {
+            //fences_refresh()
+          })
+          evt.preventDefault()
+        })
+      })
+
+      if(getKey()){
+        iceCondor.connect()
+      } else {
+        window.location = "/"
+      }
+    })
+

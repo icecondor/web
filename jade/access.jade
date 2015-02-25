@@ -74,7 +74,8 @@ block content
         iceCondor.onResponse(me_tx, function(me) {
           statusTab()
           $('.keylist').empty()
-          Object.keys(me.access).forEach(function(akey){
+          Object.keys(me.access).map(function(k){return {key:k, date: me.access[k].created_at}})
+                      .sort(function(a,b){return a.date-b.date}).forEach(function(akey){
             var key_html = keydetail(me.username, akey, me.access[akey])
             var key_li = $('.keylist').append(key_html)
             $('li#key-'+akey+' button').click(function(evt){

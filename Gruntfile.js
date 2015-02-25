@@ -13,6 +13,7 @@ module.exports = function(grunt) {
           "build/map.html": "jade/map.jade",
           "build/access.html": "jade/access.jade",
           "build/data.html": "jade/data.jade",
+          "build/fences.html": "jade/fences.jade",
           "build/profile.html": "jade/profile.jade",
           "build/billing.html": "jade/billing.jade",
           "build/p/contact-us.html": "jade/page/contact-us.jade",
