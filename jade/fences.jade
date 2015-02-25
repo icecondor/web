@@ -21,7 +21,7 @@ block content
 
   template#fence.hidden
     p
-      | I am a fence named {{name}} {{name}}
+      | Name: {{name}}
 
 
   script.
@@ -39,18 +39,34 @@ block content
         var html = fence_tmpl({name: 'home'})
         $('ul.fences').append('<li>'+html+'</li>')
         $('.build-fence').submit(function(evt){
-          var add_tx = iceCondor.api('fence.add', rule)
+          var fence_attr = {}
+          fence_attr.name = evt.target.elements['name'].value
+          var add_tx = iceCondor.api('fence.add', fence_attr)
           iceCondor.onResponse(add_tx, function(acc_ok) {
-            //fences_refresh()
+            fences_refresh()
           })
           evt.preventDefault()
         })
+        fences_refresh()
       })
 
       if(getKey()){
         iceCondor.connect()
       } else {
         window.location = "/"
+      }
+
+      function fences_refresh(){
+        var list_tx = iceCondor.api('fence.list')
+        iceCondor.onResponse(list_tx, function(fences) {
+          $('ul.fences').empty()
+          fences.forEach(function(fence){
+            console.log(fence)
+            $('ul.fences').append('<li id="'+fence.id+'">'+
+                                  fence_tmpl(fence)+
+                                  '</li>')
+          })
+        })
       }
     })
 
