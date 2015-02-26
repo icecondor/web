@@ -7,9 +7,10 @@ block head
   link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.css")
 block content
   div.page-fences
-    div.fence-detail
+    div.fence-detail.hidden
+      a.fence-home Fences
       div.detail
-      | Fence #[span.name]
+      | "#[span.name]"
 
       div.map
         div#map
@@ -41,6 +42,7 @@ block content
       var qparams = url_params(window.location.href)
       console.log(qparams)
       $('.page-data .user .username').html(username)
+      $('.fence-home').attr('href', '/'+username+'/fences')
 
       statusTab('Connecting')
       iceCondor.on('auth', function(session){
@@ -72,8 +74,10 @@ block content
                   layer = e.layer;
               fence.geojson = layer.toGeoJSON()
               map.map.map.addLayer(layer);
+              statusTab('Saving fence')
               var fence_tx = iceCondor.api('fence.update', fence)
               iceCondor.onResponse(fence_tx, function(acc_ok) {
+                statusTab()
               })
             })
           })
@@ -84,6 +88,7 @@ block content
             fence_attr.name = evt.target.elements['name'].value
             var add_tx = iceCondor.api('fence.add', fence_attr)
             iceCondor.onResponse(add_tx, function(acc_ok) {
+              statusTab()
               fences_refresh()
             })
             evt.preventDefault()
