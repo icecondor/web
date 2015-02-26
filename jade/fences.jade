@@ -69,9 +69,18 @@ block content
             $("#map").height(map_height)
             map.setup(bounds)
             map.map.add_draw(drawnItems)
-            map.map.map.on('draw:created', function (e) {
-              var type = e.layerType,
-                  layer = e.layer;
+            map.map.map.on('draw:created', function(l){jsonsave(l.layer)})
+            map.map.map.on('draw:editstop', function(evt){
+              evt.target.eachLayer(function(l){
+                console.log('poly', l.editing._poly)
+                if(l.editing && l.editing._poly){
+                  jsonsave(l)
+                }
+              })
+              //jsonsave(l.target)
+            })
+            function jsonsave(layer) {
+              console.log(layer)
               fence.geojson = layer.toGeoJSON()
               map.map.map.addLayer(layer);
               statusTab('Saving fence')
@@ -79,7 +88,7 @@ block content
               iceCondor.onResponse(fence_tx, function(acc_ok) {
                 statusTab()
               })
-            })
+            }
           })
         } else {
           $('.fence-list').removeClass('hidden')
