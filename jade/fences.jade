@@ -49,7 +49,6 @@ block content
           var add_tx = iceCondor.api('fence.get', {id:fenceId})
           iceCondor.onResponse(add_tx, function(fence) {
             $('.fence-detail span.name').html(fence.name)
-            if(fence.geojson){console.log('existing poly')}
             var map_height = $(window).outerHeight()-
                                 $('.navbar').outerHeight()-
                                 $('.fence-detail .detail').outerHeight()-
@@ -67,6 +66,12 @@ block content
               iceCondor.onResponse(fence_tx, function(acc_ok) {
               })
             })
+            if(fence.geojson){
+              console.log('existing poly')
+              console.log(fence.geojson.geometry.coordinates)
+              var layer = L.polygon(fence.geojson.geometry.coordinates)
+              map.map.drawnItems.addLayer(layer);
+            }
           })
         } else {
           $('.fence-list').removeClass('hidden')

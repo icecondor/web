@@ -21,11 +21,12 @@ var map_leaflet = function() {
   }
 
   api.add_draw = function(){
-    var drawnItems = new L.FeatureGroup()
-    map.addLayer(drawnItems)
+    api.drawnItems = new L.FeatureGroup()
+    map.addLayer(api.drawnItems)
     var drawControl = new L.Control.Draw({
+        draw: { marker: false},
         edit: {
-            featureGroup: drawnItems
+          featureGroup: api.drawnItems
         }
     })
     map.addControl(drawControl)
