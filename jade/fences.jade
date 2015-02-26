@@ -49,14 +49,24 @@ block content
           var add_tx = iceCondor.api('fence.get', {id:fenceId})
           iceCondor.onResponse(add_tx, function(fence) {
             $('.fence-detail span.name').html(fence.name)
+            var bounds = [[32.8, -98.5],[48.8, -99.5]]
+
+            var drawnItems = new L.FeatureGroup()
+            if(fence.geojson){
+              console.log('existing poly')
+              var latlngs = fence.geojson.geometry.coordinates[0].map(function(l){return [l[1],l[0]]})
+              var layer = L.polygon(latlngs)
+              drawnItems.addLayer(layer);
+              bounds = layer.getBounds()
+            }
+
             var map_height = $(window).outerHeight()-
                                 $('.navbar').outerHeight()-
                                 $('.fence-detail .detail').outerHeight()-
                                 $('.footer').outerHeight()-25
             $("#map").height(map_height)
-            var center_of_america = [39.8, -98.5]
-            map.setup(center_of_america, 3)
-            map.map.add_draw()
+            map.setup(bounds)
+            map.map.add_draw(drawnItems)
             map.map.map.on('draw:created', function (e) {
               var type = e.layerType,
                   layer = e.layer;
@@ -66,12 +76,6 @@ block content
               iceCondor.onResponse(fence_tx, function(acc_ok) {
               })
             })
-            if(fence.geojson){
-              console.log('existing poly')
-              console.log(fence.geojson.geometry.coordinates)
-              var layer = L.polygon(fence.geojson.geometry.coordinates)
-              map.map.drawnItems.addLayer(layer);
-            }
           })
         } else {
           $('.fence-list').removeClass('hidden')

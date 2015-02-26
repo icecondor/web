@@ -3,9 +3,9 @@ var map_leaflet = function() {
   var map;
 
 
-  api.setup = function(center, zoom){
+  api.setup = function(bounds){
     api.map = map = L.map('map', {zoomControl: false})
-    map.setView(center, zoom);
+    map.fitBounds(bounds);
     var zoom = L.control.zoom({position: 'topright'});
     map.addControl(zoom);
     //api.remove_draw();
@@ -20,13 +20,15 @@ var map_leaflet = function() {
     map.invalidateSize()
   }
 
-  api.add_draw = function(){
-    api.drawnItems = new L.FeatureGroup()
-    map.addLayer(api.drawnItems)
+  api.add_draw = function(drawnItems){
+    map.addLayer(drawnItems)
     var drawControl = new L.Control.Draw({
-        draw: { marker: false},
+        draw: { marker: false,
+                circle: false,
+                rectangle: false,
+                polyline: false},
         edit: {
-          featureGroup: api.drawnItems
+          featureGroup: drawnItems
         }
     })
     map.addControl(drawControl)
