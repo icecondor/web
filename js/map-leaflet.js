@@ -2,8 +2,9 @@ var map_leaflet = function() {
   var api = {}
   var map;
 
+
   api.setup = function(center, zoom){
-    map = L.map('map', {zoomControl: false})
+    api.map = map = L.map('map', {zoomControl: false})
     map.setView(center, zoom);
     var zoom = L.control.zoom({position: 'topright'});
     map.addControl(zoom);
