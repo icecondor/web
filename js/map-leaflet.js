@@ -28,7 +28,8 @@ var map_leaflet = function() {
                 rectangle: false,
                 polyline: false},
         edit: {
-          featureGroup: drawnItems
+          featureGroup: drawnItems,
+          remove: false
         }
     })
     map.addControl(drawControl)
