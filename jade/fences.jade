@@ -44,17 +44,16 @@ block content
 
       statusTab('Connecting')
       iceCondor.on('auth', function(session){
-        statusTab()
         if(fenceId) {
           $('.fence-detail').removeClass('hidden')
           var add_tx = iceCondor.api('fence.get', {id:fenceId})
           iceCondor.onResponse(add_tx, function(fence) {
+            statusTab()
             $('.fence-detail span.name').html(fence.name)
             var bounds = [[32.8, -98.5],[48.8, -99.5]]
 
             var drawnItems = new L.FeatureGroup()
             if(fence.geojson){
-              console.log('existing poly')
               var latlngs = fence.geojson.geometry.coordinates[0].map(function(l){return [l[1],l[0]]})
               var layer = L.polygon(latlngs)
               drawnItems.addLayer(layer);
@@ -90,6 +89,7 @@ block content
             evt.preventDefault()
           })
           fences_refresh()
+          statusTab()
         }
       })
 
@@ -111,7 +111,7 @@ block content
                                   '</li>')
             $('li#'+fence.id+' button').click(function(evt){
               console.log(evt)
-              var tx = iceCondor.api('fence.del', fence.id)
+              var tx = iceCondor.api('fence.del', {id:fence.id})
               iceCondor.onResponse(tx, function(acc_ok) {
                 fences_refresh()
               })
