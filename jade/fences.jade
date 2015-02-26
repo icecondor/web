@@ -29,6 +29,7 @@ block content
 
   template#fence.hidden
     p
+      button X
       | Name: #[a(href="{{link}}") {{name}}]
 
 
@@ -105,10 +106,17 @@ block content
           $('ul.fences').empty()
           fences.forEach(function(fence){
             fence.link = '/'+username+'/fences/'+fence.id
-            console.log(fence)
             $('ul.fences').append('<li id="'+fence.id+'">'+
                                   fence_tmpl(fence)+
                                   '</li>')
+            $('li#'+fence.id+' button').click(function(evt){
+              console.log(evt)
+              var tx = iceCondor.api('fence.del', fence.id)
+              iceCondor.onResponse(tx, function(acc_ok) {
+                fences_refresh()
+              })
+              evt.preventDefault()
+            })
           })
         })
       }

@@ -196,6 +196,12 @@
 }
 
 .page-fences {
+  .fence-list {
+    button {
+      font-size: 50%;
+      padding: 0;
+    }
+  }
   .fence-detail {
     .map {
       margin: auto;
