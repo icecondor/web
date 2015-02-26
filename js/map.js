@@ -11,6 +11,8 @@ var map = function(){
     map.resize()
   }
 
+  api.add_draw = function() {map.add_draw()}
+
   api.addTrack = function(track_id, name) {
     var line = map.addPolyline({color: 'red', smoothFactor: 0})
     // marker must have lat/long so delay until first point

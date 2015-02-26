@@ -4,12 +4,15 @@ block head
   script(src='//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js')
   script(src='//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.js')
   link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css")
-
+  link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.2.3/leaflet.draw.css")
 block content
   div.page-fences
     div.fence-detail
+      div.detail
       | Fence #[span.name]
+
       div.map
+        div#map
 
     div.fence-list.hidden
       div.section-spacer
@@ -33,7 +36,7 @@ block content
     jQuery(function(){
       var paths = window.location.pathname.split('/')
       var username = paths[1]
-      var fencename = paths[3]
+      var fenceId = paths[3]
       var qparams = url_params(window.location.href)
       console.log(qparams)
       $('.page-data .user .username').html(username)
@@ -41,9 +44,21 @@ block content
       statusTab('Connecting')
       iceCondor.on('auth', function(session){
         statusTab()
-        if(fencename) {
+        if(fenceId) {
           $('.fence-detail').removeClass('hidden')
-          $('.fence-detail span.name').html(fencename)
+          var add_tx = iceCondor.api('fence.get', {id:fenceId})
+          iceCondor.onResponse(add_tx, function(fence) {
+            $('.fence-detail span.name').html(fence.name)
+          })
+
+          var map_height = $(window).outerHeight()-
+                              $('.navbar').outerHeight()-
+                              $('.fence-detail .detail').outerHeight()-
+                              $('.footer').outerHeight()-25
+          $("#map").height(map_height)
+          var center_of_america = [39.8, -98.5]
+          map.setup(center_of_america, 3)
+          map.add_draw()
         } else {
           $('.fence-list').removeClass('hidden')
           $('.build-fence').submit(function(evt){
@@ -71,7 +86,7 @@ block content
         iceCondor.onResponse(list_tx, function(fences) {
           $('ul.fences').empty()
           fences.forEach(function(fence){
-            fence.link = '/'+username+'/fences/'+fence.name
+            fence.link = '/'+username+'/fences/'+fence.id
             console.log(fence)
             $('ul.fences').append('<li id="'+fence.id+'">'+
                                   fence_tmpl(fence)+

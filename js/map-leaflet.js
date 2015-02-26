@@ -20,7 +20,14 @@ var map_leaflet = function() {
   }
 
   api.add_draw = function(){
-    map.drawControl.addTo(map)
+    var drawnItems = new L.FeatureGroup()
+    map.addLayer(drawnItems)
+    var drawControl = new L.Control.Draw({
+        edit: {
+            featureGroup: drawnItems
+        }
+    })
+    map.addControl(drawControl)
   }
 
   api.remove_draw = function(){
