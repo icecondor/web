@@ -7,47 +7,56 @@ block head
 
 block content
   div.page-fences
-    div.section-spacer
-      h2 Fences
-      ul.fences
+    div.fence-detail
+      | Fence #[span.name]
+      div.map
 
-    div.section-spacer
-      h2 Make a fence
-      form.build-fence
-        .keygensection
-          | Name
-          input(name='name' checked='checked' )
-        input(type='submit' value='Make fence')
+    div.fence-list.hidden
+      div.section-spacer
+        h2 Fences
+        ul.fences
+
+      div.section-spacer
+        h2 Make a fence
+        form.build-fence
+          .keygensection
+            | Name
+            input(name='name' checked='checked' )
+          input(type='submit' value='Make fence')
 
   template#fence.hidden
     p
-      | Name: {{name}}
+      | Name: #[a(href="{{link}}") {{name}}]
 
 
   script.
     jQuery(function(){
       var paths = window.location.pathname.split('/')
       var username = paths[1]
+      var fencename = paths[3]
       var qparams = url_params(window.location.href)
       console.log(qparams)
       $('.page-data .user .username').html(username)
-      var fence_tmpl = uStache.compile($('template#fence').html())
 
       statusTab('Connecting')
       iceCondor.on('auth', function(session){
         statusTab()
-        var html = fence_tmpl({name: 'home'})
-        $('ul.fences').append('<li>'+html+'</li>')
-        $('.build-fence').submit(function(evt){
-          var fence_attr = {}
-          fence_attr.name = evt.target.elements['name'].value
-          var add_tx = iceCondor.api('fence.add', fence_attr)
-          iceCondor.onResponse(add_tx, function(acc_ok) {
-            fences_refresh()
+        if(fencename) {
+          $('.fence-detail').removeClass('hidden')
+          $('.fence-detail span.name').html(fencename)
+        } else {
+          $('.fence-list').removeClass('hidden')
+          $('.build-fence').submit(function(evt){
+            var fence_attr = {}
+            fence_attr.name = evt.target.elements['name'].value
+            var add_tx = iceCondor.api('fence.add', fence_attr)
+            iceCondor.onResponse(add_tx, function(acc_ok) {
+              fences_refresh()
+            })
+            evt.preventDefault()
           })
-          evt.preventDefault()
-        })
-        fences_refresh()
+          fences_refresh()
+        }
       })
 
       if(getKey()){
@@ -57,10 +66,12 @@ block content
       }
 
       function fences_refresh(){
+        var fence_tmpl = uStache.compile($('template#fence').html())
         var list_tx = iceCondor.api('fence.list')
         iceCondor.onResponse(list_tx, function(fences) {
           $('ul.fences').empty()
           fences.forEach(function(fence){
+            fence.link = '/'+username+'/fences/'+fence.name
             console.log(fence)
             $('ul.fences').append('<li id="'+fence.id+'">'+
                                   fence_tmpl(fence)+
