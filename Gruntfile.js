@@ -48,7 +48,7 @@ module.exports = function(grunt) {
     },
     copy: {
       main: {
-        src: 'assets/**',
+        src: ['assets/**/*'],
         dest: 'build/',
       },
     },
