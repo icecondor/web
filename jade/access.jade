@@ -9,6 +9,17 @@ block content
     h1 Keylist
     ul.keylist
 
+    template#rule.hidden
+      p
+        | Created:
+        time(datetime="{{created_at}}" data-format="MMM-d hh:mmtt")
+        |  Expires:
+        span(class="{{expired_style}}")
+          time(datetime="{{expires_at}}" data-format="MMM-d hh:mmtt")
+        button(title='delete') X
+      .keylink
+        a(href="{{me_url}}") {{me_url}}
+
     h1 Generate Key
     form.build-access
       .keygensection
@@ -79,13 +90,12 @@ block content
                       })
           keydates = keydates.sort(function(a,b){
                       if(a.date && b.date) {
-                        if ( a.date < b.date ) { return -1 }
-                        if ( a.date > b.date ) { return 1 }
+                        if ( a.date < b.date ) { return 1 }
+                        if ( a.date > b.date ) { return -1 }
                         return 0;
                       } else { return -1}
                       })
           keydates.forEach(function(datekey){
-            console.log(datekey)
             var akey = datekey.key
             var key_html = keydetail(me.username, akey, me.access[akey])
             var key_li = $('.keylist').append(key_html)
@@ -103,21 +113,19 @@ block content
 
       function keydetail(username, key, rule){
         //template here
-        var me_url = 'https://icecondor.com/'+username+'?key='+key
-        var link = '<a href="'+me_url+'">'+me_url+'</a>'
-        var expires = rule.expires_at ? '<time datetime="'+rule.expires_at+'" data-format="MMM-d hh:mmtt">' : "never"
-        var t = ' Access: '+ rule.scopes
-        var expired_style = ""
-        if(rule.expires_at && (new Date(rule.expires_at)) < (new Date()) ) {
-          expired_style = 'overdue'
-        }
-        t = t +" Expires: <span class='"+expired_style+"'>"+expires+"</span>"
-        t = t + "<button title='delete'>X</button>"
+        rule.me_url = 'https://icecondor.com/'+username+'?key='+key
+        rule.expired_style = 'hidden'
+        if(rule.expires_at) {
+          if ((new Date(rule.expires_at)) < (new Date()) ) {
+            rule.expired_style = 'overdue'
+          }
+        } else { rule.expires_at = ''}
+        var rule_tmpl = uStache.compile($('template#rule').html())
         return '<li class="key" id="key-'+key+'">'+
-                '<div>'+t+'</div>'+
-                '<div class="keylink">'+link+'</div>'+
+                rule_tmpl(rule)+
                '</li>'
       }
+
       function enable_gen_form(){
         $('form.build-access input').prop('disabled', false)
       }
