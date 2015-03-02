@@ -74,13 +74,18 @@ block content
         iceCondor.onResponse(me_tx, function(me) {
           statusTab()
           $('.keylist').empty()
-          Object.keys(me.access).map(function(k){
+          var keydates = Object.keys(me.access).map(function(k){
                       return {key:k, date: me.access[k].created_at}
-                      }).sort(function(a,b){
+                      })
+          keydates = keydates.sort(function(a,b){
                       if(a.date && b.date) {
-                        return a.date.localeCompare(b.date)
+                        if ( a.date < b.date ) { return -1 }
+                        if ( a.date > b.date ) { return 1 }
+                        return 0;
                       } else { return -1}
-                      }).forEach(function(datekey){
+                      })
+          keydates.forEach(function(datekey){
+            console.log(datekey)
             var akey = datekey.key
             var key_html = keydetail(me.username, akey, me.access[akey])
             var key_li = $('.keylist').append(key_html)
