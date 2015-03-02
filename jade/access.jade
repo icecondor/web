@@ -74,8 +74,14 @@ block content
         iceCondor.onResponse(me_tx, function(me) {
           statusTab()
           $('.keylist').empty()
-          Object.keys(me.access).map(function(k){return {key:k, date: me.access[k].created_at}})
-                      .sort(function(a,b){return a.date-b.date}).forEach(function(akey){
+          Object.keys(me.access).map(function(k){
+                      return {key:k, date: me.access[k].created_at}
+                      }).sort(function(a,b){
+                      if(a.date && b.date) {
+                        return a.date.localeCompare(b.date)
+                      } else { return -1}
+                      }).forEach(function(datekey){
+            var akey = datekey.key
             var key_html = keydetail(me.username, akey, me.access[akey])
             var key_li = $('.keylist').append(key_html)
             $('li#key-'+akey+' button').click(function(evt){
@@ -92,7 +98,6 @@ block content
 
       function keydetail(username, key, rule){
         //template here
-        console.log(rule)
         var me_url = 'https://icecondor.com/'+username+'?key='+key
         var link = '<a href="'+me_url+'">'+me_url+'</a>'
         var expires = rule.expires_at ? '<time datetime="'+rule.expires_at+'" data-format="MMM-d hh:mmtt">' : "never"
