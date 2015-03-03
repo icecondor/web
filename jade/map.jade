@@ -32,7 +32,9 @@ block content
       div#map
       div.hidden#popup-holder
 
-      div.fences Fences:
+      div.fences.flexbox
+        div Fences:
+
 
   script.
     function locationBar(location) {
@@ -175,6 +177,18 @@ block content
       var action = getKey() ? 'auth' : 'hello'
       iceCondor.on(action, function(logged_in_user){
         startFollow(params.username, start, stop, day_count, day_order, follow)
+        var userinfo_tx = iceCondor.api('user.detail')
+        iceCondor.onResponse(userinfo_tx, function(user){
+          if(user.username == params.username) {
+            if(user.latest){
+              user.latest.fences.forEach(function(fence){
+                console.log(fence)
+                $('.fences').append('<div class="fenceitem" id="'+fence+'">'+
+                                       '<a href="/'+params.username+'/fences/'+fence+'">[fence]</a></div>')
+              })
+            }
+          }
+        })
       })
       iceCondor.connect()
     })

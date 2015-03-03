@@ -17,6 +17,9 @@
   .fences {
     background-color: grey;
   }
+  .fenceitem {
+    padding: 0 0.5em;
+  }
 
   #map {
     height: 400px;
@@ -200,6 +203,7 @@
       padding: 0;
     }
   }
+
   .fence-detail {
     .map {
       margin: auto;
