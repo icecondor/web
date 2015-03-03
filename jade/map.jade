@@ -181,10 +181,15 @@ block content
         iceCondor.onResponse(userinfo_tx, function(user){
           if(user.username == params.username) {
             if(user.latest){
-              user.latest.fences.forEach(function(fence){
-                console.log(fence)
-                $('.fences').append('<div class="fenceitem" id="'+fence+'">'+
-                                       '<a href="/'+params.username+'/fences/'+fence+'">[fence]</a></div>')
+              user.latest.fences.forEach(function(fence_id){
+                $('.fences').append('<div class="fenceitem" id="'+fence_id+'">'+
+                                       '<a href="/'+params.username+'/fences/'+
+                                       fence_id+'">[fence]</a></div>')
+                var fence_tx = iceCondor.api('fence.get', {id: fence_id})
+                iceCondor.onResponse(fence_tx, function(fence){
+                  console.log(fence)
+                  $('.fenceitem#'+fence_id+' a').html(fence.name)
+                })
               })
             }
           }
