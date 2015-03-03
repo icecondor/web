@@ -56,7 +56,7 @@ block content
 
             var drawnItems = new L.FeatureGroup()
             if(fence.geojson){
-              var latlngs = fence.geojson.geometry.coordinates[0].map(function(l){return [l[1],l[0]]})
+              var latlngs = fence.geojson.coordinates[0].map(function(l){return [l[1],l[0]]})
               var layer = L.polygon(latlngs)
               drawnItems.addLayer(layer);
               bounds = layer.getBounds()
