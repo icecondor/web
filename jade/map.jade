@@ -181,6 +181,7 @@ block content
       iceCondor.on(action, function(logged_in_user){
         startFollow(params.username, start, stop, day_count, day_order, follow)
         var userinfo_tx = iceCondor.api('user.detail')
+        var layercache = {}
         iceCondor.onResponse(userinfo_tx, function(user){
           if(user.username == params.username) {
             if(user.latest){
@@ -190,6 +191,14 @@ block content
                 var fence_tx = iceCondor.api('fence.get', {id: fence_id})
                 iceCondor.onResponse(fence_tx, function(fence){
                   $('.fencelist .fenceitem#'+fence_id+' a').html(fence.name)
+                  var latlngs = fence.geojson.coordinates[0].map(function(l){return [l[1],l[0]]})
+                  var layer = L.polygon(latlngs)
+                  layercache[fence_id] = layer
+                  $('.fencelist .fenceitem#'+fence_id+' a').hover(function(evt){
+                    map.map.map.addLayer(layercache[fence_id])
+                  }, function(evt){
+                    map.map.map.removeLayer(layercache[fence_id])
+                  })
                 })
               })
             }
