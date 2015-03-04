@@ -32,8 +32,11 @@ block content
       div#map
       div.hidden#popup-holder
 
-      div.fences.flexbox
-        div Fences:
+      div.fencelist.flexbox
+        div.listhead Fences:
+      template#fenceitem
+        div.fenceitem(id="{{fence_id}}")
+          a(href="/{{username}}/fences/{{fence_id}}") [fence]
 
 
   script.
@@ -181,14 +184,12 @@ block content
         iceCondor.onResponse(userinfo_tx, function(user){
           if(user.username == params.username) {
             if(user.latest){
+              var item_tmpl = uStache.compile($('template#fenceitem').html())
               user.latest.fences.forEach(function(fence_id){
-                $('.fences').append('<div class="fenceitem" id="'+fence_id+'">'+
-                                       '<a href="/'+params.username+'/fences/'+
-                                       fence_id+'">[fence]</a></div>')
+                $('.fencelist').append(item_tmpl({fence_id: fence_id, username: params.username}))
                 var fence_tx = iceCondor.api('fence.get', {id: fence_id})
                 iceCondor.onResponse(fence_tx, function(fence){
-                  console.log(fence)
-                  $('.fenceitem#'+fence_id+' a').html(fence.name)
+                  $('.fencelist .fenceitem#'+fence_id+' a').html(fence.name)
                 })
               })
             }
