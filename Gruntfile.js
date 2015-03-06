@@ -35,6 +35,19 @@ module.exports = function(grunt) {
         }
       }
     },
+    flow: {
+      app: {
+        src: 'js/',            // also `.flowconfig` folder
+        options: {
+          background: false,    // Watch/Server mode
+          all: true,           // Check all files regardless
+          lib: '.flow',              // Library directory
+          stripRoot: false,     // Relative vs Absolute paths
+          weak: true,          // Force weak check
+          showAllErrors: false, // Show more than 50 errors
+        }
+      }
+    },
     uglify: {
       dev: {
         options: {
@@ -77,6 +90,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify')
   grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-contrib-copy')
+  grunt.loadNpmTasks('grunt-flow-type-check')
 
   grunt.registerTask('default', ['compass', 'jade', 'uglify', 'copy'])
 }
