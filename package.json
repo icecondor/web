@@ -5,5 +5,8 @@
                     "grunt-contrib-compass": "*",
                     "grunt-contrib-watch": "*",
                     "grunt-contrib-copy": "*"
-                  }
+                  },
+  "devDependencies": {
+    "grunt-flow-type-check": "*"
+  }
 }
