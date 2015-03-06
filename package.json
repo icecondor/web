@@ -8,5 +8,9 @@
                   },
   "devDependencies": {
     "grunt-flow-type-check": "*"
+  },
+  "repository" :{
+    "type" : "git",
+    "url" : "http://github.com/icecondor/web.git"
   }
 }
