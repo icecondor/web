@@ -32,7 +32,7 @@ function url_params(url){
   console.log(parts)
   if(parts[1]) {
     parts[1].split('&').forEach(function(part){
-                     p=part.split('=');
+                     var p=part.split('=');
                      qparams[p[0]]=p[1]
                    })
   }

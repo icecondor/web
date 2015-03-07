@@ -9,7 +9,7 @@ uStache.compile = function(str) {
          .split("\t").join("'")
          .replace(/{{(.+?)}}/g, "',$1,'")
          + "'].join('')}";
-      func = new Function("locals", strFunc);
+      var func = new Function("locals", strFunc);
       return func;
     } catch (e) { err = e.message; }
     return "< # ERROR: " + err + " # >";
