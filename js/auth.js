@@ -12,19 +12,6 @@ function apiKeyCheck() {
   }
 }
 
-function emailTokenRequest(form){
-  var email = form.elements.email.value
-  form.elements.email = ""
-  return iceCondor.connect().then(function(){
-    var email_tx = iceCondor.api('auth.email', {email: email, device_id: "browser"})
-    iceCondor.onResponse(email_tx, function(msg){
-      $('.login_box').html('email sent.')
-      iceCondor.emit({method: 'email', params: {email: email}})
-      console.log(msg)
-    })
-  })
-}
-
 function getQueryParameterByName(name) {
     var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));

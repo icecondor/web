@@ -44,7 +44,17 @@ div.navbar.dark-links
 script.
   $(function(){
     $('.token_email').submit(function(evt){
-      emailTokenRequest(evt.target)
+      var form = evt.target
+      var email = form.elements.email.value
+      form.elements.email = ""
+      return iceCondor.connect().then(function(){
+        var email_tx = iceCondor.api('auth.email', {email: email, device_id: "browser"})
+        iceCondor.onResponse(email_tx, function(msg){
+          $('.login_box').html('email sent.')
+          iceCondor.emit({method: 'email', params: {email: email}})
+          console.log(msg)
+        })
+      })
       evt.preventDefault()
     })
     $('.hamburger').click(function(evt){
