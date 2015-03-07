@@ -21,7 +21,7 @@ function getQueryParameterByName(name) {
 function dbGet(key) {
   try {
     var json = localStorage.getItem(key)
-    return JSON.parse(json)
+    return JSON.parse(""+json)
   } catch(e) {
     // extreme but better than the alternative
     console.log("abandon localStorage")

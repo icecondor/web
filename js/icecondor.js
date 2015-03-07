@@ -43,7 +43,7 @@ var iceCondor = function() {
   function dispatch(msg) {
     var cbs = callbacks[msg.method]
     if (cbs) {
-      for(idx in cbs) {
+      for(var idx in cbs) {
         cbs[idx](msg.params)
       }
     } else {
@@ -72,7 +72,7 @@ var iceCondor = function() {
   }
 
   IceCondor.auth = function(device_key) {
-    auth_tx = IceCondor.api('auth.session', {device_key: device_key})
+    var auth_tx = IceCondor.api('auth.session', {device_key: device_key})
     return auth_tx
   }
 
