@@ -83,6 +83,9 @@ module.exports = function(grunt) {
         tasks: ['copy'],
       },
     },
+    browserify: {
+
+    }
   });
 
   grunt.loadNpmTasks('grunt-contrib-jade')
@@ -91,6 +94,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-contrib-copy')
   grunt.loadNpmTasks('grunt-flow-type-check')
+  grunt.loadNpmTasks('grunt-browserify')
 
   grunt.registerTask('default', ['compass', 'jade', 'uglify', 'copy'])
 }
