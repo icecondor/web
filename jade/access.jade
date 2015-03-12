@@ -114,7 +114,7 @@ block content
       function keydetail(username, key, rule){
         //template here
         rule.me_url = 'https://icecondor.com/'+username+'?key='+key
-        rule.expired_style = 'hidden'
+        rule.expired_style = ''
         if(rule.expires_at) {
           if ((new Date(rule.expires_at)) < (new Date()) ) {
             rule.expired_style = 'overdue'
