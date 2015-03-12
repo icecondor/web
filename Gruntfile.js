@@ -96,6 +96,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-flow-type-check')
   grunt.loadNpmTasks('grunt-browserify')
 
-  grunt.registerTask('default', ['compass', 'jade', 'flow', 'uglify', 'copy'])
+  grunt.registerTask('default', ['compass', 'jade', 'uglify', 'copy'])
 }
 
