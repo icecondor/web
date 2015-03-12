@@ -119,7 +119,10 @@ block content
           if ((new Date(rule.expires_at)) < (new Date()) ) {
             rule.expired_style = 'overdue'
           }
-        } else { rule.expired_style = 'hidden'}
+        } else {
+          rule.expired_style = 'hidden'
+          rule.expires_at = ''
+        }
         var rule_tmpl = uStache.compile($('template#rule').html())
         return '<li class="key" id="key-'+key+'">'+
                 rule_tmpl(rule)+
