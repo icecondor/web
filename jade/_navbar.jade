@@ -44,6 +44,7 @@ div.navbar.dark-links
 script.
   $(function(){
     $('.token_email').submit(function(evt){
+      evt.preventDefault()
       var form = evt.target
       var email = form.elements.email.value
       form.elements.email = ""
@@ -55,7 +56,6 @@ script.
           console.log(msg)
         })
       })
-      evt.preventDefault()
     })
     $('.hamburger').click(function(evt){
       showLogin()
