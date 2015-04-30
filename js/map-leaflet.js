@@ -102,8 +102,8 @@ var map_leaflet = function() {
     line.addTo(map)
     return line
   }
-  api.addCircle = function(point, radius){
-    var circle = L.circle(point, radius, {opacity: 0.1, fillOpacity: 0.1})
+  api.addCircle = function(point, radius, opacity, fillOpacity){
+    var circle = L.circle(point, radius, {opacity: opacity, fillOpacity: fillOpacity})
     circle.addTo(map)
     return circle
   }

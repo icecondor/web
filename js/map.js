@@ -38,9 +38,10 @@ var map = function(){
       var marker = map.addMarker(point, type)
       map.addPopup(marker)
       set_popup_detail(marker.getPopup(), point, type)
-      map.addCircle([point.latitude,point.longitude], point.accuracy)
+      map.addCircle([point.latitude,point.longitude], point.accuracy, 0.1, 0.0)
     } else {
       add_point_to_track(track, point, date_order_idx)
+      map.addCircle([point.latitude,point.longitude], point.accuracy, 0.05, 0.0)
       var historical_point
       if(date_order_idx == 0) {
         move_head(track, point)
