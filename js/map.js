@@ -38,6 +38,7 @@ var map = function(){
       var marker = map.addMarker(point, type)
       map.addPopup(marker)
       set_popup_detail(marker.getPopup(), point, type)
+      map.addCircle([point.latitude,point.longitude], point.accuracy)
     } else {
       add_point_to_track(track, point, date_order_idx)
       var historical_point

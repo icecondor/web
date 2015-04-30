@@ -66,7 +66,7 @@ var map_leaflet = function() {
     return {coordinates: [latlng.lat, latlng.lng]}
   }
 
-  var icons = {"tower":{isize:[33,40], anchor:[16,40]},
+  var icons = {"tower":{isize:[30,20], anchor:[16,40]},
                "wifi":{isize:[33,40], anchor:[16,40]},
                "person":{isize:[25,41], anchor:[12,41]}
               }
@@ -101,6 +101,11 @@ var map_leaflet = function() {
     var line = L.polyline([], opts)
     line.addTo(map)
     return line
+  }
+  api.addCircle = function(point, radius){
+    var circle = L.circle(point, radius, {opacity: 0.1, fillOpacity: 0.1})
+    circle.addTo(map)
+    return circle
   }
 
   api.removeLayer = function(layer) {
