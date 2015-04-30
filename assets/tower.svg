@@ -91,7 +91,7 @@
      transform="translate(2024.7066,1008.8172)">
     <path
        sodipodi:type="arc"
-       style="fill:none;stroke:#a44d08;stroke-width:1.96004152;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:1.96004152;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path3181"
        sodipodi:cx="-2009.8217"
        sodipodi:cy="-999.07751"
@@ -102,14 +102,14 @@
        sodipodi:end="0.78539819"
        sodipodi:open="true" />
     <path
-       style="fill:#a44d08;fill-opacity:1;stroke:#a44d08;stroke-width:0.32099649;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
+       style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.32099649;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1"
        d="m -2006.0534,-1000.3628 c -0.039,1.60052 -0.929,2.93079 -2.3019,3.59991 -0.2254,0.0989 1.2424,4.01745 1.3336,5.61838 -3.6108,0.0137 -1.79,-0.006 -5.5762,0.005 0.065,-1.60095 1.5352,-5.525 1.3098,-5.62388 -1.4095,-0.66343 -2.2406,-2.02589 -2.3019,-3.59991 0,-2.1568 1.6882,-3.9072 3.7683,-3.9072 2.0801,0 3.7683,1.7504 3.7683,3.9072 z"
        id="path2385"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccsc" />
     <path
        sodipodi:type="arc"
-       style="fill:none;stroke:#a44d08;stroke-width:1.96004152;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;stroke:#000000;stroke-width:1.96004152;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="path3231"
        sodipodi:cx="-2009.8217"
        sodipodi:cy="-999.07751"
