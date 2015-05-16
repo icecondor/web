@@ -30,18 +30,21 @@ var map = function(){
   api.addPointToTrack = function(track_id, point) {
     var track = tracks[track_id]
     var type = provider_type(point)
+    var color
+    if(type == "wifi"){ color = '#03a' }
+    if(type == "gps") { color = '#8A500' }
+    if(type == "tower") { color = '#444' }
 
     var date_order_idx = point_index(track_id, point)
 
     if(type == "tower") {
-      // simple case
-      var marker = map.addMarker(point, type)
+      var marker = map.addMarker(point, type, 1)
       map.addPopup(marker)
       set_popup_detail(marker.getPopup(), point, type)
-      map.addCircle([point.latitude,point.longitude], point.accuracy, 0.1, 0.0)
+      map.addCircle([point.latitude,point.longitude], point.accuracy, 0.01, 0.0, color)
     } else {
       add_point_to_track(track, point, date_order_idx)
-      map.addCircle([point.latitude,point.longitude], point.accuracy, 0.05, 0.0)
+      map.addCircle([point.latitude,point.longitude], point.accuracy, 0.05, 0.0, color)
       var historical_point
       if(date_order_idx == 0) {
         move_head(track, point)
@@ -56,7 +59,7 @@ var map = function(){
     if(track.marker) {
       map.moveMarker(track.marker, point)
     } else {
-      track.marker = map.addMarker(point, "person")
+      track.marker = map.addMarker(point, "person", 1)
       map.addPopup(track.marker)
     }
   }

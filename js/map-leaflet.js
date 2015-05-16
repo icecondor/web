@@ -66,7 +66,7 @@ var map_leaflet = function() {
     return {coordinates: [latlng.lat, latlng.lng]}
   }
 
-  var icons = {"tower":{isize:[30,20], anchor:[16,40]},
+  var icons = {"tower":{isize:[30,20], anchor:[15,20]},
                "wifi":{isize:[33,40], anchor:[16,40]},
                "person":{isize:[25,41], anchor:[12,41]}
               }
@@ -76,9 +76,11 @@ var map_leaflet = function() {
                    iconAnchor: icons[name].anchor})
   }
 
-  api.addMarker = function(point, icon_name){
+  api.addMarker = function(point, icon_name, opacity){
     var marker = L.marker(this.pointToLatLng(point),
-                          {icon: api.makeIcon(icon_name)})
+                          {icon: api.makeIcon(icon_name),
+                           opacity: opacity
+                          })
     marker.addTo(map)
     return marker
   }
@@ -102,8 +104,10 @@ var map_leaflet = function() {
     line.addTo(map)
     return line
   }
-  api.addCircle = function(point, radius, opacity, fillOpacity){
-    var circle = L.circle(point, radius, {opacity: opacity, fillOpacity: fillOpacity})
+  api.addCircle = function(point, radius, opacity, fillOpacity, color){
+    var circle = L.circle(point, radius, {color: color,  
+                                          opacity: opacity, 
+                                          fillOpacity: fillOpacity})
     circle.addTo(map)
     return circle
   }
