@@ -37,18 +37,26 @@ var map = function(){
 
     var date_order_idx = point_index(track_id, point)
 
+    var zoom
+    if(track.points.length == 0) {
+      zoom = 14
+    }
+
     if(type == "tower") {
       var marker = map.addMarker(point, type, 1)
       map.addPopup(marker)
       set_popup_detail(marker.getPopup(), point, type)
       map.addCircle([point.latitude,point.longitude], point.accuracy, 0.01, 0.0, color)
+      if(date_order_idx == 0) {
+        map.setCenter(point, zoom)
+      }
     } else {
       add_point_to_track(track, point, date_order_idx)
       map.addCircle([point.latitude,point.longitude], point.accuracy, 0.05, 0.0, color)
       var historical_point
       if(date_order_idx == 0) {
         move_head(track, point)
-        map.recenter(track.bounds)
+        map.setCenter(point, zoom)
         set_popup_detail(track.marker.getPopup(), point, type)
       }
     }
