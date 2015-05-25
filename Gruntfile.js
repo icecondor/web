@@ -76,15 +76,15 @@ module.exports = function(grunt) {
         tasks: ['jade'],
       },
       css: {
-        files: ['sass/*'],
+        files: ['sass/**'],
         tasks: ['compass'],
       },
       js: {
-        files: ['js/*'],
+        files: ['js/**'],
         tasks: ['uglify'],
       },
       assets: {
-        files: ['assets/*'],
+        files: ['assets/**'],
         tasks: ['copy'],
       },
     },
