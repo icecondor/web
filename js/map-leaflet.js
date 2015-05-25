@@ -40,10 +40,9 @@ var map_leaflet = function() {
   }
 
   api.setCenter = function(center, zoom){
-    console.log('setCenter', center, zoom)
     var latLng = api.pointToLatLng(center)
-    map.panTo(latLng)
     if(zoom){ map.setZoom(zoom) }
+    map.panTo(latLng)
   }
 
   api.recenter = function(bounds) {
@@ -105,8 +104,8 @@ var map_leaflet = function() {
     return line
   }
   api.addCircle = function(point, radius, opacity, fillOpacity, color){
-    var circle = L.circle(point, radius, {color: color,  
-                                          opacity: opacity, 
+    var circle = L.circle(point, radius, {color: color,
+                                          opacity: opacity,
                                           fillOpacity: fillOpacity})
     circle.addTo(map)
     return circle
