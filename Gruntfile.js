@@ -54,9 +54,14 @@ module.exports = function(grunt) {
           beautify: true,
           mangle: false
         },
-        files: {
-          'build/js/app.js': ['js/*']
-        }
+        files: [{
+          'build/js/app.js': ['js/*.js']
+        }, {
+          expand: true,
+          cwd: 'js',
+          src: 'ui/*.js',
+          dest: 'build/js'
+        }]
       }
     },
     copy: {
