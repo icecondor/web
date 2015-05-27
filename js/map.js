@@ -39,7 +39,7 @@ var map = function(){
 
     var zoom
     if(track.points.length == 0) {
-      zoom = 14
+      zoom = 17
     }
 
     if(type == "tower") {
