@@ -98,8 +98,8 @@ var map_leaflet = function() {
     marker.bindPopup(popup)
   }
 
-  api.addPolyline = function(opts){
-    var line = L.polyline([], opts)
+  api.addPolyline = function(pts, opts){
+    var line = L.polyline(pts, opts)
     line.addTo(map)
     return line
   }

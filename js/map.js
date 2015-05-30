@@ -12,9 +12,8 @@ var map = function(){
   }
   api.map = map
   api.addTrack = function(track_id, name) {
-    var line = map.addPolyline({color: 'red', smoothFactor: 0})
     // marker must have lat/long so delay until first point
-    var track = { name: name, points: [], line: line, marker: null, bounds: map.bounds() }
+    var track = { name: name, points: [], marker: null, bounds: map.bounds() }
     tracks[track_id] = track
     return track
   }
@@ -51,7 +50,6 @@ var map = function(){
         map.setCenter(point, zoom)
       }
     } else {
-      add_point_to_track(track, point, date_order_idx)
       map.addCircle([point.latitude,point.longitude], point.accuracy, 0.05, 0.0, color)
       var historical_point
       if(date_order_idx == 0) {
@@ -59,8 +57,24 @@ var map = function(){
         map.setCenter(point, zoom)
         set_popup_detail(track.marker.getPopup(), point, type)
       }
+      var previous = previous_point(track, date_order_idx)
+      if (previous) {
+        var seg_pts = [
+            [previous.latitude, previous.longitude],
+            [point.latitude, point.longitude]
+          ]
+        point.segment = map.addPolyline(seg_pts, {color: 'red', smoothFactor: 0})
+      }
     }
+
+    add_point_to_track(track, point, date_order_idx)
     return date_order_idx
+  }
+
+  function previous_point(track, point_idx) {
+    if(track.points.length > 1) {
+      return track.points[point_idx - 1]
+    }
   }
 
   function move_head(track, point) {
@@ -74,8 +88,6 @@ var map = function(){
 
   function add_point_to_track(track, point, insert_idx) {
     track.points.splice(insert_idx, 0, point) // need full point
-    track.line.spliceLatLngs(insert_idx, 0, [point.latitude,point.longitude])
-    map.bounds_extend(track.bounds, point)
   }
 
   function point_index(track_id, point) {
