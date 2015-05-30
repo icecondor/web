@@ -25,6 +25,9 @@ var map = function(){
         if(point.segment) {
           map.removeLayer(point.segment)
         }
+        if(point.circle) {
+          map.removeLayer(point.circle)
+        }
       })
       delete tracks[track_id]
     }
@@ -45,20 +48,27 @@ var map = function(){
       zoom = 18
     }
 
+    if(date_order_idx == 0) {
+      map.setCenter(point, zoom)
+      if(track.length > 0 && track.points[0].circle) {
+        detint(track.points[0].circle)
+      }
+    }
+
     if(type == "tower") {
       var marker = map.addMarker(point, type, 1)
       map.addPopup(marker)
       set_popup_detail(marker.getPopup(), point, type)
-      map.addCircle([point.latitude,point.longitude], point.accuracy, 0.01, 0.0, color)
+      point.circle = map.addCircle([point.latitude,point.longitude],
+                                     point.accuracy, 0.01, 0.0, color)
       if(date_order_idx == 0) {
-        map.setCenter(point, zoom)
+        tint(point.circle)
       }
     } else {
       map.addCircle([point.latitude,point.longitude], point.accuracy, 0.05, 0.0, color)
       var historical_point
       if(date_order_idx == 0) {
         move_head(track, point)
-        map.setCenter(point, zoom)
         set_popup_detail(track.marker.getPopup(), point, type)
       }
       var older = older_point(track.points, date_order_idx, 200)
@@ -84,6 +94,13 @@ var map = function(){
     return date_order_idx
   }
 
+  function tint(circle) {
+    circle.setStyle({fillOpacity: 0.1})
+  }
+
+  function detint(circle) {
+    circle.setStyle({fillOpacity: 0.01})
+  }
   function older_point(points, point_idx, acc) {
     for(var search=point_idx+1, len=points.length; search < len; search++) {
       var older = points[search]
