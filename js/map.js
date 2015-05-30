@@ -45,7 +45,12 @@ var map = function(){
 
     var zoom
     if(track.points.length == 0) {
-      zoom = 18
+      if(point.accuracy > 600) {
+        zoom = 16
+      } else {
+        zoom = 18
+      }
+
     }
 
     if(date_order_idx == 0) {
