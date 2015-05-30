@@ -100,7 +100,7 @@ var map = function(){
   }
 
   function tint(circle) {
-    circle.setStyle({fillOpacity: 0.1})
+    circle.setStyle({fillOpacity: 0.2})
   }
 
   function detint(circle) {
