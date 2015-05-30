@@ -20,8 +20,12 @@ var map = function(){
 
   api.removeTracks = function() {
     for(var track_id in tracks) {
-      map.removeLayer(tracks[track_id].line)
       map.removeLayer(tracks[track_id].marker)
+      tracks[track_id].points.forEach(function(point){
+        if(point.segment) {
+          map.removeLayer(point.segment)
+        }
+      })
       delete tracks[track_id]
     }
   }
@@ -57,13 +61,22 @@ var map = function(){
         map.setCenter(point, zoom)
         set_popup_detail(track.marker.getPopup(), point, type)
       }
-      var previous = previous_point(track, date_order_idx)
-      if (previous) {
+      var older = older_point(track.points, date_order_idx, 200)
+      if (older) {
         var seg_pts = [
-            [previous.latitude, previous.longitude],
+            [older.latitude, older.longitude],
             [point.latitude, point.longitude]
           ]
         point.segment = map.addPolyline(seg_pts, {color: 'red', smoothFactor: 0})
+      }
+      var newer = newer_point(track.points, date_order_idx, 200)
+      if (newer) {
+        var seg_pts = [
+            [point.latitude, point.longitude],
+            [newer.latitude, newer.longitude]
+          ]
+        if(newer.segment) { map.removeLayer(newer.segment) }
+        newer.segment = map.addPolyline(seg_pts, {color: 'red', smoothFactor: 0})
       }
     }
 
@@ -71,9 +84,21 @@ var map = function(){
     return date_order_idx
   }
 
-  function previous_point(track, point_idx) {
-    if(track.points.length > 1) {
-      return track.points[point_idx - 1]
+  function older_point(points, point_idx, acc) {
+    for(var search=point_idx+1, len=points.length; search < len; search++) {
+      var older = points[search]
+      if(older.accuracy < acc) {
+        return older
+      }
+    }
+  }
+
+  function newer_point(points, point_idx, acc) {
+    for(var search=point_idx-1; search > 0; search--) {
+      var newer = points[search]
+      if(newer.accuracy < acc) {
+        return newer
+      }
     }
   }
 
