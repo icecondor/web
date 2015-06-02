@@ -33,13 +33,18 @@ var map = function(){
     }
   }
 
+  function typeColor(type) {
+    console.log('type', type)
+    var color
+    if(type == "wifi") { color = '#d00' }
+    if(type == "gps") { color = '#8A500' }
+    if(type == "tower") { color = '#444' }
+    return color
+  }
+
   api.addPointToTrack = function(track_id, point) {
     var track = tracks[track_id]
     var type = provider_type(point)
-    var color
-    if(type == "wifi"){ color = '#03a' }
-    if(type == "gps") { color = '#8A500' }
-    if(type == "tower") { color = '#444' }
 
     var date_order_idx = point_index(track_id, point)
     add_point_to_track(track, point, date_order_idx)
@@ -51,7 +56,6 @@ var map = function(){
       } else {
         zoom = 18
       }
-
     }
 
     if(date_order_idx == 0) {
@@ -62,6 +66,7 @@ var map = function(){
       detint(track.points[0].circle)
     }
 
+    var color = typeColor(provider_type(point))
     var marker = map.addMarker(point, type, 0.9)
     map.addPopup(marker)
     set_popup_detail(marker.getPopup(), point, type)
@@ -77,7 +82,6 @@ var map = function(){
       var historical_point
       if(date_order_idx == 0) {
         move_head(track, point)
-        set_popup_detail(track.marker.getPopup(), point, type)
       }
       var older = older_point(track.points, date_order_idx, 200)
       if (older) {
@@ -85,7 +89,7 @@ var map = function(){
             [older.latitude, older.longitude],
             [point.latitude, point.longitude]
           ]
-        point.segment = map.addPolyline(seg_pts, {color: 'red', smoothFactor: 0})
+        point.segment = map.addPolyline(seg_pts, {color: color, smoothFactor: 0})
       }
       var newer = newer_point(track.points, date_order_idx, 200)
       if (newer) {
@@ -93,8 +97,11 @@ var map = function(){
             [point.latitude, point.longitude],
             [newer.latitude, newer.longitude]
           ]
-        if(newer.segment) { map.removeLayer(newer.segment) }
-        newer.segment = map.addPolyline(seg_pts, {color: 'red', smoothFactor: 0})
+        if(newer.segment) {
+          map.removeLayer(newer.segment)
+        }
+        console.log('drawing newer', color)
+        newer.segment = map.addPolyline(seg_pts, {color: typeColor(provider_type(newer)), smoothFactor: 0})
       }
     }
 
@@ -108,6 +115,7 @@ var map = function(){
   function detint(circle) {
     circle.setStyle({fillOpacity: 0.01})
   }
+
   function older_point(points, point_idx, acc) {
     for(var search=point_idx+1, len=points.length; search < len; search++) {
       var older = points[search]
