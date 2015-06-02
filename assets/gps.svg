@@ -15,7 +15,7 @@
    sodipodi:version="0.32"
    inkscape:version="0.91 r13725"
    version="1.0"
-   sodipodi:docname="wifi.svg"
+   sodipodi:docname="gps.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
      id="defs4">
@@ -58,7 +58,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title>Communication Tower</dc:title>
+        <dc:title></dc:title>
         <dc:creator>
           <cc:Agent>
             <dc:title>Simon Wood </dc:title>
@@ -90,7 +90,7 @@
      id="layer1"
      transform="translate(2024.7066,998.8172)">
     <ellipse
-       style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1.0600518px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#ffb900;fill-rule:evenodd;stroke:#000000;stroke-width:1.0600518px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
        id="path4156"
        cx="-2008.4598"
        cy="-995.32123"

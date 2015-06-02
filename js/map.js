@@ -42,9 +42,10 @@ var map = function(){
     if(type == "tower") { color = '#444' }
 
     var date_order_idx = point_index(track_id, point)
+    add_point_to_track(track, point, date_order_idx)
 
     var zoom
-    if(track.points.length == 0) {
+    if(track.points.length == 1) {
       if(point.accuracy > 600) {
         zoom = 16
       } else {
@@ -55,15 +56,17 @@ var map = function(){
 
     if(date_order_idx == 0) {
       map.setCenter(point, zoom)
-      if(track.length > 0 && track.points[0].circle) {
-        detint(track.points[0].circle)
-      }
     }
 
+    if((date_order_idx+1 <= track.length) && track.points[date_order_idx+1].circle) {
+      detint(track.points[0].circle)
+    }
+
+    var marker = map.addMarker(point, type, 0.9)
+    map.addPopup(marker)
+    set_popup_detail(marker.getPopup(), point, type)
+
     if(type == "tower") {
-      var marker = map.addMarker(point, type, 1)
-      map.addPopup(marker)
-      set_popup_detail(marker.getPopup(), point, type)
       point.circle = map.addCircle([point.latitude,point.longitude],
                                      point.accuracy, 0.01, 0.0, color)
       if(date_order_idx == 0) {
@@ -95,7 +98,6 @@ var map = function(){
       }
     }
 
-    add_point_to_track(track, point, date_order_idx)
     return date_order_idx
   }
 

@@ -66,7 +66,8 @@ var map_leaflet = function() {
   }
 
   var icons = {"tower":{isize:[30,20], anchor:[15,20]},
-               "wifi":{isize:[33,40], anchor:[16,40]},
+               "wifi":{isize:[33,10], anchor:[16,4]},
+               "gps":{isize:[33,10], anchor:[16,4]},
                "person":{isize:[25,41], anchor:[12,41]}
               }
   api.makeIcon = function(name){
