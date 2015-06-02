@@ -33,7 +33,16 @@ var map = function(){
     }
   }
 
-  function typeColor(type) {
+  function ringColor(type) {
+    console.log('type', type)
+    var color
+    if(type == "wifi") { color = '#03a' }
+    if(type == "gps") { color = '#8A500' }
+    if(type == "tower") { color = '#444' }
+    return color
+  }
+
+  function dotColor(type) {
     console.log('type', type)
     var color
     if(type == "wifi") { color = '#d00' }
@@ -66,19 +75,20 @@ var map = function(){
       detint(track.points[0].circle)
     }
 
-    var color = typeColor(provider_type(point))
     var marker = map.addMarker(point, type, 0.9)
     map.addPopup(marker)
     set_popup_detail(marker.getPopup(), point, type)
 
     if(type == "tower") {
       point.circle = map.addCircle([point.latitude,point.longitude],
-                                     point.accuracy, 0.01, 0.0, color)
+                                     point.accuracy, 0.01, 0.0,
+                                     ringColor(provider_type(point)))
       if(date_order_idx == 0) {
         tint(point.circle)
       }
     } else {
-      map.addCircle([point.latitude,point.longitude], point.accuracy, 0.05, 0.0, color)
+      map.addCircle([point.latitude,point.longitude], point.accuracy,
+                    0.05, 0.0, ringColor(provider_type(point)))
       var historical_point
       if(date_order_idx == 0) {
         move_head(track, point)
@@ -89,7 +99,7 @@ var map = function(){
             [older.latitude, older.longitude],
             [point.latitude, point.longitude]
           ]
-        point.segment = map.addPolyline(seg_pts, {color: color, smoothFactor: 0})
+        point.segment = map.addPolyline(seg_pts, {color: dotColor(provider_type(point)), smoothFactor: 0})
       }
       var newer = newer_point(track.points, date_order_idx, 200)
       if (newer) {
@@ -100,8 +110,7 @@ var map = function(){
         if(newer.segment) {
           map.removeLayer(newer.segment)
         }
-        console.log('drawing newer', color)
-        newer.segment = map.addPolyline(seg_pts, {color: typeColor(provider_type(newer)), smoothFactor: 0})
+        newer.segment = map.addPolyline(seg_pts, {color: dotColor(provider_type(newer)), smoothFactor: 0})
       }
     }
 
