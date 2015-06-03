@@ -170,10 +170,12 @@ var map = function(){
   }
 
   function set_popup_detail(popup, point, type) {
+    var type_word = type
+    if(type == 'tower') { type_word = 'cell tower'}
     var ft = point.accuracy * 3.28
     // templatify this
     $('#popup-holder').append('<div id="marker-popup-'+point.id+'">'+
-                                  type+' inside '+ft.toFixed(0)+'ft'+
+                                  type_word+' within '+ft.toFixed(0)+'ft'+
                                   '<br/>'+
                                   '<time datetime="'+point.date+'" data-format="yyyy-MMM-d hh:mmtt"/>'+
                                    '</div>')
