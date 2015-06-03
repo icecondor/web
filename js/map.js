@@ -68,10 +68,9 @@ var map = function(){
 
     if(date_order_idx == 0) {
       map.setCenter(point, zoom)
-    }
-
-    if((date_order_idx+1 <= track.length) && track.points[date_order_idx+1].circle) {
-      detint(track.points[0].circle)
+      if(track.points.length > 1) {
+        if(track.points[1].circle) { detint(track.points[1].circle) }
+      }
     }
 
     var marker = map.addMarker(point, type, 0.9)
