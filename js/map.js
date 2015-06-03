@@ -34,7 +34,6 @@ var map = function(){
   }
 
   function ringColor(type) {
-    console.log('type', type)
     var color
     if(type == "wifi") { color = '#03a' }
     if(type == "gps") { color = '#8A5000' }
@@ -43,7 +42,6 @@ var map = function(){
   }
 
   function pathColor(type) {
-    console.log('type', type)
     var color
     if(type == "wifi") { color = '#d00' }
     if(type == "gps") { color = '#d00' }
@@ -137,7 +135,7 @@ var map = function(){
   }
 
   function newer_point(points, point_idx, acc) {
-    for(var search=point_idx-1; search > 0; search--) {
+    for(var search=point_idx-1; search >= 0; search--) {
       var newer = points[search]
       if(newer.accuracy < acc) {
         return newer
