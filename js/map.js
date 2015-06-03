@@ -65,6 +65,7 @@ var map = function(){
       } else {
         zoom = 18
       }
+      move_head(track, point)
     }
 
     if(date_order_idx == 0) {
@@ -92,6 +93,7 @@ var map = function(){
       var historical_point
       if(date_order_idx == 0) {
         move_head(track, point)
+        set_popup_detail(track.marker.getPopup(), point, type)
       }
       var older = older_point(track.points, date_order_idx, 200)
       if (older) {
