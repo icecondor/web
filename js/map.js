@@ -37,16 +37,16 @@ var map = function(){
     console.log('type', type)
     var color
     if(type == "wifi") { color = '#03a' }
-    if(type == "gps") { color = '#8A500' }
+    if(type == "gps") { color = '#8A5000' }
     if(type == "tower") { color = '#444' }
     return color
   }
 
-  function dotColor(type) {
+  function pathColor(type) {
     console.log('type', type)
     var color
     if(type == "wifi") { color = '#d00' }
-    if(type == "gps") { color = '#8A500' }
+    if(type == "gps") { color = '#d00' }
     if(type == "tower") { color = '#444' }
     return color
   }
@@ -99,7 +99,7 @@ var map = function(){
             [older.latitude, older.longitude],
             [point.latitude, point.longitude]
           ]
-        point.segment = map.addPolyline(seg_pts, {color: dotColor(provider_type(point)), smoothFactor: 0})
+        point.segment = map.addPolyline(seg_pts, {color: pathColor(provider_type(point)), smoothFactor: 0})
       }
       var newer = newer_point(track.points, date_order_idx, 200)
       if (newer) {
@@ -110,7 +110,7 @@ var map = function(){
         if(newer.segment) {
           map.removeLayer(newer.segment)
         }
-        newer.segment = map.addPolyline(seg_pts, {color: dotColor(provider_type(newer)), smoothFactor: 0})
+        newer.segment = map.addPolyline(seg_pts, {color: pathColor(provider_type(newer)), smoothFactor: 0})
       }
     }
 
