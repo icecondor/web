@@ -16,24 +16,27 @@ var iceCondor = function() {
   }
 
   function message(event) {
-    var json = event.data.trim()
-    //console.log("<-", json)
-    var msg = JSON.parse(json)
-    if(msg.method) {
-      dispatch(msg)
-    }
-    if(msg.result){
-      if(responses[msg.id]) { responses[msg.id].ok(msg.result) }
-    }
-    if(msg.error){
-      if(responses[msg.id]) {
-        if(responses[msg.id].err){
-          responses[msg.id].err(msg.error)
-        } else {
-          console.log("warning: no error response defined for #"+msg.id)
+    var jsons = event.data.split('\n')
+    jsons.map(function(json){return json.trim()})
+         .filter(function(json){return json.length > 0})
+         .forEach(function(json) {
+      var msg = JSON.parse(json)
+      if(msg.method) {
+        dispatch(msg)
+      }
+      if(msg.result){
+        if(responses[msg.id]) { responses[msg.id].ok(msg.result) }
+      }
+      if(msg.error){
+        if(responses[msg.id]) {
+          if(responses[msg.id].err){
+            responses[msg.id].err(msg.error)
+          } else {
+            console.log("warning: no error response defined for #"+msg.id)
+          }
         }
       }
-    }
+    })
   }
 
   function error(err) {
