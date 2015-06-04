@@ -3,33 +3,32 @@ extends layout
 block head
 
 block content
-  div.page-access
+  div.page-rules
     h2 Rules
 
     h1 Rule List
     ul.rulelist
 
     template#rule.hidden
-      p
-        | Created:
-        time(datetime="{{created_at}}" data-format="MMM-d hh:mmtt")
-        |  Expires:
-        span(class="{{expired_style}}")
-          time(datetime="{{expires_at}}" data-format="MMM-d hh:mmtt")
-        button(title='delete') X
-      .keylink
-        a(href="{{me_url}}") {{me_url}}
+      li.rule(id="rule-{{id}}")
+        p
+          | Privacy Fence:
+          = ' '
+          span(class="fence-{{fence_id}}-name")
+
+          button(title='delete') X
+
+    template#fence-option.hidden
+      option(value="{{id}}") {{name}}
 
     h1 Create Rule
     form.build-rule
       .keygensection
-        | type: Privacy fence
+        | Privacy Fence:
       div
         | Obscure location when inside fence
-        select.fencelist
-          option A
+        select.fencelist(name='fence' disabled)
       input(type='submit' value='Create rule' disabled)
-
 
   script.
     var qparams = url_params(window.location.href)
@@ -47,25 +46,23 @@ block content
           }
         }
         statusTab('loading data')
-        keylist_refresh()
+        rulelist_refresh()
         enable_gen_form()
 
-        $('.build-access').submit(function(evt){
-          var rule = { scopes: [] }
-          if(evt.target.elements['read'].checked){
-            rule.scopes.push('read')
-          }
-          if(evt.target.elements['expires'].checked){
-            var hours = evt.target.elements['expires-hours'].value
-            rule.expires_at = (new XDate()).addHours(hours)
-          }
-          console.log(rule)
-
-          var add_tx = iceCondor.api('user.access.add', rule)
-          iceCondor.onResponse(add_tx, function(acc_ok) {
-            keylist_refresh()
-          })
+        $('.build-rule').submit(function(evt){
           evt.preventDefault()
+          var fencelist = evt.target.elements['fence']
+          var rule = { }
+          console.log('fence selected', fencelist.selectedIndex)
+          if(fencelist.selectedIndex >= 0){
+            var fence_id = fencelist.options[fencelist.selectedIndex].value
+            console.log('fence', fence_id)
+            rule.fence_id = fence_id
+            var add_tx = iceCondor.api('rule.add', rule)
+            iceCondor.onResponse(add_tx, function(acc_ok) {
+              rulelist_refresh()
+            })
+          }
         })
       })
 
@@ -75,10 +72,36 @@ block content
         window.location = "/"
       }
 
-      function keylist_refresh() {
+      var fences_all
+      function fence_load() {
+        var me_tx = iceCondor.api('fence.list')
+        iceCondor.onResponse(me_tx, function(fences) {
+          console.log(fences.length, 'fences exist')
+          var fence_tmpl = uStache.compile($('template#fence-option').html())
+          $('select.fencelist').empty()
+          fences.forEach(function(fence){
+            $('select.fencelist').append(fence_tmpl(fence))
+          })
+          fences_all = fences
+          $('select.fencelist').prop('disabled', false)
+          fence_sweep()
+        })
+      }
+
+      function fence_sweep() {
+        if(fences_all) {
+          fences_all.forEach(function(fence){
+            console.log('#fence-'+fence.id+'-name', fence)
+            $('.fence-'+fence.id+'-name').html(fence.name)
+          })
+        }
+      }
+
+      function rulelist_refresh() {
         var me_tx = iceCondor.api('rule.list')
         iceCondor.onResponse(me_tx, function(rules) {
           statusTab()
+          console.log(me_tx, rules)
           $('.rulelist').empty()
           rules = rules.sort(function(a,b){
                       if(a.date && b.date) {
@@ -88,37 +111,25 @@ block content
                       } else { return -1}
                       })
           rules.forEach(function(rule){
-            var akey = datekey.key
-            var key_html = keydetail(me.username, akey, me.access[akey])
-            var key_li = $('.keylist').append(key_html)
-            $('li#rule-'+akey+' button').click(function(evt){
-                console.log(evt)
-                var add_tx = iceCondor.api('rule.del', {key: akey})
+            var key_html = ruledetail(rule)
+            var key_li = $('.rulelist').append(key_html)
+            $('li#rule-'+rule.id+' button').click(function(evt){
+                var add_tx = iceCondor.api('rule.del', {id: rule.id})
                 iceCondor.onResponse(add_tx, function(acc_ok) {
-                  keylist_refresh()
+                  rulelist_refresh()
                 })
               })
           })
           time_fixups('ul.rulelist')
+          fence_load()
+          fence_sweep()
         })
       }
 
-      function keydetail(username, key, rule){
-        //template here
-        rule.me_url = 'https://icecondor.com/'+username+'?key='+key
-        rule.expired_style = ''
-        if(rule.expires_at) {
-          if ((new Date(rule.expires_at)) < (new Date()) ) {
-            rule.expired_style = 'overdue'
-          }
-        } else {
-          rule.expired_style = 'hidden'
-          rule.expires_at = ''
-        }
+      function ruledetail(rule){
+        console.log('add rule', rule)
         var rule_tmpl = uStache.compile($('template#rule').html())
-        return '<li class="key" id="key-'+key+'">'+
-                rule_tmpl(rule)+
-               '</li>'
+        return rule_tmpl(rule)
       }
 
       function enable_gen_form(){

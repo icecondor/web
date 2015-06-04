@@ -58,9 +58,9 @@ var iceCondor = function() {
         resolve()
       } else {
         // websocket
-        //sock = new WebSocket("wss://staging.api.icecondor.com/v2");
+        sock = new WebSocket("ws://localhost:2040");
         // sockjs
-        sock = new SockJS('https://icecondor.com/sockjs');
+        //sock = new SockJS('https://icecondor.com/sockjs');
         sock.onmessage = message
         sock.onerror = error
         sock.onopen = function(){
