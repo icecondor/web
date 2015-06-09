@@ -14,7 +14,8 @@ block content
         p
           | Privacy Fence:
           = ' '
-          span(class="fence-{{fence_id}}-name")
+          a(class="fence-{{fence_id}}-url")
+            span(class="fence-{{fence_id}}-name")
 
           button(title='delete') X
 
@@ -93,6 +94,8 @@ block content
           fences_all.forEach(function(fence){
             console.log('#fence-'+fence.id+'-name', fence)
             $('.fence-'+fence.id+'-name').html(fence.name)
+            $('.fence-'+fence.id+'-url').attr('href',
+                           "/"+paths[1]+'/fences/'+fence.id)
           })
         }
       }
