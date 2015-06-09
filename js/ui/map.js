@@ -86,3 +86,21 @@ function startFollow(username, start, stop, count, order, follow){
   })
 }
 
+function fenceDraw(fence_id, layercache) {
+  if($('.fencelist .fenceitem#'+fence_id).length == 0) {
+    var item_tmpl = uStache.compile($('template#fenceitem').html())
+    $('.fencelist').append(item_tmpl({fence_id: fence_id, username: params.username}))
+    var fence_tx = iceCondor.api('fence.get', {id: fence_id})
+    iceCondor.onResponse(fence_tx, function(fence){
+      $('.fencelist .fenceitem#'+fence_id+' a').html(fence.name)
+      var latlngs = fence.geojson.coordinates[0].map(function(l){return [l[1],l[0]]})
+      var layer = L.polygon(latlngs)
+      layercache[fence_id] = layer
+      $('.fencelist .fenceitem#'+fence_id+' a').hover(function(evt){
+        map.map.map.addLayer(layercache[fence_id])
+      }, function(evt){
+        map.map.map.removeLayer(layercache[fence_id])
+      })
+    })
+  }
+}
