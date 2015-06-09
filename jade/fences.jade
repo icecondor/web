@@ -31,7 +31,7 @@ block content
   template#fence.hidden
     p
       button X
-      | Name: #[a(href="{{link}}") {{name}}]
+      | Name: #[a(href="{{link}}") {{name}}] Area: {{area}} sq.meters
 
 
   script.
@@ -120,6 +120,7 @@ block content
           $('ul.fences').empty()
           fences.forEach(function(fence){
             fence.link = '/'+username+'/fences/'+fence.id
+            fence.area = fence.area ? fence.area : ""
             $('ul.fences').append('<li id="'+fence.id+'">'+
                                   fence_tmpl(fence)+
                                   '</li>')
