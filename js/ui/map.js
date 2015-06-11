@@ -68,20 +68,16 @@ function startFollow(username, start, stop, count, order, follow, layercache){
         setBarDate(location.date)
         firstPoint = false
       }
-      if(location.rules) {
-        var rule = location.rules[0]
-        fenceDraw(rule.fence_id, layercache)
-          .then(function(fence){
-            var date_order_idx = map.addPointToTrack(msg.stream_id, location)
-            if(date_order_idx == 0) {
-              locationBar(location)
-            }
-          })
-      } else {
-        var date_order_idx = map.addPointToTrack(msg.stream_id, location)
-        if(date_order_idx == 0) {
-          locationBar(location)
-        }
+
+      if(location.fences) {
+        location.fences.map(function(fence_id){
+          fenceDraw(fence_id, layercache)
+        })
+      }
+
+      var date_order_idx = map.addPointToTrack(msg.stream_id, location, layercache)
+      if(date_order_idx == 0) {
+        locationBar(location)
       }
     })
   }, function(err) {

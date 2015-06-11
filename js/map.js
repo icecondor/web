@@ -49,7 +49,7 @@ var map = function(){
     return color
   }
 
-  api.addPointToTrack = function(track_id, point) {
+  api.addPointToTrack = function(track_id, point, fencecache) {
     var track = tracks[track_id]
     var type = provider_type(point)
 
