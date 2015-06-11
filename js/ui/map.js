@@ -109,9 +109,9 @@ function fenceDraw(fence_id) {
       fence.polygon = layer
 
       $('.fencelist .fenceitem#'+fence_id+' a').hover(function(evt){
-        map.map.map.addLayer(layercache[fence_id].polygon)
+        map.map.map.addLayer(fence.polygon)
       }, function(evt){
-        map.map.map.removeLayer(layercache[fence_id].polygon)
+        map.map.map.removeLayer(fence.polygon)
       })
 
       resolve(fence)

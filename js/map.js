@@ -71,9 +71,11 @@ var map = function(){
         map.setCenter(point, zoom)
       } else {
         var bnds = map.bounds()
-        console.log(point.rules)
         fencecache[point.rules[0].fence_id].then(function(fence){
-          console.log('centering on fence', fence)
+          console.log('centering on rule fence', fence)
+          map.recenter(fence.polygon.getBounds())
+          map.map.addLayer(fence.polygon)
+          tint(fence.polygon)
         })
       }
       if(track.points.length > 1) {
@@ -82,13 +84,13 @@ var map = function(){
     }
 
     if(point.latitude) {
-      addPt(track, point, type)
+      addPt(track, point, type, date_order_idx)
     }
 
     return date_order_idx
   }
 
-  function addPt(track, point, type) {
+  function addPt(track, point, type, date_order_idx) {
     var marker = map.addMarker(point, type, 0.9)
     map.addPopup(marker)
     set_popup_detail(marker.getPopup(), point, type)
