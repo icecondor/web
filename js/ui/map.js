@@ -50,7 +50,7 @@ function month_day_select_setup(){
   });
 }
 
-function startFollow(username, start, stop, count, order, follow){
+function startFollow(username, start, stop, count, order, follow, layercache){
   var filter = {username: username, type: "location", count: count, order: order}
   if(follow){filter.follow = follow}
   if(start) { filter.start = start.toISOString()}
@@ -63,14 +63,25 @@ function startFollow(username, start, stop, count, order, follow){
     locationBarPointCount("-loading-")
     var firstPoint = true
     iceCondor.onResponse(msg.stream_id, function(location){
-      var date_order_idx = map.addPointToTrack(msg.stream_id, location)
-      if(date_order_idx == 0) {
-        locationBar(location)
-      }
       locationBarPointCount(track.points.length)
       if(firstPoint) {
         setBarDate(location.date)
         firstPoint = false
+      }
+      if(location.rules) {
+        var rule = location.rules[0]
+        fenceDraw(rule.fence_id, layercache)
+          .then(function(fence){
+            var date_order_idx = map.addPointToTrack(msg.stream_id, location)
+            if(date_order_idx == 0) {
+              locationBar(location)
+            }
+          })
+      } else {
+        var date_order_idx = map.addPointToTrack(msg.stream_id, location)
+        if(date_order_idx == 0) {
+          locationBar(location)
+        }
       }
     })
   }, function(err) {
@@ -87,20 +98,28 @@ function startFollow(username, start, stop, count, order, follow){
 }
 
 function fenceDraw(fence_id, layercache) {
-  if($('.fencelist .fenceitem#'+fence_id).length == 0) {
-    var item_tmpl = uStache.compile($('template#fenceitem').html())
-    $('.fencelist').append(item_tmpl({fence_id: fence_id, username: params.username}))
-    var fence_tx = iceCondor.api('fence.get', {id: fence_id})
-    iceCondor.onResponse(fence_tx, function(fence){
-      $('.fencelist .fenceitem#'+fence_id+' a').html(fence.name)
-      var latlngs = fence.geojson.coordinates[0].map(function(l){return [l[1],l[0]]})
-      var layer = L.polygon(latlngs)
-      layercache[fence_id] = layer
-      $('.fencelist .fenceitem#'+fence_id+' a').hover(function(evt){
-        map.map.map.addLayer(layercache[fence_id])
-      }, function(evt){
-        map.map.map.removeLayer(layercache[fence_id])
+  return new Promise(function(resolve, reject){
+    if(layercache[fence_id]) {
+      resolve(layercache[fence_id])
+    } else {
+      console.log('cache miss!', fence_id,
+                  'cache size', Object.keys(layercache).length)
+      var item_tmpl = uStache.compile($('template#fenceitem').html())
+      $('.fencelist').append(item_tmpl({fence_id: fence_id, username: params.username}))
+      var fence_tx = iceCondor.api('fence.get', {id: fence_id})
+      iceCondor.onResponse(fence_tx, function(fence){
+        $('.fencelist .fenceitem#'+fence_id+' a').html(fence.name)
+        var latlngs = fence.geojson.coordinates[0].map(function(l){return [l[1],l[0]]})
+        var layer = L.polygon(latlngs)
+        fence.polygon = layer
+        layercache[fence_id] = fence
+        $('.fencelist .fenceitem#'+fence_id+' a').hover(function(evt){
+          map.map.map.addLayer(layercache[fence_id].polygon)
+        }, function(evt){
+          map.map.map.removeLayer(layercache[fence_id].polygon)
+        })
+        resolve(fence)
       })
-    })
-  }
+    }
+  })
 }

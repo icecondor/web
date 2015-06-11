@@ -95,9 +95,9 @@ block content
 
       var action = getKey() ? 'auth' : 'hello'
       iceCondor.on(action, function(logged_in_user){
-        startFollow(params.username, start, stop, day_count, day_order, follow)
-        var userinfo_tx = iceCondor.api('user.detail')
         var layercache = {}
+        startFollow(params.username, start, stop, day_count, day_order, follow, layercache)
+        var userinfo_tx = iceCondor.api('user.detail')
         iceCondor.onResponse(userinfo_tx, function(user){
           if(user.username == params.username) {
             if(user.latest){
