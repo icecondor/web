@@ -67,12 +67,28 @@ var map = function(){
     }
 
     if(date_order_idx == 0) {
-      map.setCenter(point, zoom)
+      if(point.latitude) {
+        map.setCenter(point, zoom)
+      } else {
+        var bnds = map.bounds()
+        console.log(point.rules)
+        fencecache[point.rules[0].fence_id].then(function(fence){
+          console.log('centering on fence', fence)
+        })
+      }
       if(track.points.length > 1) {
         if(track.points[1].circle) { detint(track.points[1].circle) }
       }
     }
 
+    if(point.latitude) {
+      addPt(track, point, type)
+    }
+
+    return date_order_idx
+  }
+
+  function addPt(track, point, type) {
     var marker = map.addMarker(point, type, 0.9)
     map.addPopup(marker)
     set_popup_detail(marker.getPopup(), point, type)
@@ -112,8 +128,6 @@ var map = function(){
         newer.segment = map.addPolyline(seg_pts, {color: pathColor(provider_type(newer)), smoothFactor: 0})
       }
     }
-
-    return date_order_idx
   }
 
   function tint(circle) {
@@ -143,11 +157,13 @@ var map = function(){
   }
 
   function move_head(track, point) {
-    if(track.marker) {
-      map.moveMarker(track.marker, point)
-    } else {
-      track.marker = map.addMarker(point, "person", 1)
-      map.addPopup(track.marker)
+    if(point.latitude) {
+      if(track.marker) {
+        map.moveMarker(track.marker, point)
+      } else {
+        track.marker = map.addMarker(point, "person", 1)
+        map.addPopup(track.marker)
+      }
     }
   }
 

@@ -63,15 +63,16 @@ function startFollow(username, start, stop, count, order, follow, layercache){
     locationBarPointCount("-loading-")
     var firstPoint = true
     iceCondor.onResponse(msg.stream_id, function(location){
-      locationBarPointCount(track.points.length)
       if(firstPoint) {
         setBarDate(location.date)
         firstPoint = false
       }
 
       if(location.fences) {
-        location.fences.map(function(fence_id){
-          fenceDraw(fence_id, layercache)
+        location.fences.forEach(function(fence_id){
+          if(!layercache[fence_id]) {
+            layercache[fence_id] = fenceDraw(fence_id)
+          }
         })
       }
 
@@ -79,6 +80,8 @@ function startFollow(username, start, stop, count, order, follow, layercache){
       if(date_order_idx == 0) {
         locationBar(location)
       }
+
+      locationBarPointCount(track.points.length)
     })
   }, function(err) {
     if(err.code == "UNF") {
@@ -93,29 +96,25 @@ function startFollow(username, start, stop, count, order, follow, layercache){
   })
 }
 
-function fenceDraw(fence_id, layercache) {
+function fenceDraw(fence_id) {
   return new Promise(function(resolve, reject){
-    if(layercache[fence_id]) {
-      resolve(layercache[fence_id])
-    } else {
-      console.log('cache miss!', fence_id,
-                  'cache size', Object.keys(layercache).length)
-      var item_tmpl = uStache.compile($('template#fenceitem').html())
-      $('.fencelist').append(item_tmpl({fence_id: fence_id, username: params.username}))
-      var fence_tx = iceCondor.api('fence.get', {id: fence_id})
-      iceCondor.onResponse(fence_tx, function(fence){
-        $('.fencelist .fenceitem#'+fence_id+' a').html(fence.name)
-        var latlngs = fence.geojson.coordinates[0].map(function(l){return [l[1],l[0]]})
-        var layer = L.polygon(latlngs)
-        fence.polygon = layer
-        layercache[fence_id] = fence
-        $('.fencelist .fenceitem#'+fence_id+' a').hover(function(evt){
-          map.map.map.addLayer(layercache[fence_id].polygon)
-        }, function(evt){
-          map.map.map.removeLayer(layercache[fence_id].polygon)
-        })
-        resolve(fence)
+    console.log('cache miss!', fence_id)
+    var item_tmpl = uStache.compile($('template#fenceitem').html())
+    $('.fencelist').append(item_tmpl({fence_id: fence_id, username: params.username}))
+    var fence_tx = iceCondor.api('fence.get', {id: fence_id})
+    iceCondor.onResponse(fence_tx, function(fence){
+      $('.fencelist .fenceitem#'+fence_id+' a').html(fence.name)
+      var latlngs = fence.geojson.coordinates[0].map(function(l){return [l[1],l[0]]})
+      var layer = L.polygon(latlngs)
+      fence.polygon = layer
+
+      $('.fencelist .fenceitem#'+fence_id+' a').hover(function(evt){
+        map.map.map.addLayer(layercache[fence_id].polygon)
+      }, function(evt){
+        map.map.map.removeLayer(layercache[fence_id].polygon)
       })
-    }
+
+      resolve(fence)
+    })
   })
 }
