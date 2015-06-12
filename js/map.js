@@ -57,33 +57,44 @@ var map = function(){
     add_point_to_track(track, point, date_order_idx)
 
     var zoom
+    var fence
+    if(point.rules) {
+      fence = fencecache[point.rules[0].fence_id]
+      fence.then(function(fence){
+        map.map.addLayer(fence.polygon)
+        tint(fence.polygon)
+      })
+    }
+
     if(track.points.length == 1) {
       if(point.accuracy > 600) {
         zoom = 16
       } else {
         zoom = 18
       }
-      move_head(track, point)
+      if(!point.rules) {
+        move_head(track, point)
+      }
     }
 
     if(date_order_idx == 0) {
-      if(point.latitude) {
-        map.setCenter(point, zoom)
-      } else {
+      if(point.rules) {
+        console.log('pt no lat', point.date, point.rules)
         var bnds = map.bounds()
-        fencecache[point.rules[0].fence_id].then(function(fence){
+        fence.then(function(fence){
           console.log('centering on rule fence', fence)
           map.recenter(fence.polygon.getBounds())
-          map.map.addLayer(fence.polygon)
-          tint(fence.polygon)
         })
+      } else {
+        map.setCenter(point, zoom)
       }
+
       if(track.points.length > 1) {
         if(track.points[1].circle) { detint(track.points[1].circle) }
       }
     }
 
-    if(point.latitude) {
+    if(!point.rules) {
       addPt(track, point, type, date_order_idx)
     }
 
@@ -143,6 +154,7 @@ var map = function(){
   function older_point(points, point_idx, acc) {
     for(var search=point_idx+1, len=points.length; search < len; search++) {
       var older = points[search]
+      if(!older.latitude) { return }
       if(older.accuracy < acc) {
         return older
       }
@@ -152,6 +164,7 @@ var map = function(){
   function newer_point(points, point_idx, acc) {
     for(var search=point_idx-1; search >= 0; search--) {
       var newer = points[search]
+      if(newer.rules) { return }
       if(newer.accuracy < acc) {
         return newer
       }
@@ -159,13 +172,11 @@ var map = function(){
   }
 
   function move_head(track, point) {
-    if(point.latitude) {
-      if(track.marker) {
-        map.moveMarker(track.marker, point)
-      } else {
-        track.marker = map.addMarker(point, "person", 1)
-        map.addPopup(track.marker)
-      }
+    if(track.marker) {
+      map.moveMarker(track.marker, point)
+    } else {
+      track.marker = map.addMarker(point, "person", 1)
+      map.addPopup(track.marker)
     }
   }
 
