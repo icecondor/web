@@ -76,12 +76,26 @@ function startFollow(username, start, stop, count, order, follow, layercache){
         })
       }
 
-      var date_order_idx = map.addPointToTrack(msg.stream_id, location, layercache)
-      if(date_order_idx == 0) {
-        locationBar(location)
+      if(location.rules) {
+        rulefence = layercache[location.rules[0].fence_id]
+        rulefence.then(function(fence){
+          var centerpt = fence.polygon.getBounds().getCenter()
+          location.latitude = centerpt.lat
+          location.longitude = centerpt.lng
+          var date_order_idx = map.addPointToTrack(msg.stream_id, location, fence)
+          if(date_order_idx == 0) {
+            locationBar(location)
+          }
+          locationBarPointCount(track.points.length)
+        })
+      } else {
+        var date_order_idx = map.addPointToTrack(msg.stream_id, location)
+        if(date_order_idx == 0) {
+          locationBar(location)
+        }
+        locationBarPointCount(track.points.length)
       }
 
-      locationBarPointCount(track.points.length)
     })
   }, function(err) {
     if(err.code == "UNF") {

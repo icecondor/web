@@ -49,7 +49,7 @@ var map = function(){
     return color
   }
 
-  api.addPointToTrack = function(track_id, point, fencecache) {
+  api.addPointToTrack = function(track_id, point, fence) {
     var track = tracks[track_id]
     var type = provider_type(point)
 
@@ -58,12 +58,9 @@ var map = function(){
 
     var zoom
     var fence
-    if(point.rules) {
-      fence = fencecache[point.rules[0].fence_id]
-      fence.then(function(fence){
-        map.map.addLayer(fence.polygon)
-        tint(fence.polygon)
-      })
+    if(fence) {
+      map.map.addLayer(fence.polygon)
+      tint(fence.polygon)
     }
 
     if(track.points.length == 1) {
@@ -72,50 +69,44 @@ var map = function(){
       } else {
         zoom = 18
       }
-      if(!point.rules) {
-        move_head(track, point)
-      }
+      // move the map only once
+      map.setCenter(point, zoom)
     }
 
     if(date_order_idx == 0) {
-      if(point.rules) {
-        console.log('pt no lat', point.date, point.rules)
-        var bnds = map.bounds()
-        fence.then(function(fence){
-          console.log('centering on rule fence', fence)
-          map.recenter(fence.polygon.getBounds())
-        })
-      } else {
-        map.setCenter(point, zoom)
-      }
+      move_head(track, point)
 
       if(track.points.length > 1) {
         if(track.points[1].circle) { detint(track.points[1].circle) }
       }
     }
 
-    if(!point.rules) {
-      addPt(track, point, type, date_order_idx)
-    }
+    addPt(track, point, type, date_order_idx, fence)
 
     return date_order_idx
   }
 
-  function addPt(track, point, type, date_order_idx) {
-    var marker = map.addMarker(point, type, 0.9)
-    map.addPopup(marker)
-    set_popup_detail(marker.getPopup(), point, type)
+  function addPt(track, point, type, date_order_idx, fence) {
+    if(!fence) {
+      var marker = map.addMarker(point, type, 0.9)
+      map.addPopup(marker)
+      set_popup_detail(marker.getPopup(), point, type)
+    }
 
     if(type == "tower") {
-      point.circle = map.addCircle([point.latitude,point.longitude],
-                                     point.accuracy, 0.01, 0.0,
-                                     ringColor(provider_type(point)))
-      if(date_order_idx == 0) {
-        tint(point.circle)
+      if(!fence) {
+        point.circle = map.addCircle([point.latitude,point.longitude],
+                                       point.accuracy, 0.01, 0.0,
+                                       ringColor(provider_type(point)))
+        if(date_order_idx == 0) {
+          tint(point.circle)
+        }
       }
     } else {
-      map.addCircle([point.latitude,point.longitude], point.accuracy,
+      if(!fence) {
+        map.addCircle([point.latitude,point.longitude], point.accuracy,
                     0.05, 0.0, ringColor(provider_type(point)))
+      }
       var historical_point
       if(date_order_idx == 0) {
         move_head(track, point)
@@ -154,7 +145,6 @@ var map = function(){
   function older_point(points, point_idx, acc) {
     for(var search=point_idx+1, len=points.length; search < len; search++) {
       var older = points[search]
-      if(!older.latitude) { return }
       if(older.accuracy < acc) {
         return older
       }
@@ -164,7 +154,6 @@ var map = function(){
   function newer_point(points, point_idx, acc) {
     for(var search=point_idx-1; search >= 0; search--) {
       var newer = points[search]
-      if(newer.rules) { return }
       if(newer.accuracy < acc) {
         return newer
       }
