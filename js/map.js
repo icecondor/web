@@ -70,11 +70,11 @@ var map = function(){
         zoom = 18
       }
       // move the map only once
-      map.setCenter(point, zoom)
+      move_head(track, point)
     }
 
     if(date_order_idx == 0) {
-      move_head(track, point)
+      map.setCenter(point, zoom)
 
       if(track.points.length > 1) {
         if(track.points[1].circle) { detint(track.points[1].circle) }
