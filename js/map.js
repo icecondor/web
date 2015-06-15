@@ -49,28 +49,25 @@ var map = function(){
     return color
   }
 
-  api.addPointToTrack = function(track_id, point, fence) {
+  api.addPointToTrack = function(track_id, point, rulefence) {
     var track = tracks[track_id]
     var type = provider_type(point)
 
     var date_order_idx = point_index(track_id, point)
-    add_point_to_track(track, point, date_order_idx)
+    track_splice_point(track, point, date_order_idx)
 
-    var zoom
-    var fence
-    if(fence) {
-      map.map.addLayer(fence.polygon)
-      tint(fence.polygon)
+    if(rulefence) {
+      map.map.addLayer(rulefence.polygon)
+      tint(rulefence.polygon)
     }
 
+    var zoom
     if(track.points.length == 1) {
       if(point.accuracy > 600) {
         zoom = 16
       } else {
         zoom = 18
       }
-      // move the map only once
-      move_head(track, point)
     }
 
     if(date_order_idx == 0) {
@@ -81,20 +78,20 @@ var map = function(){
       }
     }
 
-    addPt(track, point, type, date_order_idx, fence)
+    addPt(track, point, type, date_order_idx, rulefence)
 
     return date_order_idx
   }
 
-  function addPt(track, point, type, date_order_idx, fence) {
-    if(!fence) {
+  function addPt(track, point, type, date_order_idx, rulefence) {
+    if(!rulefence) {
       var marker = map.addMarker(point, type, 0.9)
       map.addPopup(marker)
       set_popup_detail(marker.getPopup(), point, type)
     }
 
     if(type == "tower") {
-      if(!fence) {
+      if(!rulefence) {
         point.circle = map.addCircle([point.latitude,point.longitude],
                                        point.accuracy, 0.01, 0.0,
                                        ringColor(provider_type(point)))
@@ -103,14 +100,19 @@ var map = function(){
         }
       }
     } else {
-      if(!fence) {
+      if(!rulefence) {
         map.addCircle([point.latitude,point.longitude], point.accuracy,
                     0.05, 0.0, ringColor(provider_type(point)))
       }
       var historical_point
       if(date_order_idx == 0) {
-        move_head(track, point)
-        set_popup_detail(track.marker.getPopup(), point, type)
+        console.log('head point rule check', point.date, !!rulefence)
+        if(rulefence) {
+          remove_head(track)
+        } else {
+          move_head(track, point)
+          set_popup_detail(track.marker.getPopup(), point, type)
+        }
       }
       var older = older_point(track.points, date_order_idx, 200)
       if (older) {
@@ -169,7 +171,14 @@ var map = function(){
     }
   }
 
-  function add_point_to_track(track, point, insert_idx) {
+  function remove_head(track) {
+    if(track.marker) {
+      map.removeLayer(track.marker)
+      track.marker = null
+    }
+  }
+
+  function track_splice_point(track, point, insert_idx) {
     track.points.splice(insert_idx, 0, point) // need full point
   }
 
