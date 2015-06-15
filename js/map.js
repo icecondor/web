@@ -58,7 +58,7 @@ var map = function(){
 
     if(rulefence) {
       map.map.addLayer(rulefence.polygon)
-      tint(rulefence.polygon)
+      tint(rulefence.polygon, '#474')
     }
 
     var zoom
@@ -136,8 +136,9 @@ var map = function(){
     }
   }
 
-  function tint(circle) {
-    circle.setStyle({fillOpacity: 0.2})
+  function tint(circle, color) {
+    circle.setStyle({fillColor: '#000', fillOpacity: 0.2})
+    if(color) { circle.setStyle({color: color}) }
   }
 
   function detint(circle) {
