@@ -28,6 +28,17 @@ block content
         | N-Cell location G-GPS location b-heartbeat a-connection attempt c-connected d-disconnected
       svg#graph(style="background-color: #ddd; width: 100%; height: 200px;")
 
+    div.section-spacer
+      h2 Download
+      ul.downloadq
+      form.downloadq
+        input(type='submit' value='download')
+
+  template#download.hidden
+    li
+      span Request date: {{time}}
+      span status: {{status}}
+
   script.
     jQuery(function(){
       var paths = window.location.pathname.split('/')
@@ -35,6 +46,10 @@ block content
       var qparams = url_params(window.location.href)
       console.log(qparams)
       $('.page-data .user .username').html(username)
+      $('form.downloadq').submit(function(evt){
+        evt.preventDefault()
+        download_add(evt.target)
+      })
 
       statusTab('Connecting')
       iceCondor.on('auth', function(session){
@@ -87,7 +102,7 @@ block content
             })
           })
         })
-
+        download_list()
       })
 
       if(getKey()){
@@ -181,4 +196,23 @@ block content
         .attr('x', slot_width/5)
         .attr('y', function(d){return heights[d.type]+(slot_unit_height*0.6)})
         .attr('stroke', 'brown')
+    }
+
+    function download_add(form) {
+      console.log('download', form)
+      var zip_tx = iceCondor.api('stream.zip')
+      iceCondor.onResponse(zip_tx, function(msg){
+        download_list()
+      })
+    }
+
+    function download_list() {
+      var zip_tx = iceCondor.api('stream.ziplist')
+      iceCondor.onResponse(zip_tx, function(msg){
+        $('ul.downloadq').empty()
+        var entry_tmpl = uStache.compile($('template#download').html())
+        msg.forEach(function(entry){
+          $('ul.downloadq').append(entry_tmpl(entry))
+        })
+      })
     }
