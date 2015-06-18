@@ -42,6 +42,20 @@ block content
       span
         | Status: {{status}}
 
+  template#download-ready.hidden
+    li
+      span
+        |  Requested at:
+        time(datetime="{{time}}" data-format="MMM-d hh:mmtt")
+      span
+        | Status: {{status}}
+      span
+        | Points: {{count}}
+      span
+        | Link:
+        a(href="{{url}}") GPX file
+
+
   script.
     jQuery(function(){
       var paths = window.location.pathname.split('/')
@@ -140,7 +154,7 @@ block content
           provider_code = "Unknown"
         }
       }
-      if(node.type == "heartbeat"){
+      if(node.type == "heartbeat") {
         provider_code = "<div>"+node.battery.percentage +"% batt / "+
                         (node.power ? "AC on" : "AC off")+"</div>"
         if(node.memory){
@@ -214,8 +228,14 @@ block content
       iceCondor.onResponse(zip_tx, function(msg){
         $('ul.downloadq').empty()
         var entry_tmpl = uStache.compile($('template#download').html())
+        var ready_tmpl = uStache.compile($('template#download-ready').html())
         msg.forEach(function(entry){
-          $('ul.downloadq').append(entry_tmpl(entry))
+          console.log(entry)
+          if(entry.status == 'finished') {
+            $('ul.downloadq').append(ready_tmpl(entry))
+          } else {
+            $('ul.downloadq').append(entry_tmpl(entry))
+          }
         })
         time_fixups('ul.downloadq')
       })
