@@ -36,8 +36,11 @@ block content
 
   template#download.hidden
     li
-      span Request date: {{time}}
-      span status: {{status}}
+      span
+        | Requested at:
+        time(datetime="{{time}}" data-format="MMM-d hh:mmtt")
+      span
+        | Status: {{status}}
 
   script.
     jQuery(function(){
@@ -214,5 +217,6 @@ block content
         msg.forEach(function(entry){
           $('ul.downloadq').append(entry_tmpl(entry))
         })
+        time_fixups('ul.downloadq')
       })
     }
