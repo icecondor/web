@@ -48,7 +48,7 @@ block content
         |  Requested at:
         time(datetime="{{time}}" data-format="MMM-d hh:mmtt")
       span
-        | Status: {{status}}
+        | Size: {{(size/1024/1024).toFixed(1)}}MB
       span
         | Points: {{count}}
       span
