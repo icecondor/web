@@ -28,7 +28,7 @@ block content
         | N-Cell location G-GPS location b-heartbeat a-connection attempt c-connected d-disconnected
       svg#graph(style="background-color: #ddd; width: 100%; height: 200px;")
 
-    div.section-spacer
+    div#download.section-spacer.hidden
       h2 Download
       ul.downloadq
       form.downloadq
@@ -119,7 +119,11 @@ block content
             })
           })
         })
-        download_list()
+        console.log('session', session, 'paths', paths)
+        if(session.user.username === paths[1]){
+          $('div#download').show()
+          download_list()
+        }
       })
 
       if(getKey()){
