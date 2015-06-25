@@ -252,6 +252,9 @@
 }
 
 .page-blog-list {
+  a { color: black; text-decoration: none; }
+  a:hover { color: grey; text-decoration: underline; }
+  h1 { font-weight: bold; }
   ul { margin-left: 1em }
   ul li {
     margin-bottom: 1em;
@@ -263,6 +266,7 @@
 
 .blog-page {
   .article-head {
+    font-size: 150%;
     margin-bottom: 1em;
   }
   .attribution {
@@ -271,6 +275,7 @@
   }
 
   p {
+    font-size: 120%;
     margin: 1em 0em;
   }
 
