@@ -25,6 +25,9 @@ var map = function(){
         map.removeLayer(track.marker)
       }
       track.points.forEach(function(point){
+        if(point.marker) {
+          map.removeLayer(point.marker)
+        }
         if(point.segment) {
           map.removeLayer(point.segment)
         }
@@ -89,7 +92,7 @@ var map = function(){
   function addPt(track, point, type, date_order_idx, rulefence) {
     if(!rulefence) {
       var marker = map.addMarker(point, type, 0.9)
-      map.addPopup(marker)
+      point.marker = map.addPopup(marker)
       set_popup_detail(marker.getPopup(), point, type)
     }
 
@@ -104,8 +107,9 @@ var map = function(){
       }
     } else {
       if(!rulefence) {
-        map.addCircle([point.latitude,point.longitude], point.accuracy,
-                    0.05, 0.0, ringColor(provider_type(point)))
+        point.circle = map.addCircle([point.latitude,point.longitude],
+                                     point.accuracy, 0.05, 0.0,
+                                     ringColor(provider_type(point)))
       }
       var historical_point
       if(date_order_idx == 0) {
