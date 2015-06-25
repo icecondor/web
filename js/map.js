@@ -79,10 +79,11 @@ var map = function(){
     if(date_order_idx == 0) {
       map.setCenter(point, zoom)
 
-      if(rulefence) {
+      /* if(rulefence) {
         tint(rulefence.polygon, '#878')
         map.recenter(rulefence.polygon)
-      }
+      } */
+
       if(track.points.length > 1) {
         if(track.points[1].circle) { detint(track.points[1].circle) }
       }
