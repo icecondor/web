@@ -65,6 +65,7 @@ var map = function(){
     if(rulefence) {
       map.map.addLayer(rulefence.polygon)
       tint(rulefence.polygon, '#474')
+      map.recenter(rulefence.polygon)
     }
 
     var zoom
