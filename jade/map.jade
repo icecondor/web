@@ -82,7 +82,6 @@ block content
         $('#points').append('<li> heartbeat '+point_date_html+'</li>')
       })
 
-      $('.page-map select').change(day_selected)
 
       // adjust map height after status bar has been populated
       var map_height = $(window).outerHeight()-
@@ -96,6 +95,7 @@ block content
       var action = getKey() ? 'auth' : 'hello'
       iceCondor.on(action, function(logged_in_user){
         var layercache = {}
+        $('.page-map select').change(function(evt){day_selected(evt, layercache)})
         startFollow(params.username, start, stop, day_count, day_order, follow, layercache)
         var userinfo_tx = iceCondor.api('user.detail')
         iceCondor.onResponse(userinfo_tx, function(user){

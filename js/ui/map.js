@@ -25,7 +25,7 @@ function setBarDate(date_str) {
   $('.page-map select.day').val(date.getDate())
 }
 
-function day_selected(evt){
+function day_selected(evt, layercache){
   var day = new XDate()
   day.setMonth($('.page-map select.month').val())
   day.setDate($('.page-map select.day').val())
@@ -112,7 +112,6 @@ function startFollow(username, start, stop, count, order, follow, layercache){
 
 function fenceDraw(fence_id) {
   return new Promise(function(resolve, reject){
-    console.log('cache miss!', fence_id)
     var item_tmpl = uStache.compile($('template#fenceitem').html())
     $('.fencelist').append(item_tmpl({fence_id: fence_id, username: params.username}))
     var fence_tx = iceCondor.api('fence.get', {id: fence_id})
