@@ -35,7 +35,7 @@ function day_selected(evt, layercache){
   stop.addDays(1)
   map.removeTracks()
   $('#last_point').html('')
-  startFollow(params.username, day, stop, 1000, 'oldest')
+  startFollow(params.username, day, stop, 1000, 'oldest', layercache)
 }
 
 function month_day_select_setup(){
