@@ -96,9 +96,9 @@ block content
             var fence_attr = {}
             fence_attr.name = evt.target.elements['name'].value
             var add_tx = iceCondor.api('fence.add', fence_attr)
-            iceCondor.onResponse(add_tx, function(acc_ok) {
+            iceCondor.onResponse(add_tx, function(fence) {
               statusTab()
-              fences_refresh()
+              window.location='/'+username+'/fences/'+fence.id
             })
             evt.preventDefault()
           })
