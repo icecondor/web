@@ -91,9 +91,9 @@ var map = function(){
 
   function addPt(track, point, type, date_order_idx, rulefence) {
     if(!rulefence) {
-      var marker = map.addMarker(point, type, 0.9)
-      point.marker = map.addPopup(marker)
-      set_popup_detail(marker.getPopup(), point, type)
+      point.marker = map.addMarker(point, type, 0.9)
+      map.addPopup(point.marker)
+      set_popup_detail(point.marker.getPopup(), point, type)
     }
 
     if(type == "tower") {
