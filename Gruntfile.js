@@ -25,6 +25,7 @@ module.exports = function(grunt) {
           "build/b/2014/12/12/history-control.html": "jade/blog/2014/12/12/history-control.jade",
           "build/b/2015/02/23/access-links.html": "jade/blog/2015/02/23/access-links.jade",
           "build/b/2015/06/15/privacy-fences.html": "jade/blog/2015/06/15/privacy-fences.jade",
+          "build/b/2015/06/25/download-history.html": "jade/blog/2015/06/25/download-history.jade",
         }
       }
     },
