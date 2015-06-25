@@ -80,6 +80,7 @@ var map = function(){
       map.setCenter(point, zoom)
 
       if(rulefence) {
+        tint(rulefence.polygon, '#878')
         map.recenter(rulefence.polygon)
       }
       if(track.points.length > 1) {
