@@ -253,6 +253,12 @@
 
 .page-blog-list {
   ul { margin-left: 1em }
+  ul li {
+    margin-bottom: 1em;
+    .summary {
+      font-size: 150%;
+    }
+  }
 }
 
 .blog-page {
