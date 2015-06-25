@@ -20,8 +20,11 @@ var map = function(){
 
   api.removeTracks = function() {
     for(var track_id in tracks) {
-      map.removeLayer(tracks[track_id].marker)
-      tracks[track_id].points.forEach(function(point){
+      var track = tracks[track_id]
+      if(track.marker) {
+        map.removeLayer(track.marker)
+      }
+      track.points.forEach(function(point){
         if(point.segment) {
           map.removeLayer(point.segment)
         }
@@ -106,7 +109,6 @@ var map = function(){
       }
       var historical_point
       if(date_order_idx == 0) {
-        console.log('head point rule check', point.date, !!rulefence)
         if(rulefence) {
           remove_head(track)
         } else {
