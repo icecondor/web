@@ -58,6 +58,7 @@ html
       })
 
       function navbar_fixup(user) {
+        $('.navbar .userarea').removeClass('hidden')
         $('.navbar .username').html(user.username)
         $('.navbar .menu .map a').attr('href', "/"+user.username)
         $('.navbar .menu .profile a').attr('href', "/"+user.username+"/profile")

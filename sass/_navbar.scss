@@ -30,11 +30,15 @@
   .userarea:hover {
     background-color: tint($navbar-background, 30);
   }
+
   .userarea {
+    .menurow {
+      display: flex;
+    }
     margin-right: 1em;
 
     .username {
-      padding: 0.5em;
+      padding: 0.5em 0.2em;
     }
 
     .menu-triangle {
@@ -54,7 +58,9 @@
   }
 
   .hamburger {
+    padding-top: 1px;
     padding-right: 2px;
+    width: 1em;
   }
 
 }
