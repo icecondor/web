@@ -27,7 +27,7 @@
     }
   }
 
-  .userarea:hover {
+  .hamburger:hover {
     background-color: tint($navbar-background, 30);
   }
 
@@ -38,6 +38,7 @@
     margin-right: 1em;
 
     .username {
+      color: #bbb;
       padding: 0.5em 0.2em;
     }
 
