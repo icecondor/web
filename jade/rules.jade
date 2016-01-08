@@ -24,12 +24,21 @@ block content
 
     h1 Create Rule
     form.build-rule
-      .keygensection
-        | Privacy Fence:
       div
-        | Obscure location when inside fence
+        | Apply rule to fence
         select.fencelist(name='fence' disabled)
-      input(type='submit' value='Create rule' disabled)
+
+      div(style="margin-left: 1em")
+        h2 Privacy Fence
+        div
+          | Obscure location while inside fence
+        input(type='submit' value='Create rule' name='cloaked' disabled)
+
+        h2 Alert Fence
+        div
+          | Send an alert when anyone enters/exits the fence
+        input(type='submit' value='Create rule' name='alert' disabled)
+
 
   script.
     var qparams = url_params(window.location.href)
@@ -53,6 +62,7 @@ block content
         $('.build-rule').submit(function(evt){
           evt.preventDefault()
           var fencelist = evt.target.elements['fence']
+          console.log(evt.target.elements)
           var rule = { }
           console.log('fence selected', fencelist.selectedIndex)
           if(fencelist.selectedIndex >= 0){
@@ -92,7 +102,7 @@ block content
       function fence_sweep() {
         if(fences_all) {
           fences_all.forEach(function(fence){
-            console.log('#fence-'+fence.id+'-name', fence)
+            console.log('#fence-'+fence.id+'-name', fence.name)
             $('.fence-'+fence.id+'-name').html(fence.name)
             $('.fence-'+fence.id+'-url').attr('href',
                            "/"+paths[1]+'/fences/'+fence.id)
@@ -104,7 +114,6 @@ block content
         var me_tx = iceCondor.api('rule.list')
         iceCondor.onResponse(me_tx, function(rules) {
           statusTab()
-          console.log(me_tx, rules)
           $('.rulelist').empty()
           rules = rules.sort(function(a,b){
                       if(a.date && b.date) {
@@ -130,7 +139,6 @@ block content
       }
 
       function ruledetail(rule){
-        console.log('add rule', rule)
         var rule_tmpl = uStache.compile($('template#rule').html())
         return rule_tmpl(rule)
       }
