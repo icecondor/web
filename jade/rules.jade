@@ -25,19 +25,26 @@ block content
     h1 Create Rule
     form.build-rule
       div
-        | Apply rule to fence
-        select.fencelist(name='fence' disabled)
 
-      div(style="margin-left: 1em")
-        h2 Privacy Fence
-        div
-          | Obscure location while inside fence
-        input(type='submit' value='Create rule' name='cloaked' disabled)
+        h2 Select rule type
+        div.leftindent
+          input(type='radio', name='type', value='privacy')
+          | Privacy Fence
+          div
+            | Obscure location while inside fence
 
-        h2 Alert Fence
-        div
-          | Send an alert when anyone enters/exits the fence
-        input(type='submit' value='Create rule' name='alert' disabled)
+          input(type='radio', name='type', value='alert')
+          | Alert Fence
+          div
+            | Send an alert when anyone enters/exits the fence
+
+        h2 Apply rule to fence
+        div.leftindent
+          select.fencelist(name='fence' disabled)
+
+        h2 Make rule
+        div.leftindent
+          input(type='submit' value='Make rule' disabled)
 
 
   script.
@@ -69,6 +76,7 @@ block content
             var fence_id = fencelist.options[fencelist.selectedIndex].value
             console.log('fence', fence_id)
             rule.fence_id = fence_id
+            rule.type = evt.target.elements['type'].value
             var add_tx = iceCondor.api('rule.add', rule)
             iceCondor.onResponse(add_tx, function(acc_ok) {
               rulelist_refresh()
