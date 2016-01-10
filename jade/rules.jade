@@ -12,7 +12,7 @@ block content
     template#rule.hidden
       li.rule(id="rule-{{id}}")
         p
-          | Privacy Fence:
+          | {{kind_name}}:
           = ' '
           a(class="fence-{{fence_id}}-url")
             span(class="fence-{{fence_id}}-name")
@@ -147,6 +147,8 @@ block content
       }
 
       function ruledetail(rule){
+        if(rule.kind == 'cloaked') { rule.kind_name = 'Privacy Fence' }
+        if(rule.kind == 'alert') { rule.kind_name = 'Alert Fence' }
         var rule_tmpl = uStache.compile($('template#rule').html())
         return rule_tmpl(rule)
       }
