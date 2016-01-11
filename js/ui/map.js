@@ -76,18 +76,21 @@ function startFollow(username, start, stop, count, order, follow, layercache){
         })
       }
 
-      if(location.rules) {
-        rulefence = layercache[location.rules[0].fence_id]
-        rulefence.then(function(fence){
-          var centerpt = fence.polygon.getBounds().getCenter()
-          location.latitude = centerpt.lat
-          location.longitude = centerpt.lng
-          var date_order_idx = map.addPointToTrack(msg.stream_id, location, fence)
-          if(date_order_idx == 0) {
-            locationBar(location)
-          }
-          locationBarPointCount(track.points.length)
-        })
+      if(location.rules && location.rules.length > 0) {
+        var cloakedrules = location.rules.filter(function(rule){return rule.kind == 'cloaked'})
+        if(cloakedrules.length > 0) {
+          rulefence = layercache[cloakedrules[0].fence_id]
+          rulefence.then(function(fence){
+            var centerpt = fence.polygon.getBounds().getCenter()
+            location.latitude = centerpt.lat
+            location.longitude = centerpt.lng
+            var date_order_idx = map.addPointToTrack(msg.stream_id, location, fence)
+            if(date_order_idx == 0) {
+              locationBar(location)
+            }
+            locationBarPointCount(track.points.length)
+          })
+        }
       } else {
         var date_order_idx = map.addPointToTrack(msg.stream_id, location)
         if(date_order_idx == 0) {
