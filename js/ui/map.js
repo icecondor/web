@@ -76,7 +76,6 @@ function startFollow(username, start, stop, count, order, follow, layercache){
         })
       }
 
-      var the_fence
       if(location.rules && location.rules.length > 0) {
         var cloakedrules = location.rules.filter(function(rule){return rule.kind == 'cloaked'})
         if(cloakedrules.length > 0) {
@@ -85,16 +84,20 @@ function startFollow(username, start, stop, count, order, follow, layercache){
             var centerpt = fence.polygon.getBounds().getCenter()
             location.latitude = centerpt.lat
             location.longitude = centerpt.lng
-            the_fence = fence
+            var date_order_idx = map.addPointToTrack(msg.stream_id, location, fence)
+            if(date_order_idx == 0) {
+              locationBar(location)
+            }
+            locationBarPointCount(track.points.length)
           })
         }
+      } else {
+        var date_order_idx = map.addPointToTrack(msg.stream_id, location)
+        if(date_order_idx == 0) {
+          locationBar(location)
+        }
+        locationBarPointCount(track.points.length)
       }
-
-      var date_order_idx = map.addPointToTrack(msg.stream_id, location, the_fence)
-      if(date_order_idx == 0) {
-        locationBar(location)
-      }
-      locationBarPointCount(track.points.length)
 
     })
   }, function(err) {
