@@ -1,17 +1,18 @@
 {
-  "dependencies": { "grunt": "*",
-                    "grunt-contrib-uglify": "*",
-                    "grunt-contrib-pug": "*",
-                    "grunt-contrib-compass": "*",
-                    "grunt-contrib-watch": "*",
-                    "grunt-contrib-copy": "*",
-                    "grunt-browserify": "*"
-                  },
+  "dependencies": {
+    "grunt": "^1.0.1",
+    "grunt-browserify": "*",
+    "grunt-contrib-compass": "*",
+    "grunt-contrib-copy": "*",
+    "grunt-contrib-pug": "*",
+    "grunt-contrib-uglify": "*",
+    "grunt-contrib-watch": "*"
+  },
   "devDependencies": {
     "grunt-flow": "*"
   },
-  "repository" :{
-    "type" : "git",
-    "url" : "http://github.com/icecondor/web.git"
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/icecondor/web.git"
   }
 }
