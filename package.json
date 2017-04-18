@@ -1,14 +1,14 @@
 {
-  "dependencies": { "grunt-cli": "*",
+  "dependencies": { "grunt": "*",
                     "grunt-contrib-uglify": "*",
-                    "grunt-contrib-jade": "*",
+                    "grunt-contrib-pug": "*",
                     "grunt-contrib-compass": "*",
                     "grunt-contrib-watch": "*",
                     "grunt-contrib-copy": "*",
                     "grunt-browserify": "*"
                   },
   "devDependencies": {
-    "grunt-flow-type-check": "*"
+    "grunt-flow": "*"
   },
   "repository" :{
     "type" : "git",

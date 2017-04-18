@@ -1,31 +1,31 @@
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    jade: {
+    pug: {
       compile: {
         options: {
-          basedir: "./jade",
+          basedir: "./pug",
           pretty: true
         },
         files: {
-          "build/dashboard.html": "jade/main.jade",
-          "build/auth.html": "jade/auth.jade",
-          "build/map.html": "jade/map.jade",
-          "build/access.html": "jade/access.jade",
-          "build/data.html": "jade/data.jade",
-          "build/fences.html": "jade/fences.jade",
-          "build/rules.html": "jade/rules.jade",
-          "build/profile.html": "jade/profile.jade",
-          "build/billing.html": "jade/billing.jade",
-          "build/p/contact-us.html": "jade/page/contact-us.jade",
-          "build/p/terms-of-service.html": "jade/page/terms-of-service.jade",
-          "build/p/developer.html": "jade/page/developer.jade",
-          "build/b/index.html": "jade/blog/index.jade",
-          "build/b/2014/11/21/why-icecondor.html": "jade/blog/2014/11/21/why-icecondor.jade",
-          "build/b/2014/12/12/history-control.html": "jade/blog/2014/12/12/history-control.jade",
-          "build/b/2015/02/23/access-links.html": "jade/blog/2015/02/23/access-links.jade",
-          "build/b/2015/06/15/privacy-fences.html": "jade/blog/2015/06/15/privacy-fences.jade",
-          "build/b/2015/06/25/download-history.html": "jade/blog/2015/06/25/download-history.jade",
+          "build/dashboard.html": "pug/main.pug",
+          "build/auth.html": "pug/auth.pug",
+          "build/map.html": "pug/map.pug",
+          "build/access.html": "pug/access.pug",
+          "build/data.html": "pug/data.pug",
+          "build/fences.html": "pug/fences.pug",
+          "build/rules.html": "pug/rules.pug",
+          "build/profile.html": "pug/profile.pug",
+          "build/billing.html": "pug/billing.pug",
+          "build/p/contact-us.html": "pug/page/contact-us.pug",
+          "build/p/terms-of-service.html": "pug/page/terms-of-service.pug",
+          "build/p/developer.html": "pug/page/developer.pug",
+          "build/b/index.html": "pug/blog/index.pug",
+          "build/b/2014/11/21/why-icecondor.html": "pug/blog/2014/11/21/why-icecondor.pug",
+          "build/b/2014/12/12/history-control.html": "pug/blog/2014/12/12/history-control.pug",
+          "build/b/2015/02/23/access-links.html": "pug/blog/2015/02/23/access-links.pug",
+          "build/b/2015/06/15/privacy-fences.html": "pug/blog/2015/06/15/privacy-fences.pug",
+          "build/b/2015/06/25/download-history.html": "pug/blog/2015/06/25/download-history.pug",
         }
       }
     },
@@ -96,14 +96,14 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-jade')
+  grunt.loadNpmTasks('grunt-contrib-pug')
   grunt.loadNpmTasks('grunt-contrib-compass')
   grunt.loadNpmTasks('grunt-contrib-uglify')
   grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-contrib-copy')
-  grunt.loadNpmTasks('grunt-flow-type-check')
+  grunt.loadNpmTasks('grunt-flow')
   grunt.loadNpmTasks('grunt-browserify')
 
-  grunt.registerTask('default', ['compass', 'jade', 'uglify', 'copy'])
+  grunt.registerTask('default', ['compass', 'pug', 'uglify', 'copy'])
 }
 
