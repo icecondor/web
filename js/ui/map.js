@@ -25,7 +25,7 @@ function shortUnitName(diff) {
   if (seconds <= 1) {
     return "now"
   } else if (seconds <= 60) {
-    return seconds + " sec"
+    return parseInt(seconds) + " sec"
   } else if (seconds <= 60*60) {
     return parseInt(seconds / 60)+ " min"
   } else if (seconds <= 60*60*24) {
