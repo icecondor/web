@@ -14,6 +14,27 @@ function locationBar(location) {
   time_fixups('#last_point')
 }
 
+function setTitle(username, datestr) {
+  var now = new Date()
+  var diff = now - new Date(datestr)
+  document.title = username + " " + shortUnitName(diff) + " ago"
+}
+
+function shortUnitName(diff) {
+  var seconds = diff/1000
+  if (seconds <= 1) {
+    return "now"
+  } else if (seconds <= 60) {
+    return seconds + " sec"
+  } else if (seconds <= 60*60) {
+    return parseInt(seconds / 60)+ " min"
+  } else if (seconds <= 60*60*24) {
+    return parseInt(seconds / 60 / 60)+ " hours"
+  } else {
+    return parseInt(seconds / 60 / 60 / 24)+ " days"
+  }
+}
+
 function locationBarPointCount(count) {
   $('#point_count').html(count)
 }
@@ -65,6 +86,8 @@ function startFollow(username, start, stop, count, order, follow, layercache){
     iceCondor.onResponse(msg.stream_id, function(location){
       if(firstPoint) {
         setBarDate(location.date)
+        console.log('setTitle', username, location.date)
+        setTitle(username, location.date)
         firstPoint = false
       }
 
@@ -90,6 +113,7 @@ function startFollow(username, start, stop, count, order, follow, layercache){
           var date_order_idx = map.addPointToTrack(msg.stream_id, location, fence)
           if(date_order_idx == 0) {
             locationBar(location)
+            setTitle(username, location.date)
           }
           locationBarPointCount(track.points.length)
         })
@@ -97,6 +121,7 @@ function startFollow(username, start, stop, count, order, follow, layercache){
         var date_order_idx = map.addPointToTrack(msg.stream_id, location)
         if(date_order_idx == 0) {
           locationBar(location)
+          setTitle(username, location.date)
         }
         locationBarPointCount(track.points.length)
       }
