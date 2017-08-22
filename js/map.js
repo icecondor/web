@@ -88,7 +88,6 @@ var map = function(){
         if(track.points[1].circle) { detint(track.points[1].circle) }
       }
     }
-
     addPt(track, point, type, date_order_idx, rulefence)
 
     return date_order_idx
@@ -104,7 +103,7 @@ var map = function(){
     if(type == "tower") {
       if(!rulefence) {
         point.circle = map.addCircle([point.latitude,point.longitude],
-                                       point.accuracy, 0.01, 0.0,
+                                       point.accuracy || 0, 0.01, 0.0,
                                        ringColor(provider_type(point)))
         if(date_order_idx == 0) {
           tint(point.circle)
