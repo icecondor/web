@@ -11,7 +11,7 @@ var map_leaflet = function() {
     //api.remove_draw();
 
     var osmUrl='//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-    var osmAttrib='Map data © OpenStreetMap contributors';
+    var osmAttrib='OpenStreetMap Contributors'
     var osm = new L.TileLayer(osmUrl, {minZoom: 2, maxZoom: 18, attribution: osmAttrib});
     osm.addTo(map);
   }
