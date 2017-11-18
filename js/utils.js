@@ -4,12 +4,10 @@ function time_fixups(selector) {
     var datetime = new XDate($(this).attr('datetime'))
     var formatted = datetime.toString($(this).attr('data-format'))
     $(this).html(formatted)
+    var timezone_parts = (new XDate()).toString().match(/(GMT[+-]\d{4})( \(([A-Z]{3})\))?/)
     var fulltime = datetime.toString("yyyy-MM-dd hh:mmtt")
-    $(this).attr('title', fulltime)
+    $(this).attr('title', fulltime + " " +(timezone_parts[3] || timezone_parts[1]))
   })
-  var timezone_letters = (new XDate()).toString().match(/\(([A-Z]).*([A-Z]).*([A-Z]).*\)/)
-  var timezone_name = timezone_letters[1]+timezone_letters[2]+timezone_letters[3] //hack to get the full timezone name
-  $('.local_timezone').html(timezone_name)
 }
 
 function statusTab(msg){
