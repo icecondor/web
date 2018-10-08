@@ -15,5 +15,8 @@
   "repository": {
     "type": "git",
     "url": "http://github.com/icecondor/web.git"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/grunt"
   }
 }
