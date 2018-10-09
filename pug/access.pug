@@ -16,17 +16,27 @@ block content
         |  Expires:
         span(class="{{expired_style}}")
           time(datetime="{{expires_at}}" data-format="MMM-d hh:mmtt")
-        button(title='delete') X
+      p
+        | Access: {{access}}
+        span(class="delete_button")
+          |
+          button(title='delete') X
       .keylink
         a(href="{{me_url}}") {{me_url}}
+      p
+        span.apikey
+          | {{key}}
 
     h1 Generate Key
     form.build-access
       .keygensection
         | Access Type
         .keygendetail
+          input(type='radio' name='level' value='read' checked='checked' disabled)
           | Read Location
-          input(type='checkbox' name='read' checked='checked' disabled)
+        .keygendetail
+          input(type='radio' name='level' value='write' checked='checked' disabled)
+          | Read+Write Location
       .keygensection
         input(type='checkbox' name='expires' checked='checked' disabled)
         | Expires in
@@ -56,10 +66,8 @@ block content
         enable_gen_form()
 
         $('.build-access').submit(function(evt){
-          var rule = { scopes: [] }
-          if(evt.target.elements['read'].checked){
-            rule.scopes.push('read')
-          }
+          var level = evt.target.elements['level'].value
+          var rule = { scopes: [level] }
           if(evt.target.elements['expires'].checked){
             var hours = evt.target.elements['expires-hours'].value
             rule.expires_at = (new XDate()).addHours(hours)
@@ -112,8 +120,10 @@ block content
       }
 
       function keydetail(username, key, rule){
-        //template here
-        rule.me_url = 'https://icecondor.com/'+username+'?key='+key
+        console.log('keydetail pre', rule)
+        rule.access = rule.scopes[0]
+        rule.me_url = rule.access == "read" ? 'https://icecondor.com/'+username+'?key='+key : ''
+        rule.key = rule.access == "write" ? key : ''
         rule.expired_style = ''
         if(rule.expires_at) {
           if ((new Date(rule.expires_at)) < (new Date()) ) {
@@ -123,6 +133,7 @@ block content
           rule.expired_style = 'hidden'
           rule.expires_at = ''
         }
+        console.log('keydetail post', rule)
         var rule_tmpl = uStache.compile($('template#rule').html())
         return '<li class="key" id="key-'+key+'">'+
                 rule_tmpl(rule)+

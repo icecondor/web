@@ -171,9 +171,16 @@
     margin: auto;
     background-color: #eee;
 
-    button {
-      font-size: 50%;
-      vertical-align: middle;
+    .apikey {
+      font-weight: bold;
+    }
+
+    .delete_button {
+      button {
+        font-size: 80%;
+        vertical-align: middle;
+        color: red;
+      }
       margin-left: 1em;
     }
 
