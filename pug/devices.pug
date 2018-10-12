@@ -1,0 +1,104 @@
+extends layout
+
+block head
+
+block content
+  div.page-devices
+    h2 Devices
+
+    ul.devicelist
+
+    template#device.hidden
+      p
+        | Device id: {{device_id}}
+      p
+        | Created:
+        time(datetime="{{created_at}}" data-format="MMM-d hh:mmtt")
+        span(class="delete_button")
+          |
+          button(title='delete') X
+
+    //- h2 New Device
+    //- form.build
+    //-   p
+    //-     | Name
+    //-   p
+    //-     input(type='text' name='name' disabled)
+    //-   p
+    //-     input(type='submit' value='Add Device' disabled)
+
+  script.
+    var qparams = url_params(window.location.href)
+    var paths = window.location.pathname.split('/')
+    jQuery(function(){
+      statusTab('Connecting')
+      iceCondor.on('auth', function(session){
+        if(session.user.username != paths[1]){
+          statusTab('no access')
+          if(session.user.username) {
+            window.location = '/'+session.user.username+'/access'
+          } else {
+            window.location = '/'
+          }
+        }
+        statusTab('loading data')
+        devicelist_refresh(session.user.username)
+        enable_gen_form()
+
+        $('.page-devices .build').submit(function(evt){
+          var level = evt.target.elements['level'].value
+          var device = { name: "name" }
+          console.log(device)
+
+          var add_tx = iceCondor.api('device.add', device)
+          iceCondor.onResponse(add_tx, function(acc_ok) {
+            devicelist_refresh()
+          })
+          evt.preventDefault()
+        })
+      })
+
+      if(getKey()){
+        iceCondor.connect()
+      } else {
+        window.location = "/"
+      }
+
+      function devicelist_refresh(username) {
+        var me_tx = iceCondor.api('device.list')
+        iceCondor.onResponse(me_tx, function(devices) {
+          statusTab()
+          $('.devicelist').empty()
+          devices = devices.sort(function(a,b){
+                      if(a.created_at && b.created_at) {
+                        if ( a.created_at < b.created_at ) { return 1 }
+                        if ( a.created_at > b.created_at ) { return -1 }
+                        return 0;
+                      } else { return -1}
+                      })
+          devices.forEach(function(device){
+            var key_html = devicedetail(username, device)
+            var key_li = $('.devicelist').append(key_html)
+            $('li#'+device.id+' button').click(function(evt){
+                console.log(evt)
+                var add_tx = iceCondor.api('device.del', {id: device.id})
+                iceCondor.onResponse(add_tx, function(acc_ok) {
+                  keylist_refresh()
+                })
+              })
+          })
+          time_fixups('ul.devicelist')
+        })
+      }
+
+      function devicedetail(username, device){
+        var tmpl = uStache.compile($('template#device').html())
+        return '<li class="key" id="'+device.id+'">'+
+                tmpl(device)+
+               '</li>'
+      }
+
+      function enable_gen_form(){
+        $('form.build input').prop('disabled', false)
+      }
+    })

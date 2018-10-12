@@ -12,6 +12,7 @@ module.exports = function(grunt) {
           "build/auth.html": "pug/auth.pug",
           "build/map.html": "pug/map.pug",
           "build/access.html": "pug/access.pug",
+          "build/devices.html": "pug/devices.pug",
           "build/data.html": "pug/data.pug",
           "build/fences.html": "pug/fences.pug",
           "build/rules.html": "pug/rules.pug",
