@@ -35,7 +35,8 @@ module.exports = function(grunt) {
       dev: {
         options: {
           sassDir: "sass",
-          cssDir: "build/css"
+          cssDir: "build/css",
+          bundleExec: true
         }
       }
     },
