@@ -18,14 +18,14 @@ block content
           |
           button(title='delete') X
 
-    //- h2 New Device
-    //- form.build
-    //-   p
-    //-     | Name
-    //-   p
-    //-     input(type='text' name='name' disabled)
-    //-   p
-    //-     input(type='submit' value='Add Device' disabled)
+    h2 Create New Device
+    form.build
+      p
+        | Name
+      p
+        input(type='text' name='name' disabled)
+      p
+        input(type='submit' value='Add Device' disabled)
 
   script.
     var qparams = url_params(window.location.href)
@@ -46,15 +46,15 @@ block content
         enable_gen_form()
 
         $('.page-devices .build').submit(function(evt){
-          var level = evt.target.elements['level'].value
-          var device = { name: "name" }
+          evt.preventDefault()
+          var name = evt.target.elements['name'].value
+          var device = { name: name }
           console.log(device)
 
           var add_tx = iceCondor.api('device.add', device)
           iceCondor.onResponse(add_tx, function(acc_ok) {
             devicelist_refresh()
           })
-          evt.preventDefault()
         })
       })
 
