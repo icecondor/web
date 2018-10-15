@@ -26,7 +26,7 @@ block content
       p
         | Name
       p
-        input(type='text' name='name' disabled)
+        input(type='text' name='name' placeholder="my phone" disabled)
       p
         input(type='submit' value='Add Device' disabled)
 
@@ -56,6 +56,7 @@ block content
 
           var add_tx = iceCondor.api('device.add', device)
           iceCondor.onResponse(add_tx, function(acc_ok) {
+            evt.target.reset()
             devicelist_refresh()
           }, function(err){ console.log(err) })
         })
@@ -93,7 +94,7 @@ block content
                 console.log(evt)
                 var add_tx = iceCondor.api('device.genkey', {id: device.id})
                 iceCondor.onResponse(add_tx, function(auth) {
-                  alert("Use this key: "+auth.device_key)
+                  alert("Use this key: "+auth.token)
                 })
               })
           })
