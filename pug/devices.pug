@@ -10,13 +10,16 @@ block content
 
     template#device.hidden
       p
+        | Name: {{name}}
         | Device id: {{device_id}}
       p
         | Created:
         time(datetime="{{created_at}}" data-format="MMM-d hh:mmtt")
-        span(class="delete_button")
-          |
-          button(title='delete') X
+        span(class="genkey_button")
+          button(title='genkey') Generate API Key
+      //  span(class="archive_button")
+      //    |
+      //    button(title='archive') X
 
     h2 Create New Device
     form.build
@@ -54,7 +57,7 @@ block content
           var add_tx = iceCondor.api('device.add', device)
           iceCondor.onResponse(add_tx, function(acc_ok) {
             devicelist_refresh()
-          })
+          }, function(err){ console.log(err) })
         })
       })
 
@@ -79,11 +82,18 @@ block content
           devices.forEach(function(device){
             var key_html = devicedetail(username, device)
             var key_li = $('.devicelist').append(key_html)
-            $('li#'+device.id+' button').click(function(evt){
+            $('li#'+device.id+' .archive_button button').click(function(evt){
                 console.log(evt)
                 var add_tx = iceCondor.api('device.del', {id: device.id})
                 iceCondor.onResponse(add_tx, function(acc_ok) {
-                  keylist_refresh()
+                  devicelist_refresh()
+                })
+              })
+            $('li#'+device.id+' .genkey_button button').click(function(evt){
+                console.log(evt)
+                var add_tx = iceCondor.api('device.genkey', {id: device.id})
+                iceCondor.onResponse(add_tx, function(auth) {
+                  alert("Use this key: "+auth.device_key)
                 })
               })
           })
