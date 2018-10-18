@@ -29,7 +29,7 @@
   }
 
   a:hover {
-    color: $navbar-color * 0.7;
+    color: lighten($navbar-color, 0.7);
   }
 }
 
@@ -84,3 +84,4 @@ h2 {
 .template { display: none }
 .leftindent { margin-left: 1em}
 .delete_button { font-size: 85%; color: red}
+.error { background: red; }

@@ -9,13 +9,28 @@ block content
 
   div.page-profile
 
-    div.photo
-      img
-
     div.detail-row
 
       div.detail-top
+        div.photo
+          img
         div.username
+        div.userdetail
+          template#basic.hidden
+            div.member-since
+              | member since:
+              time(datetime="{{created_at}}" data-format="yyyy-MMM-d")
+          template#full.hidden
+            div.friendcount
+              | friending: {{friends.length}}
+            div.friendcount
+              | friending me: {{friending.length}}
+            | locations
+            div.lcount.leftindent
+              | count: {{location_stats.count}}
+              div.lcountfirstlast.hidden
+                | first: {{location_stats.first_date}}
+                | last: {{location_stats.last_date}}
 
       div.detail-bottom
 
@@ -81,7 +96,18 @@ block content
     function fill_in(user) {
       console.log('fill_in', user)
       $('.page-profile .photo img').attr('src', user.photo+'?size=250')
+      var el = $('template#basic')
+      el.after(uStache.compile(el.html())(user))// template singleton
+      if(user.email) {
+        var el = $('template#full')
+        el.after(uStache.compile(el.html())(user))// template singleton
+        if(user.location_stats.first_date) {
+          $('.lcountfirstlast').removeClass('hidden')
+        }
+      }
+      time_fixups('.page-profile')
     }
+
 
     function sharing_buttons(me, other) {
       if(me.friends.indexOf(other.id) > -1) {

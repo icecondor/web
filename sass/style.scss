@@ -126,18 +126,21 @@
 
   .detail-row {
     padding: 0 1em;
-    div {
+    .photo {
+      float: right;
+      img {
+        border: 0.2em solid;
+      }
     }
   }
 
-  .photo img {
-    width: 20%;
-    border: 0.2em solid;
+  .username {
+    font-weight: bold;
+  }
+  .userdetail {
+    margin: 0.4em 1em;
   }
 
-  .error {
-    background: red;
-  }
 }
 
 .page-billing {
