@@ -94,8 +94,7 @@ block content
     })
 
     function fill_in(user) {
-      console.log('fill_in', user)
-      user.created_at |= '' //hack
+      user.created_at = user.created_at || '' //hack
       $('.page-profile .photo img').attr('src', user.photo+'?size=250')
       var el = $('template#basic')
       el.after(uStache.compile(el.html())(user))// template singleton
