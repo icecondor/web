@@ -6,7 +6,8 @@
     "grunt-contrib-copy": "*",
     "grunt-contrib-pug": "*",
     "grunt-contrib-uglify": "*",
-    "grunt-contrib-watch": "*"
+    "grunt-contrib-watch": "*",
+    "sockjs": "^0.3.21"
   },
   "devDependencies": {
     "flow-bin": "^0.78.0",
