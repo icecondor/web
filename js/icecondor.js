@@ -54,16 +54,17 @@ var iceCondor = function() {
     }
   }
 
-  IceCondor.connect = function() {
+  IceCondor.connect = function(host) {
     return new Promise(function(resolve, reject){
       if(connected) {
         console.log('connect ignored. already connected.')
         resolve()
       } else {
+        host = host || 'http://localhost:9360/sockjs'
         // websocket
         //sock = new WebSocket("ws://localhost:2040");
         // sockjs
-        sock = new SockJS('/sockjs');
+        var sock = new SockJS(host);
         sock.onmessage = message
         sock.onerror = error
         sock.onopen = function(){
