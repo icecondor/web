@@ -1,7 +1,8 @@
 .PHONY: all watch
 
-all: node_modules gems
+css: node_modules 
 	./node_modules/.bin/grunt
+
 watch:
 	./node_modules/.bin/grunt watch
 

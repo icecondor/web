@@ -2,7 +2,7 @@
   color: $navbar-color;
   background: $navbar-background;
   padding: 0.1em;
-  @include border-radius(4px, 4px);
+  border-radius: 4px 4px;
   font-size: 120%;
 
   .flexbox {

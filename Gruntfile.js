@@ -31,14 +31,15 @@ module.exports = function(grunt) {
       }
     },
 
-    compass: {
-      dev: {
+    sass: {
         options: {
-          sassDir: "sass",
-          cssDir: "build/css",
-          bundleExec: true
+          implementation: require('sass'),
+        },
+        dist: {
+          files: {
+            'build/css/base.css': 'sass/base.scss'
+          }
         }
-      }
     },
     flow: {
       app: {
@@ -99,13 +100,13 @@ module.exports = function(grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-pug')
-  grunt.loadNpmTasks('grunt-contrib-compass')
   grunt.loadNpmTasks('grunt-contrib-uglify')
   grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-contrib-copy')
+  grunt.loadNpmTasks('grunt-sass')
   grunt.loadNpmTasks('grunt-flow')
   grunt.loadNpmTasks('grunt-browserify')
 
-  grunt.registerTask('default', ['compass', 'pug', 'uglify', 'copy'])
+  grunt.registerTask('default', ['sass', 'pug', 'uglify', 'copy'])
 }
 
