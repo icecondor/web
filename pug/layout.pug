@@ -33,7 +33,7 @@ html
         $('.logo img').css('opacity','0.5')
       })
       iceCondor.on('hello', function(beat){
-        console.log('hello', beat)
+        console.log(beat)
         var key = getKey()
         if(key) {
           var auth_tx = iceCondor.auth(key)

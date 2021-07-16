@@ -99,7 +99,6 @@ function follow_stream_opened(username, msg, layercache){
     iceCondor.onResponse(msg.stream_id, function(location){
       if(firstPoint) {
         setBarDate(location.date)
-        console.log('setTitle', username, location.date)
         setTitle(username, location.date)
         firstPoint = false
       }
