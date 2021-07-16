@@ -56,7 +56,7 @@ function day_selected(evt, layercache){
   stop.addDays(1)
   map.removeTracks()
   $('#last_point').html('')
-  startFollow(params.username, day, stop, 1000, 'oldest', false, layercache)
+  startFollow(params.username, day, stop, 1000, 'oldest', false, layercache, follow_point_received)
 }
 
 function month_day_select_setup(){
@@ -71,14 +71,27 @@ function month_day_select_setup(){
   });
 }
 
-function startFollow(username, start, stop, count, order, follow, layercache){
+function startFollow(username, start, stop, count, order, follow, layercache, cb){
   var filter = {username: username, type: "location", count: count, order: order}
   if(follow){filter.follow = follow}
   if(start) { filter.start = start.toISOString()}
   if(stop) { filter.stop = stop.toISOString()}
   if(params.key) {filter.key = params.key}
   var follow_tx = iceCondor.api('stream.follow', filter)
-  iceCondor.onResponse(follow_tx, function(msg){
+  iceCondor.onResponse(follow_tx, cb, function(err) {
+    if(err.code == "UNF") {
+      $('#map').html("<h2>User not found.</h2>")
+    }
+    if(err.code == "NOACCESS") {
+      $('#map').html("<h2>Location data for "+username+" is private.</h2>")
+      window.setTimeout(function(){
+        window.location = "/"+username+"/profile"
+      }, 2000)
+    }
+  })
+}
+
+function follow_point_received(msg){
     statusTab()
     var track = map.addTrack(msg.stream_id, username)
     locationBarPointCount("-loading-")
@@ -127,17 +140,6 @@ function startFollow(username, start, stop, count, order, follow, layercache){
       }
 
     })
-  }, function(err) {
-    if(err.code == "UNF") {
-      $('#map').html("<h2>User not found.</h2>")
-    }
-    if(err.code == "NOACCESS") {
-      $('#map').html("<h2>Location data for "+username+" is private.</h2>")
-      window.setTimeout(function(){
-        window.location = "/"+username+"/profile"
-      }, 2000)
-    }
-  })
 }
 
 function fenceDraw(fence_id) {
