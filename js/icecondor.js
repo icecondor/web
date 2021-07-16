@@ -105,7 +105,7 @@ var iceCondor = function() {
   }
 
   IceCondor.emit = function(msg) {
-    console.log('<-', JSON.stringify(msg))
+    console.log(msg)
     dispatch(msg)
   }
 
