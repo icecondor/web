@@ -96,7 +96,7 @@ block content
       iceCondor.on(action, function(logged_in_user){
         var layercache = {}
         $('.page-map select').change(function(evt){day_selected(evt, layercache)})
-        startFollow(params.username, start, stop, day_count, day_order, follow, layercache, follow_point_received)
+        startFollow(params.username, start, stop, day_count, day_order, follow, layercache, follow_stream_opened)
         var userinfo_tx = iceCondor.api('user.detail')
         iceCondor.onResponse(userinfo_tx, function(user){
           if(user.username == params.username) {

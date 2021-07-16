@@ -56,7 +56,7 @@ function day_selected(evt, layercache){
   stop.addDays(1)
   map.removeTracks()
   $('#last_point').html('')
-  startFollow(params.username, day, stop, 1000, 'oldest', false, layercache, follow_point_received)
+  startFollow(params.username, day, stop, 1000, 'oldest', false, layercache, follow_stream_opened)
 }
 
 function month_day_select_setup(){
@@ -78,7 +78,7 @@ function startFollow(username, start, stop, count, order, follow, layercache, cb
   if(stop) { filter.stop = stop.toISOString()}
   if(params.key) {filter.key = params.key}
   var follow_tx = iceCondor.api('stream.follow', filter)
-  iceCondor.onResponse(follow_tx, cb, function(err) {
+  iceCondor.onResponse(follow_tx, function(msg){cb(username,msg)}, function(err) {
     if(err.code == "UNF") {
       $('#map').html("<h2>User not found.</h2>")
     }
@@ -91,7 +91,7 @@ function startFollow(username, start, stop, count, order, follow, layercache, cb
   })
 }
 
-function follow_point_received(msg){
+function follow_stream_opened(username, msg){
     statusTab()
     var track = map.addTrack(msg.stream_id, username)
     locationBarPointCount("-loading-")
