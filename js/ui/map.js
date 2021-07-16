@@ -78,7 +78,7 @@ function startFollow(username, start, stop, count, order, follow, layercache, cb
   if(stop) { filter.stop = stop.toISOString()}
   if(params.key) {filter.key = params.key}
   var follow_tx = iceCondor.api('stream.follow', filter)
-  iceCondor.onResponse(follow_tx, function(msg){cb(username,msg)}, function(err) {
+  iceCondor.onResponse(follow_tx, function(msg){cb(username, msg, layercache)}, function(err) {
     if(err.code == "UNF") {
       $('#map').html("<h2>User not found.</h2>")
     }
@@ -91,7 +91,7 @@ function startFollow(username, start, stop, count, order, follow, layercache, cb
   })
 }
 
-function follow_stream_opened(username, msg){
+function follow_stream_opened(username, msg, layercache){
     statusTab()
     var track = map.addTrack(msg.stream_id, username)
     locationBarPointCount("-loading-")
