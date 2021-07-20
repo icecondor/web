@@ -14,3 +14,6 @@ gems:
 
 server:
 	ruby -run -e httpd build -p 8000
+
+format:
+	find js -type f -name \*js -exec ./node_modules/.bin/tsfmt -r {} \;

@@ -3,16 +3,16 @@ var map_leaflet = function() {
   var map;
 
 
-  api.setup = function(bounds){
-    api.map = map = L.map('map', {zoomControl: false})
+  api.setup = function(bounds) {
+    api.map = map = L.map('map', { zoomControl: false })
     map.fitBounds(bounds);
-    var zoom = L.control.zoom({position: 'topright'});
+    var zoom = L.control.zoom({ position: 'topright' });
     map.addControl(zoom);
     //api.remove_draw();
 
-    var osmUrl='//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-    var osmAttrib='OpenStreetMap Contributors'
-    var osm = new L.TileLayer(osmUrl, {minZoom: 2, maxZoom: 18, attribution: osmAttrib});
+    var osmUrl = '//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+    var osmAttrib = 'OpenStreetMap Contributors'
+    var osm = new L.TileLayer(osmUrl, { minZoom: 2, maxZoom: 18, attribution: osmAttrib });
     osm.addTo(map);
   }
 
@@ -20,28 +20,30 @@ var map_leaflet = function() {
     map.invalidateSize()
   }
 
-  api.add_draw = function(drawnItems){
+  api.add_draw = function(drawnItems) {
     map.addLayer(drawnItems)
     var drawControl = new L.Control.Draw({
-        draw: { marker: false,
-                circle: false,
-                rectangle: false,
-                polyline: false},
-        edit: {
-          featureGroup: drawnItems,
-          remove: false
-        }
+      draw: {
+        marker: false,
+        circle: false,
+        rectangle: false,
+        polyline: false
+      },
+      edit: {
+        featureGroup: drawnItems,
+        remove: false
+      }
     })
     map.addControl(drawControl)
   }
 
-  api.remove_draw = function(){
+  api.remove_draw = function() {
     map.drawControl.removeFrom(map)
   }
 
-  api.setCenter = function(center, zoom){
+  api.setCenter = function(center, zoom) {
     var latLng = api.pointToLatLng(center)
-    if(zoom){ map.setZoom(zoom) }
+    if (zoom) { map.setZoom(zoom) }
     map.panTo(latLng)
   }
 
@@ -57,30 +59,34 @@ var map_leaflet = function() {
     bounds.extend(api.pointToLatLng(point))
   }
 
-  api.pointToLatLng = function(point){
+  api.pointToLatLng = function(point) {
     return L.latLng(point.latitude, point.longitude)
   }
 
-  api.latLngToPoint = function(latlng){
-    return {coordinates: [latlng.lat, latlng.lng]}
+  api.latLngToPoint = function(latlng) {
+    return { coordinates: [latlng.lat, latlng.lng] }
   }
 
-  var icons = {"tower":{isize:[33,10], anchor:[16,4]},
-               "wifi":{isize:[33,10], anchor:[16,4]},
-               "gps":{isize:[33,10], anchor:[16,4]},
-               "person":{isize:[25,41], anchor:[12,41]}
-              }
-  api.makeIcon = function(name){
-    return L.icon({iconUrl: "/assets/"+name+".svg",
-                   iconSize: icons[name].isize,
-                   iconAnchor: icons[name].anchor})
+  var icons = {
+    "tower": { isize: [33, 10], anchor: [16, 4] },
+    "wifi": { isize: [33, 10], anchor: [16, 4] },
+    "gps": { isize: [33, 10], anchor: [16, 4] },
+    "person": { isize: [25, 41], anchor: [12, 41] }
+  }
+  api.makeIcon = function(name) {
+    return L.icon({
+      iconUrl: "/assets/" + name + ".svg",
+      iconSize: icons[name].isize,
+      iconAnchor: icons[name].anchor
+    })
   }
 
-  api.addMarker = function(point, icon_name, opacity){
+  api.addMarker = function(point, icon_name, opacity) {
     var marker = L.marker(this.pointToLatLng(point),
-                          {icon: api.makeIcon(icon_name),
-                           opacity: opacity
-                          })
+      {
+        icon: api.makeIcon(icon_name),
+        opacity: opacity
+      })
     marker.addTo(map)
     return marker
   }
@@ -99,15 +105,17 @@ var map_leaflet = function() {
     marker.bindPopup(popup)
   }
 
-  api.addPolyline = function(pts, opts){
+  api.addPolyline = function(pts, opts) {
     var line = L.polyline(pts, opts)
     line.addTo(map)
     return line
   }
-  api.addCircle = function(point, radius, opacity, fillOpacity, color){
-    var circle = L.circle(point, radius, {color: color,
-                                          opacity: opacity,
-                                          fillOpacity: fillOpacity})
+  api.addCircle = function(point, radius, opacity, fillOpacity, color) {
+    var circle = L.circle(point, radius, {
+      color: color,
+      opacity: opacity,
+      fillOpacity: fillOpacity
+    })
     circle.addTo(map)
     return circle
   }
@@ -117,7 +125,7 @@ var map_leaflet = function() {
   }
 
   api.removeLayers = function() {
-    map.eachLayer(function(layer){
+    map.eachLayer(function(layer) {
       api.removeLayer(layer)
     })
   }
