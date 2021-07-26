@@ -71,6 +71,9 @@ block content
           $('.askusername').show()
         }
       })
+      iceCondor.on('noauth', function(auth_user){
+        statusTab("Bad auth")
+      })
     } else if(prefix == "device_key") {
       window.location = "icecondor://android/v2/auth?access_token="+token
     } else {
