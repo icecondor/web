@@ -1,0 +1,16 @@
+{
+  auto_https off
+  http_port 2029
+}
+
+:2029
+root * /home/donp/projects/icecondor/web/build
+file_server
+rewrite @username /map.html
+rewrite /auth/* /auth.html
+
+@username {
+  not path /assets/*
+  not path /js/*
+  not path /css/*
+}
