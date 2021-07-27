@@ -90,7 +90,7 @@ block content
               if (user.latest.location) {
                 stop = new XDate(user.latest.location.date)
                 start = new XDate(user.latest.location.date)
-                start = stop.addDays(-1) // modifies in-place
+                start.addDays(-1) // modifies in-place
               }
             }
 
