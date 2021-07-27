@@ -49,28 +49,6 @@ block content
       var paths = window.location.pathname.split('/')
       params.username = paths[1]
 
-      var now = new XDate()
-      var follow = true
-      var day_count = 100
-      var day_order = 'newest'
-      var start, stop
-      if(params.start) {
-        start = new XDate(params.start)
-        if(!params.stop){
-          stop = new XDate(start)
-          stop.addDays(1)
-        }
-        follow = false
-        day_count = 1000
-        day_order = 'oldest'
-      }
-      if(params.stop) {
-        stop = new XDate(params.stop)
-        follow = false
-        day_count = 1000
-        day_order = 'oldest'
-      }
-
       month_day_select_setup()
       var center_of_america = [[32.8, -98.5],[48.8, -99.5]]
       map.setup(center_of_america)
@@ -96,15 +74,44 @@ block content
       iceCondor.on(action, function(logged_in_user){
         var layercache = {}
         $('.page-map select').change(function(evt){day_selected(evt, layercache)})
-        startFollow(params.username, start, stop, day_count, day_order, follow, layercache)
         var userinfo_tx = iceCondor.api('user.detail')
         iceCondor.onResponse(userinfo_tx, function(user){
           if(user.username == params.username) {
-            if(user.latest){
+            // follow setup jibba-jabba
+            var follow = true
+            var day_count = 100
+            var day_order = 'newest'
+            var start, stop
+
+            if (user.latest) {
               user.latest.fences.forEach(function(fence_id){
                 //fenceDraw(fence_id, layercache)
               })
+              if (user.latest.location) {
+                stop = new XDate(user.latest.location.date)
+                start = stop.addDays(-1)
+              }
             }
+
+            if(params.start) {
+              start = new XDate(params.start)
+              if(!params.stop){
+                stop = new XDate(start)
+                stop.addDays(1)
+              }
+              follow = false
+              day_count = 1000
+              day_order = 'oldest'
+            }
+
+            if(params.stop) {
+              stop = new XDate(params.stop)
+              follow = false
+              day_count = 1000
+              day_order = 'oldest'
+            }
+
+            startFollow(params.username, start, stop, day_count, day_order, follow, layercache)
           }
         })
       })
