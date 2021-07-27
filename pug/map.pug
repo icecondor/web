@@ -74,8 +74,18 @@ block content
       iceCondor.on(action, function(logged_in_user){
         var layercache = {}
         $('.page-map select').change(function(evt){day_selected(evt, layercache)})
-        var userinfo_tx = iceCondor.api('user.detail')
+        var my_tx = iceCondor.api('user.detail')
+        iceCondor.onResponse(my_tx, function(user){
+          console.log('logged in', user)
+          if (user.latest) {
+            user.latest.fences.forEach(function(fence_id){
+              //fenceDraw(fence_id, layercache)
+            })
+          }
+        })
+        var userinfo_tx = iceCondor.api('user.detail', {username: params.username})
         iceCondor.onResponse(userinfo_tx, function(user){
+          console.log('map show', user)
           if(user.username == params.username) {
             // follow setup jibba-jabba
             var follow = true
@@ -84,9 +94,6 @@ block content
             var start, stop
 
             if (user.latest) {
-              user.latest.fences.forEach(function(fence_id){
-                //fenceDraw(fence_id, layercache)
-              })
               if (user.latest.location) {
                 stop = new XDate(user.latest.location.date)
                 start = new XDate(user.latest.location.date)
