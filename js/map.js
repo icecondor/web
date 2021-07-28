@@ -151,7 +151,9 @@ var map = function(){
     var distance = 0
     track.points.forEach(function(pt, idx){
       if (idx > 0) {
-        distance = distance + gju.pointDistance(track.points[idx-1], track.points[idx])
+        var p1 = {coordinates: [track.points[idx-1].longitude, track.points[idx-1].latitude]} // geojson
+        var p2 = {coordinates: [track.points[idx].longitude, track.points[idx].latitude]}
+        distance = distance + gju.pointDistance(p1, p2)
         console.log(distance)
       }
     })
