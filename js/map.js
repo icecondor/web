@@ -13,9 +13,21 @@ var map = function(){
   api.map = map
   api.addTrack = function(track_id, name) {
     // marker must have lat/long so delay until first point
-    var track = { name: name, points: [], marker: null, bounds: map.bounds() }
+    var track = { name: name, points: [], marker: null, bounds: map.bounds(), distance: 0 }
     tracks[track_id] = track
     return track
+  }
+
+  api.trackDistanceUpdate = function(track_id) {
+    var track = tracks[track_id]
+    var distance = 0
+    track.points.forEach(function(pt, idx){
+        if (idx > 0) {
+            distance = distance + gju.pointDistance(track.points[idx-1], track.points[idx])
+            console.log(distance)
+        }
+    })
+    track.distance = distance
   }
 
   api.removeTracks = function() {
