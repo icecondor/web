@@ -18,18 +18,6 @@ var map = function(){
     return track
   }
 
-  api.trackDistanceUpdate = function(track_id) {
-    var track = tracks[track_id]
-    var distance = 0
-    track.points.forEach(function(pt, idx){
-        if (idx > 0) {
-            distance = distance + gju.pointDistance(track.points[idx-1], track.points[idx])
-            console.log(distance)
-        }
-    })
-    track.distance = distance
-  }
-
   api.removeTracks = function() {
     for(var track_id in tracks) {
       var track = tracks[track_id]
@@ -101,6 +89,7 @@ var map = function(){
       }
     }
     addPt(track, point, type, date_order_idx, rulefence)
+    trackDistanceUpdate(track)
 
     return date_order_idx
   }
@@ -156,6 +145,17 @@ var map = function(){
         newer.segment = map.addPolyline(seg_pts, {color: pathColor(provider_type(newer)), smoothFactor: 0})
       }
     }
+  }
+
+  function trackDistanceUpdate(track) {
+    var distance = 0
+    track.points.forEach(function(pt, idx){
+      if (idx > 0) {
+        distance = distance + gju.pointDistance(track.points[idx-1], track.points[idx])
+        console.log(distance)
+      }
+    })
+    track.distance = distance
   }
 
   function tint(circle, color) {
