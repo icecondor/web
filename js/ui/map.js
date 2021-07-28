@@ -39,6 +39,10 @@ function locationBarPointCount(count) {
   $('#point_count').html(count)
 }
 
+function locationBarDistance(distance) {
+  $('#distance').html(distance)
+}
+
 function setBarDate(date_str) {
   $('.page-map select').removeAttr('disabled')
   var date = new XDate(date_str)
@@ -116,6 +120,7 @@ function startFollow(username, start, stop, count, order, follow, layercache){
             setTitle(username, location.date)
           }
           locationBarPointCount(track.points.length)
+          locationBarDistance(track.distance)
         })
       } else {
         var date_order_idx = map.addPointToTrack(msg.stream_id, location)
