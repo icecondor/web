@@ -129,6 +129,7 @@ function startFollow(username, start, stop, count, order, follow, layercache){
           setTitle(username, location.date)
         }
         locationBarPointCount(track.points.length)
+        locationBarDistance(track.distance)
       }
 
     })
