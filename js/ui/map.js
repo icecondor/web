@@ -43,8 +43,8 @@ function locationBarDistance(distance) {
   $('#distance').html(distance.toFixed(1) + 'm')
 }
 
-function locationBarBattery(count) {
-  $('#battery').html(distance.toFixed(0) + '%')
+function locationBarBattery(level) {
+  $('#battery').html(level.toFixed(0) + '%')
 }
 
 function setBarDate(date_str) {
