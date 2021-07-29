@@ -40,7 +40,7 @@ function locationBarPointCount(count) {
 }
 
 function locationBarDistance(distance) {
-  $('#distance').html(distance.toFixed(1))
+  $('#distance').html(distance.toFixed(1) + 'm')
 }
 
 function setBarDate(date_str) {
