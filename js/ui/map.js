@@ -43,6 +43,10 @@ function locationBarDistance(distance) {
   $('#distance').html(distance.toFixed(1) + 'm')
 }
 
+function locationBarBattery(count) {
+  $('#battery').html(distance.toFixed(0) + '%')
+}
+
 function setBarDate(date_str) {
   $('.page-map select').removeAttr('disabled')
   var date = new XDate(date_str)
@@ -130,6 +134,8 @@ function startFollow(username, start, stop, count, order, follow, layercache){
         }
         locationBarPointCount(track.points.length)
         locationBarDistance(track.distance)
+        console.log(location)
+        locationBarBattery(location.battery)
       }
 
     })
