@@ -134,8 +134,6 @@ function startFollow(username, start, stop, count, order, follow, layercache){
         }
         locationBarPointCount(track.points.length)
         locationBarDistance(track.distance)
-        console.log(location)
-        locationBarBattery(location.battery)
       }
 
     })
