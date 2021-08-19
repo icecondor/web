@@ -90,6 +90,7 @@ function startFollow(username, start, stop, count, order, follow, layercache){
     statusTab()
     var track = map.addTrack(msg.stream_id, username)
     locationBarPointCount("-loading-")
+    locationBarDistance(0)
     var firstPoint = true
     iceCondor.onResponse(msg.stream_id, function(location){
       if(firstPoint) {
