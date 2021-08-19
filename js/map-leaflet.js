@@ -53,8 +53,8 @@ var map_leaflet = function() {
     return L.latLngBounds([])
   }
 
-  api.bounds_extend = function(bounds, point) {
-    bounds.extend(api.pointToLatLng(point))
+  api.bounds_extend = function(point) {
+    return map.getBounds().extend(api.pointToLatLng(point))
   }
 
   api.pointToLatLng = function(point){

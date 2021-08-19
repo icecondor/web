@@ -74,10 +74,10 @@ var map = function(){
       } else {
         zoom = 18
       }
+      map.setCenter(point, zoom)
     }
 
     if(date_order_idx == 0) {
-      map.setCenter(point, zoom)
 
       /* if(rulefence) {
         tint(rulefence.polygon, '#878')
@@ -88,6 +88,7 @@ var map = function(){
         if(track.points[1].circle) { detint(track.points[1].circle) }
       }
     }
+    map.recenter(map.bounds_extend(point))
     addPt(track, point, type, date_order_idx, rulefence)
     trackDistanceUpdate(track)
 
