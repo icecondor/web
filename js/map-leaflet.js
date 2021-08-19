@@ -5,7 +5,7 @@ var map_leaflet = function() {
 
   api.setup = function(bounds){
     api.map = map = L.map('map', {zoomControl: false})
-    map.fitBounds(bounds);
+    map.fitWorld()
     var zoom = L.control.zoom({position: 'topright'});
     map.addControl(zoom);
     //api.remove_draw();
