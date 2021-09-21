@@ -152,9 +152,15 @@ var map = function(){
     var distance = 0
     track.points.forEach(function(pt, idx){
       if (idx > 0) {
-        var p1 = {coordinates: [track.points[idx-1].longitude, track.points[idx-1].latitude]} // geojson
-        var p2 = {coordinates: [track.points[idx].longitude, track.points[idx].latitude]}
-        distance = distance + gju.pointDistance(p1, p2)
+        var p1 = track.points[idx-1]
+        var p2 = track.points[idx]
+        var max_err = Math.max(p1.accuracy, p2.accuracy)
+        var p1g = {coordinates: [p1.longitude, p1.latitude]} // geojson
+        var p2g = {coordinates: [p2.longitude, p2.latitude]}
+        var segment = gju.pointDistance(p1g, p2g)
+        if (segment > max_err) {
+          distance = distance + segment
+        }
       }
     })
     track.distance = distance
