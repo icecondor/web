@@ -86,7 +86,9 @@ block content
             })
           }
         })
-        var userinfo_tx = iceCondor.api('user.detail', {username: params.username})
+        var detail_params = {username: params.username}
+        if (params.key) { detail_params.key = params.key }
+        var userinfo_tx = iceCondor.api('user.detail', detail_params)
         iceCondor.onResponse(userinfo_tx, function(user){
           console.log('map show', user)
           if(user.username == params.username) {
