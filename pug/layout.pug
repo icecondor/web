@@ -32,9 +32,6 @@ html
       iceCondor.on('disconnect', function(point){
         $('.logo img').css('opacity','0.5')
       })
-      iceCondor.on('noauth', function(point){
-        statusTab('Authentication failed')
-      })
       iceCondor.on('hello', function(beat){
         console.log('hello', beat)
         var key = getKey()

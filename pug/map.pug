@@ -56,6 +56,10 @@ block content
       var center_of_america = [[32.8, -98.5],[48.8, -99.5]]
       map.setup(center_of_america)
 
+      iceCondor.on('noauth', function(point){
+        statusTab('Authentication failed')
+      })
+ 
       $('.mapdecor .username').html(params.username)
       $('.mapdecor .userlink').attr('href', "/"+params.username+"/profile")
       iceCondor.on('heartbeat', function(beat){
