@@ -39,8 +39,36 @@ function locationBarPointCount(count) {
   $('#point_count').html(count)
 }
 
+var metric = true
+function locationBarUnitToggle() {
+        metric = metric ? false : true
+}
+
+function locationBarDistanceRedraw() {
+        locationBarDistance(last_distance)
+}
+
+var last_distance = 0
 function locationBarDistance(distance) {
-  $('#distance').html(distance.toFixed(1) + 'm')
+  last_distance = distance
+  var units = toKmMi(distance, metric)
+  $('#distance').html(units[0].toFixed(1) + units[1])
+}
+
+function toKmMi(distance, metric) {
+          if (metric) {
+                  if (distance < 100) {
+                  return [distance, 'm']
+                  } else {
+                  return [distance/1000, 'km']
+                  }
+          } else {
+                  if (distance < 300) {
+                    return  [ distance * 3.28084, 'ft' ]
+                  } else {
+                    return  [ distance * 0.000621371, 'mi' ]
+                  }
+          }
 }
 
 function locationBarBattery(level) {
