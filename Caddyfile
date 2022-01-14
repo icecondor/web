@@ -1,6 +1,13 @@
 {
-  auto_https off
-  http_port 2029
+	admin off
+	auto_https off
+	http_port 2029
+	storage_clean_interval 0
+	servers {
+		protocol {
+			experimental_http3
+		}
+	}
 }
 
 :2029
@@ -10,7 +17,7 @@ rewrite @username /map.html
 rewrite /auth/* /auth.html
 
 @username {
-  not path /assets/*
-  not path /js/*
-  not path /css/*
+	not path /assets/*
+	not path /js/*
+	not path /css/*
 }
