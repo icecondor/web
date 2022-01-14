@@ -47,7 +47,6 @@ block content
   script.
 
     var params = url_params(window.location.href)
-    jQuery(function(){
       statusTab('Connecting')
       var paths = window.location.pathname.split('/')
       params.username = paths[1]
@@ -133,4 +132,4 @@ block content
         })
       })
       iceCondor.connect()
-    })
+

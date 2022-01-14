@@ -1,26 +1,27 @@
 // fixup the timestamps with the browser's timezone
 function time_fixups(selector) {
   $(selector+' time').each(function(){
-    var datetime = new XDate($(this).attr('datetime'))
+    var datetime = new XDate(this.getAttribute('datetime'))
     var formatted = datetime.toString($(this).attr('data-format'))
-    $(this).html(formatted)
+    this.innerHTML = formatted
     var timezone_parts = (new XDate()).toString().match(/(GMT[+-]\d{4})( \(([A-Z]{3})\))?/)
     var fulltime = datetime.toString("yyyy-MM-dd hh:mmtt")
-    $(this).attr('title', fulltime + " " +(timezone_parts[3] || timezone_parts[1]))
+    this.setAttribute('title', fulltime + " " +(timezone_parts[3] || timezone_parts[1]))
   })
 }
 
 function statusTab(msg){
-  var tab = $('.statustab')
-  var tab_height = tab.outerHeight()
+  var tab = document.querySelector('.statustab')
+  console.log('tab', tab)
+  var tab_height = tab.offsetHeight
   if(msg){
-    if(tab.css('top') < -60) { // first time
-      tab.css('top',-tab_height)
+    if(tab.style.top < -60) { // first time
+      tab.style.top = -tab_height
     }
-    tab.html(msg)
-    tab.css('top',0)
+    tab.innerHTML = msg
+    tab.style.top = 0
   } else {
-    tab.css('top',-tab_height)
+    tab.style.top = -tab_height
   }
 }
 
