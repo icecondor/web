@@ -12,16 +12,12 @@ function time_fixups(selector) {
 
 function statusTab(msg){
   var tab = document.querySelector('.statustab')
-  console.log('tab', tab)
-  var tab_height = tab.offsetHeight
   if(msg){
-    if(tab.style.top < -60) { // first time
-      tab.style.top = -tab_height
-    }
-    tab.innerHTML = msg
-    tab.style.top = 0
+    tab.style.top = "0px" // display tab
+    var inner = document.querySelector('.statusinner')
+    inner.innerHTML = msg
   } else {
-    tab.style.top = -tab_height
+    tab.style.top = "-"+tab.offsetHeight+"px" // hide tab
   }
 }
 
