@@ -115,7 +115,6 @@ function startFollow(username, start, stop, count, order, follow, layercache){
   if(params.key) {filter.key = params.key}
   var follow_tx = iceCondor.api('stream.follow', filter)
   iceCondor.onResponse(follow_tx, function(msg){
-    statusTab()
     var track = map.addTrack(msg.stream_id, username)
     locationBarPointCount("-loading-")
     locationBarDistance(0)

@@ -78,6 +78,7 @@ block content
 
       var action = getKey() ? 'auth' : 'hello'
       iceCondor.on(action, function(logged_in_user){
+        statusTab()
         var layercache = {}
         $('.page-map select').change(function(evt){day_selected(evt, layercache)})
         var my_tx = iceCondor.api('user.detail')
