@@ -14,8 +14,7 @@ function statusTab(msg){
   var tab = document.querySelector('.statustab')
   if(msg){
     tab.style.top = "0px" // display tab
-    var inner = document.querySelector('.statusinner')
-    inner.innerHTML = msg
+    tab.innerHTML = msg
   } else {
     tab.style.top = "-"+tab.offsetHeight+"px" // hide tab
   }
