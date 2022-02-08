@@ -83,7 +83,7 @@ block content
         $('.page-map select').change(function(evt){day_selected(evt, layercache)})
         var my_tx = iceCondor.api('user.detail')
         iceCondor.onResponse(my_tx, function(user){
-          console.log('logged in', user)
+          console.log('user detail', user)
           if (user.latest) {
             user.latest.fences.forEach(function(fence_id){
               //fenceDraw(fence_id, layercache)
@@ -94,7 +94,7 @@ block content
         if (params.key) { detail_params.key = params.key }
         var userinfo_tx = iceCondor.api('user.detail', detail_params)
         iceCondor.onResponse(userinfo_tx, function(user){
-          console.log('map show', user)
+          console.log('user detail', params.username, user)
           if(user.username == params.username) {
             // follow setup jibba-jabba
             var follow = true

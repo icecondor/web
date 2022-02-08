@@ -3,8 +3,8 @@ var map = function(){
   var map = map_leaflet
   var tracks = {}
 
-  api.setup = function(center, zoom){
-    map.setup(center, zoom)
+  api.setup = function(corners){
+    map.setup(corners)
   }
 
   api.resize = function() {

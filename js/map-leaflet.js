@@ -3,12 +3,13 @@ var map_leaflet = function() {
   var map;
 
 
-  api.setup = function(bounds){
+  api.setup = function(corners){
+          console.log('map_leaflet setup', corners)
     api.map = map = L.map('map', {zoomControl: false})
-    map.fitWorld()
+    map.fitWorld(corners, {padding: 100})
+
     var zoom = L.control.zoom({position: 'topright'});
     map.addControl(zoom);
-    //api.remove_draw();
 
     var osmUrl='//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
     var osmAttrib='OpenStreetMap Contributors'

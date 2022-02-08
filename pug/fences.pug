@@ -55,11 +55,13 @@ block content
             var bounds = [[32.8, -98.5],[48.8, -99.5]]
 
             var drawnItems = new L.FeatureGroup()
+            console.log('first fence.geojson', fence.geojson)
             if(fence.geojson){
               var latlngs = fence.geojson.coordinates[0].map(function(l){return [l[1],l[0]]})
               var layer = L.polygon(latlngs)
               drawnItems.addLayer(layer);
               bounds = layer.getBounds()
+              console.log('fence bounds', bounds)
             }
 
             var map_height = $(window).outerHeight()-

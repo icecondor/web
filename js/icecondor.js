@@ -60,10 +60,11 @@ var iceCondor = function() {
         console.log('connect ignored. already connected.')
         resolve()
       } else {
-        host = host || '/sockjs'
+        host = host || 'https://icecondor.com/sockjs'
         // websocket
         //sock = new WebSocket("ws://localhost:2040");
         sock = new SockJS(host);
+        console.log(sock._base_url)
         sock.onmessage = message
         sock.onerror = error
         sock.onopen = function(){

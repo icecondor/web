@@ -1,17 +1,7 @@
 {
   "dependencies": {
-    "grunt": "^1.0.1",
-    "grunt-browserify": "*",
-    "grunt-contrib-copy": "*",
-    "grunt-contrib-pug": "*",
-    "grunt-contrib-uglify": "*",
-    "grunt-contrib-watch": "*",
-    "grunt-sass": "^3.1.0",
-    "sockjs": "^0.3.21"
-  },
-  "devDependencies": {
-    "flow-bin": "^0.78.0",
-    "grunt-flow": "^2.0.0",
+    "pug-cli": "^1.0.0-alpha6",
+    "sockjs": "^0.3.21",
     "sass": "^1.35.2"
   },
   "repository": {
