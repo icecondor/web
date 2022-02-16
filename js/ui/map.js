@@ -122,7 +122,6 @@ function startFollow(username, start, stop, count, order, follow, layercache){
     iceCondor.onResponse(msg.stream_id, function(location){
       if(firstPoint) {
         setBarDate(location.date)
-        console.log('setTitle', username, location.date)
         setTitle(username, location.date)
         firstPoint = false
       }
