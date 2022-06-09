@@ -44,6 +44,7 @@ var iceCondor = function() {
   }
 
   function dispatch(msg) {
+    console.log('-> ', msg)
     var cbs = callbacks[msg.method]
     if (cbs) {
       for(var idx in cbs) {
@@ -96,7 +97,7 @@ var iceCondor = function() {
     var id = Math.random().toString(36).substring(2,7)
     var payload = {id: id, method: method, params: params}
     var payload_json = JSON.stringify(payload)
-    console.log('->', payload_json)
+    console.log('<-', payload_json)
     sock.send(payload_json)
     return id
   }
