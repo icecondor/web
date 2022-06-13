@@ -47,12 +47,12 @@ block content
       if(getKey()){
         statusTab("Connecting")
         iceCondor.on('auth', function(auth_user){
-          window.location = "/"+auth_user.user.username
           statusTab()
           $('.dashboard').show()
           var detail_tx = iceCondor.api('user.detail')
           iceCondor.onResponse(detail_tx, function(user){
-            dashboard_detail(user)
+            window.location = "/"+auth_user.user.username
+            //dashboard_detail(user)
           })
         })
         iceCondor.on('noauth', function(auth_user){
