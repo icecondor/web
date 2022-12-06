@@ -98,7 +98,7 @@ block content
           if(user.username == params.username) {
             // follow setup jibba-jabba
             var follow = true
-            var day_count = 300
+            var day_count = params.count || 300
             var day_order = 'newest'
             var start, stop
 
