@@ -40,7 +40,9 @@ block content
   script.
     var token = window.location.pathname.split('/')[2]
     var prefix = token.split('-')[0]
-    if(prefix == "browser_key") {
+    if(prefix == "device_key") {
+      window.location = "icecondor://android/v2/auth?access_token="+token
+    } else {
       clearKey()
       setKey(token)
       iceCondor.connect()
@@ -74,12 +76,6 @@ block content
       iceCondor.on('noauth', function(auth_user){
         statusTab("Bad auth")
       })
-    } else if(prefix == "device_key") {
-      window.location = "icecondor://android/v2/auth?access_token="+token
-    } else {
-      // bad key
-      $('.invalid').show()
-      $('.login_box').removeClass('hidden')
     }
 
 block adsense
